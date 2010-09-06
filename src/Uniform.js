@@ -1,3 +1,7 @@
+/**
+ * @depends App.js
+ */
+
 var UniformFloatFunctions = new Hash({
     gl.FLOAT: gl.uniform1fv,
     gl.FLOAT_VEC2: gl.uniform2fv,
@@ -53,22 +57,22 @@ var Uniform = new Class({
     },
 
     setFloat: function(values) {
-        (UniformFloatFunctions[this.type])(this.location, values)
+        (UniformFloatFunctions[this.type])(this.location, values);
     },
-    
+
     setInt: function(values) {
-        (UniformIntFunctions[this.type])(this.location, values)
+        (UniformIntFunctions[this.type])(this.location, values);
     },
 
     setBool: function(values) {
-        (UniformBoolFunctions[this.type])(this.location, values)
+        (UniformBoolFunctions[this.type])(this.location, values);
     },
 
     setMatrix: function(values) {
-        (UniformMatrixFunctions[this.type])(this.location, false, values)
+        (UniformMatrixFunctions[this.type])(this.location, false, values);
     },
 
     setSampler: function(values) {
-        (UniformSamplerFunctions[this.type])(this.location, values)
+        (UniformSamplerFunctions[this.type])(this.location, values);
     }
 });

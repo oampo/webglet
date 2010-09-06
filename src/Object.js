@@ -1,3 +1,8 @@
+/**
+ * @depends App.js
+ * @depends Buffer.js
+ */
+
 var Object = new Class({
     Implements: Options,
     options: {

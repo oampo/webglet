@@ -1,23 +1,30 @@
+/**
+ * @depends App.js
+ * @depends Shader.js
+ * @depends Attribute.js
+ * @depends Uniform.js
+ */
+
 var ShaderProgram = new Class({
     initialize: function() {
     },
 
-    program: null;
+    program: null,
     shaders: {},
-    shaderIds = [],
-    uniforms = {},
-    attributes = {},
-    needRecompile: True,
+    shaderIds: [],
+    uniforms: {},
+    attributes: {},
+    needRecompile: true,
 
     addShader: function(shaderId) {
-        var shader = new Shader(shaderId); 
+        var shader = new Shader(shaderId);
         this.shaders.shaderId = shader;
         this.shaderIds.push(shaderId);
         needRecompile = true;
     },
 
     removeShader: function(shaderId) {
-        for (var i=0; i<this.shaderIds.length; i++) {
+        for (var i = 0; i < this.shaderIds.length; i++) {
             if (this.shadersIds[i] == shaderId) {
                 delete this.shaders[i];
             }
@@ -35,7 +42,7 @@ var ShaderProgram = new Class({
     },
 
     attachShaders: function() {
-        for (int i=0; i<this.shadersIds.length; i++) {
+        for (var i = 0; i < this.shadersIds.length; i++) {
             var shader = this.shaders[this.shaderIds[i]];
             gl.attachShader(this.program, shader.getShader());
         }
@@ -44,7 +51,7 @@ var ShaderProgram = new Class({
     getAttributes(): function() {
         var numAttributes = gl.getProgramParameter(this.program,
                                                    gl.ACTIVE_ATTRIBUTES);
-        for (int i=0; i<numAttributes; i++) {
+        for (var i = 0; i < numAttributes; i++) {
             var attributeInfo = gl.getActiveAttribute(this.program, i);
             var attribute = new Attribute(attributeInfo, this.program);
             attributes[attribute.name] = attribute;
@@ -54,7 +61,7 @@ var ShaderProgram = new Class({
     getUniforms(): function() {
         var numUniforms = gl.getProgramParameter(this.program,
                                                  gl.ACTIVE_UNIFORMS);
-        for (int i=0; i<numUniforms; i++) {
+        for (var i = 0; i < numUniforms; i++) {
             var uniformInfo = gl.getActiveUniform(this.program, i);
             var uniform = new Uniform(uniformInfo, this.program);
             uniforms[uniform.name] = uniform;
@@ -86,10 +93,10 @@ var ShaderProgram = new Class({
     },
 
     getUniform: function(name) {
-        return(this.uniforms[name]);
+        return (this.uniforms[name]);
     },
 
     getAttribute: function(name) {
-        return(this.attributes[name]);
+        return (this.attributes[name]);
     }
-})
+});

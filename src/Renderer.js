@@ -7,5 +7,5 @@ var Renderer = new Class({
     },
 
     render: function(objects, camera) {
-    },
-})
+    }
+});

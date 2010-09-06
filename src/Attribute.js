@@ -1,3 +1,7 @@
+/**
+ * @depends App.js
+ */
+
 var AttributeFloatFunctions = new Hash({
     gl.FLOAT: gl.attrib1fv,
     gl.FLOAT_VEC2: gl.attrib2fv,
@@ -43,11 +47,11 @@ var Attribute = new Class({
     },
 
     setFloat: function(values) {
-        (AttributeFloatFunctions[this.type])(this.location, values)
+        (AttributeFloatFunctions[this.type])(this.location, values);
     },
-    
+
     setMatrix: function(values) {
-        (AttributeMatrixFunctions[this.type])(this.location, values)
+        (AttributeMatrixFunctions[this.type])(this.location, values);
     },
 
     setPointer: function() {

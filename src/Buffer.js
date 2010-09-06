@@ -1,3 +1,7 @@
+/**
+ * @depends App.js
+ */
+
 var Buffer = new Class({
     initialize: function(numVertices, usage) {
         this.numVertices = numVertices;
@@ -11,7 +15,7 @@ var Buffer = new Class({
     setValues: function(value) {
         this.bind();
         gl.bufferSubData(gl.ARRAY_BUFFER, 0, new WebGLFloatArray(values));
-    }
+    },
 
     bind: function() {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
