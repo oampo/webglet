@@ -27,12 +27,19 @@ var App = new Class({
         
         if (gl) {
             this.canvas.inject(this.element);
+            // Load other modules here
         }
         else {
             var alertDiv = new Element("div", {"class": "webglet-alert"});
             alertDiv.set("text", "WebGL not enabled");
             alertDiv.inject(this.element);
         }
+    },
+
+    update: function() {
+    },
+
+    render: function() {
     },
 
     run: function() {
