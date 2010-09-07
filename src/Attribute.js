@@ -33,13 +33,10 @@ var Attribute = new Class({
 
     setValues: function(values) {
         if (AttributeFloatFunctions.has(this.type)) {
-            setFloat(values);
+            this.setFloat(values);
         }
         else if (AttributeMatrixFunctions.has(this.type)) {
-            setMatrix(values);
-        }
-        else if (UniformSamplerFunctions.has(this.type)) {
-            setSampler(values);
+            this.setMatrix(values);
         }
     },
 
