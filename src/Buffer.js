@@ -14,7 +14,7 @@ var Buffer = new Class({
 
     setValues: function(values) {
         this.bind();
-        gl.bufferSubData(gl.ARRAY_BUFFER, 0, new WebGLFloatArray(values));
+        gl.bufferSubData(gl.ARRAY_BUFFER, 0, new Float32Array(values));
     },
 
     bind: function() {
