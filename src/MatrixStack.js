@@ -13,7 +13,7 @@ var MatrixStack = new Class({
 
     popMatrix: function() {
         if (this.stack.length > 0) {
-           this.matrix = this.stack.pop();
+            this.matrix = this.stack.pop();
         }
     }
 });
