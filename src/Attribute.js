@@ -2,28 +2,25 @@
  * @depends App.js
  */
 
-var AttributeFloatFunctions = new Hash({
-    gl.FLOAT: gl.attrib1fv,
-    gl.FLOAT_VEC2: gl.attrib2fv,
-    gl.FLOAT_VEC3: gl.attrib3fv,
-    gl.FLOAT_VEC4: gl.attrib4fv
-});
+var AttributeFloatFunctions = new Hash();
+AttributeFloatFunctions.set(gl.FLOAT, gl.attrib1fv);
+AttributeFloatFunctions.set(gl.FLOAT_VEC2, gl.attrib2fv);
+AttributeFloatFunctions.set(gl.FLOAT_VEC3, gl.attrib3fv);
+AttributeFloatFunctions.set(gl.FLOAT_VEC4, gl.attrib4fv);
 
-var AttributeMatrixFunctions = new Hash({
-    gl.FLOAT_MAT_2: gl.attrib2fv,
-    gl.FLOAT_MAT_3: gl.attrib3fv,
-    gl.FLOAT_MAT_4: gl.attrib4fv
-});
+var AttributeMatrixFunctions = new Hash();
+AttributeMatrixFunctions.set(gl.FLOAT_MAT_2, gl.attrib2fv);
+AttributeMatrixFunctions.set(gl.FLOAT_MAT_3, gl.attrib3fv);
+AttributeMatrixFunctions.set(gl.FLOAT_MAT_4, gl.attrib4fv);
 
-var AttributeSizes = new Hash({
-    gl.FLOAT: 1,
-    gl.FLOAT_VEC2: 2,
-    gl.FLOAT_VEC3: 3,
-    gl.FLOAT_VEC4: 4,
-    gl.FLOAT_MAT_2: 4,
-    gl.FLOAT_MAT_3: 9,
-    gl.FLOAT_MAT_4: 16
-});
+var AttributeSizes = new Hash();
+AttributeSizes.set(gl.FLOAT, 1);
+AttributeSizes.set(gl.FLOAT_VEC2, 2);
+AttributeSizes.set(gl.FLOAT_VEC3, 3);
+AttributeSizes.set(gl.FLOAT_VEC4, 4);
+AttributeSizes.set(gl.FLOAT_MAT_2, 4);
+AttributeSizes.set(gl.FLOAT_MAT_3, 9);
+AttributeSizes.set(gl.FLOAT_MAT_4, 16);
 
 
 var Attribute = new Class({
