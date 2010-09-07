@@ -48,23 +48,23 @@ var ShaderProgram = new Class({
         }
     },
 
-    getAttributes(): function() {
+    getAttributes: function() {
         var numAttributes = gl.getProgramParameter(this.program,
                                                    gl.ACTIVE_ATTRIBUTES);
         for (var i = 0; i < numAttributes; i++) {
             var attributeInfo = gl.getActiveAttribute(this.program, i);
             var attribute = new Attribute(attributeInfo, this.program);
-            attributes[attribute.name] = attribute;
+            this.attributes[attribute.name] = attribute;
         }
     },
 
-    getUniforms(): function() {
+    getUniforms: function() {
         var numUniforms = gl.getProgramParameter(this.program,
                                                  gl.ACTIVE_UNIFORMS);
         for (var i = 0; i < numUniforms; i++) {
             var uniformInfo = gl.getActiveUniform(this.program, i);
             var uniform = new Uniform(uniformInfo, this.program);
-            uniforms[uniform.name] = uniform;
+            this.uniforms[uniform.name] = uniform;
         }
     },
 
