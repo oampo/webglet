@@ -39,19 +39,19 @@ var Uniform = new Class({
 
     setValues: function(values) {
         if (UniformFloatFunctions.has(this.type)) {
-            setFloat(values);
+            this.setFloat(values);
         }
         else if (UniformIntFunctions.has(this.type)) {
-            setInt(values);
+            this.setInt(values);
         }
         else if (UniformBoolFunctions.has(this.type)) {
-            setBool(values);
+            this.setBool(values);
         }
         else if (UniformMatrixFunctions.has(this.type)) {
-            setMatrix(values);
+            this.setMatrix(values);
         }
         else if (UniformSamplerFunctions.has(this.type)) {
-            setSampler(values);
+            this.setSampler(values);
         }
     },
 
