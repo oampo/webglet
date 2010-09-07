@@ -1,7 +1,7 @@
 /**
  * @depends MatrixStack.js
  */
-var Camera({
+var Camera = new Class({
     initialize: function() {
         this.projection = new MatrixStack();
         this.modelview = new MatrixStack();
