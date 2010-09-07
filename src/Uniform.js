@@ -2,33 +2,32 @@
  * @depends App.js
  */
 
-var UniformFloatFunctions = new Hash({
-    gl.FLOAT: gl.uniform1fv,
-    gl.FLOAT_VEC2: gl.uniform2fv,
-    gl.FLOAT_VEC3: gl.uniform3fv,
-    gl.FLOAT_VEC4: gl.uniform4fv
-});
-var UniformIntFunctions = new Hash({
-    gl.INT: gl.uniform1iv,
-    gl.INT_VEC2: gl.uniform2iv,
-    gl.INT_VEC3: gl.uniform3iv,
-    gl.INT_VEC4: gl.uniform4iv
-});
-var UniformBoolFunctions = new Hash({
-    gl.BOOL: gl.uniform1iv,
-    gl.BOOL_VEC2: gl.uniform2iv,
-    gl.BOOL_VEC3: gl.uniform3iv,
-    gl.BOOL_VEC4: gl.unform4iv
-});
-var UniformMatrixFunctions = new Hash({
-    gl.FLOAT_MAT_2: gl.uniformMatrix2fv,
-    gl.FLOAT_MAT_3: gl.uniformMatrix3fv,
-    gl.FLOAT_MAT_4: gl.uniformMatrix4fv
-});
-var UniformSamplerFunctions = new Hash({
-    gl.SAMPLER_2D: gl.uniform1iv,
-    gl.SAMPLER_CUBE: gl.uniform1iv
-});
+var UniformFloatFunctions = new Hash();
+UniformFloatFunctions.set(gl.FLOAT, gl.uniform1fv);
+UniformFloatFunctions.set(gl.FLOAT_VEC2, gl.uniform2fv);
+UniformFloatFunctions.set(gl.FLOAT_VEC3, gl.uniform3fv);
+UniformFloatFunctions.set(gl.FLOAT_VEC4, gl.uniform4fv);
+
+var UniformIntFunctions = new Hash();
+UniformIntFunctions.set(gl.INT, gl.uniform1iv);
+UniformIntFunctions.set(gl.INT_VEC2, gl.uniform2iv);
+UniformIntFunctions.set(gl.INT_VEC3, gl.uniform3iv);
+UniformIntFunctions.set(gl.INT_VEC4, gl.uniform4iv);
+
+var UniformBoolFunctions = new Hash();
+UniformBoolFunctions.set(gl.BOOL, gl.uniform1iv);
+UniformBoolFunctions.set(gl.BOOL_VEC2, gl.uniform2iv);
+UniformBoolFunctions.set(gl.BOOL_VEC3, gl.uniform3iv);
+UniformBoolFunctions.set(gl.BOOL_VEC4, gl.unform4iv);
+
+var UniformMatrixFunctions = new Hash();
+UniformMatrixFunctions.set(gl.FLOAT_MAT_2, gl.uniformMatrix2fv);
+UniformMatrixFunctions.set(gl.FLOAT_MAT_3, gl.uniformMatrix3fv);
+UniformMatrixFunctions.set(gl.FLOAT_MAT_4, gl.uniformMatrix4fv);
+
+var UniformSamplerFunctions = new Hash();
+UniformSamplerFunctions.set(gl.SAMPLER_2D, gl.uniform1iv);
+UniformSamplerFunctions.set(gl.SAMPLER_CUBE, gl.uniform1iv);
 
 var Uniform = new Class({
     initialize: function(uniformInfo, program) {
