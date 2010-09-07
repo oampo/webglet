@@ -20,7 +20,7 @@ var ShaderProgram = new Class({
         var shader = new Shader(shaderId);
         this.shaders.shaderId = shader;
         this.shaderIds.push(shaderId);
-        needRecompile = true;
+        this.needRecompile = true;
     },
 
     removeShader: function(shaderId) {
@@ -30,7 +30,7 @@ var ShaderProgram = new Class({
             }
         }
         delete this.shaders.shaderId;
-        needRecompile = true;
+        this.needRecompile = true;
     },
 
     createProgram: function() {
@@ -78,7 +78,7 @@ var ShaderProgram = new Class({
     },
 
     use: function() {
-        if (needRecompile) {
+        if (this.needRecompile) {
             if (this.program !== null) {
                 this.deleteProgram();
             }
@@ -87,7 +87,7 @@ var ShaderProgram = new Class({
             this.linkProgram();
             this.getAttributes();
             this.getUniforms();
-            needRecompile = false;
+            this.needRecompile = false;
         }
         this.useProgram();
     },
