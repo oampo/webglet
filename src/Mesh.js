@@ -3,7 +3,7 @@
  * @depends Buffer.js
  */
 
-var Object = new Class({
+var Mesh = new Class({
     Implements: Options,
     options: {
         drawMode: gl.POINTS,

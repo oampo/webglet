@@ -22,20 +22,20 @@ var BasicRenderer = new Class({
         }
     },
 
-    render: function(objects, camera) {
+    render: function(meshes, camera) {
         this.shaderProgram.use();
-        for (var i = 0; i < objects.length; i++) {
+        for (var i = 0; i < meshes.length; i++) {
             // Render
-            this.renderObject(objects[i]);
+            this.renderMesh(meshes[i]);
         }
     },
 
-    renderObject: function(object, camera) {
+    renderMesh: function(mesh, camera) {
         camera.modelview.pushMatrix();
 
-        mat4.translate(camera.modelview.matrix, object.position);
-        mat4.mult(camera.modelview.matrix, object.rotation);
-        mat4.scale(camera.modelview.matrix, object.scale);
+        mat4.translate(camera.modelview.matrix, mesh.position);
+        mat4.mult(camera.modelview.matrix, mesh.rotation);
+        mat4.scale(camera.modelview.matrix, mesh.scale);
 
         var sp = this.shaderProgram;
         var projectionUniform = sp.getUniform('uProjectionMatrix');
@@ -46,14 +46,14 @@ var BasicRenderer = new Class({
         camera.modelview.popMatrix();
 
         var vertexAttribute = sp.getAttribute('aVertex');
-        object.vertexBuffer.associate(vertexAttribute);
+        mesh.vertexBuffer.associate(vertexAttribute);
 
         var colorAttribute = sp.getAttribute('aColor');
-        object.colorBuffer.associate(colorAttribute);
+        mesh.colorBuffer.associate(colorAttribute);
 
         var normalAttribute = sp.getAttribute('aNormal');
-        object.normalBuffer.associate(normalAttribute);
+        mesh.normalBuffer.associate(normalAttribute);
 
-        gl.drawArrays(object.drawMode, 0, object.numVertices);
+        gl.drawArrays(mesh.drawMode, 0, mesh.numVertices);
     }
 });
