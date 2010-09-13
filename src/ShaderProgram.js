@@ -18,7 +18,7 @@ var ShaderProgram = new Class({
 
     addShader: function(shaderId) {
         var shader = new Shader(shaderId);
-        this.shaders.shaderId = shader;
+        this.shaders[shaderId] = shader;
         this.shaderIds.push(shaderId);
         this.needRecompile = true;
     },
@@ -26,10 +26,10 @@ var ShaderProgram = new Class({
     removeShader: function(shaderId) {
         for (var i = 0; i < this.shaderIds.length; i++) {
             if (this.shadersIds[i] == shaderId) {
-                delete this.shaders[i];
+                delete this.shaderIds[i];
             }
         }
-        delete this.shaders.shaderId;
+        delete this.shaders[shaderId];
         this.needRecompile = true;
     },
 
