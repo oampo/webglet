@@ -11,6 +11,7 @@ var Mesh = new Class({
         this.vertexUsage = vertexUsage;
         this.colorUsage = colorUsage;
         this.normalUsage = normalUsage;
+
         this.vertexBuffer = new Buffer(numVertices, this.options.vertexUsage);
         this.normalBuffer = new Buffer(numVertices, this.options.normalUsage);
         this.colorBuffer = new Buffer(numVertices, this.options.colorUsage);
