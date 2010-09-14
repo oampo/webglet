@@ -2,55 +2,60 @@
  * @depends App.js
  */
 
-var AttributeFloatFunctions = new Hash();
-AttributeFloatFunctions.set(gl.FLOAT, gl.attrib1fv);
-AttributeFloatFunctions.set(gl.FLOAT_VEC2, gl.attrib2fv);
-AttributeFloatFunctions.set(gl.FLOAT_VEC3, gl.attrib3fv);
-AttributeFloatFunctions.set(gl.FLOAT_VEC4, gl.attrib4fv);
-
-var AttributeMatrixFunctions = new Hash();
-AttributeMatrixFunctions.set(gl.FLOAT_MAT_2, gl.attrib2fv);
-AttributeMatrixFunctions.set(gl.FLOAT_MAT_3, gl.attrib3fv);
-AttributeMatrixFunctions.set(gl.FLOAT_MAT_4, gl.attrib4fv);
-
-var AttributeSizes = new Hash();
-AttributeSizes.set(gl.FLOAT, 1);
-AttributeSizes.set(gl.FLOAT_VEC2, 2);
-AttributeSizes.set(gl.FLOAT_VEC3, 3);
-AttributeSizes.set(gl.FLOAT_VEC4, 4);
-AttributeSizes.set(gl.FLOAT_MAT_2, 4);
-AttributeSizes.set(gl.FLOAT_MAT_3, 9);
-AttributeSizes.set(gl.FLOAT_MAT_4, 16);
-
-
 var Attribute = new Class({
     initialize: function(attribInfo, program) {
         this.size = attribInfo.size;
         this.type = attribInfo.type;
         this.name = attribInfo.name;
         this.location = gl.getAttribLocation(this.program, this.name);
+        this.createFunctionHashes();
+        this.createSizeHash();
+    },
+
+    createFunctionHashes: function() {
+        this.floatFunctions = new Hash();
+        this.floatFunctions.set(gl.FLOAT, gl.attrib1fv);
+        this.floatFunctions.set(gl.FLOAT_VEC2, gl.attrib2fv);
+        this.floatFunctions.set(gl.FLOAT_VEC3, gl.attrib3fv);
+        this.floatFunctions.set(gl.FLOAT_VEC4, gl.attrib4fv);
+
+        this.matrixFunctions = new Hash();
+        this.matrixFunctions.set(gl.FLOAT_MAT_2, gl.attrib2fv);
+        this.matrixFunctions.set(gl.FLOAT_MAT_3, gl.attrib3fv);
+        this.matrixFunctions.set(gl.FLOAT_MAT_4, gl.attrib4fv);
+    },
+
+    createSizeHash: function() {
+        this.sizes = new Hash();
+        this.sizes.set(gl.FLOAT, 1);
+        this.sizes.set(gl.FLOAT_VEC2, 2);
+        this.sizes.set(gl.FLOAT_VEC3, 3);
+        this.sizes.set(gl.FLOAT_VEC4, 4);
+        this.sizes.set(gl.FLOAT_MAT_2, 4);
+        this.sizes.set(gl.FLOAT_MAT_3, 9);
+        this.sizes.set(gl.FLOAT_MAT_4, 16);
     },
 
     setValues: function(values) {
-        if (AttributeFloatFunctions.has(this.type)) {
+        if (this.floatFunctions.has(this.type)) {
             this.setFloat(values);
         }
-        else if (AttributeMatrixFunctions.has(this.type)) {
+        else if (this.matrixFunctions.has(this.type)) {
             this.setMatrix(values);
         }
     },
 
     setFloat: function(values) {
-        (AttributeFloatFunctions[this.type])(this.location, values);
+        (this.floatFunctions[this.type])(this.location, values);
     },
 
     setMatrix: function(values) {
-        (AttributeMatrixFunctions[this.type])(this.location, values);
+        (this.matrixFunctions[this.type])(this.location, values);
     },
 
     setPointer: function() {
         gl.enableVertexAttribArray(this.location);
-        gl.vertexAttribPointer(this.location, AttributeSizes[this.type],
+        gl.vertexAttribPointer(this.location, this.sizes[this.type],
                                gl.FLOAT, false, 0, 0);
     }
 });

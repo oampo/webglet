@@ -4,17 +4,13 @@
  */
 
 var Mesh = new Class({
-    Implements: Options,
-    options: {
-        drawMode: gl.POINTS,
-        vertexUsage: gl.STATIC_DRAW,
-        colorUsage: gl.STATIC_DRAW,
-        normalUsage: gl.DYNAMIC_DRAW
-    },
-
-    initialize: function(numVertices, options) {
-        this.setOptions(options);
+    initialize: function(numVertices, drawMode, vertexUsage, colorUsage,
+                         normalUsage) {
         this.numVertices = numVertices;
+        this.drawMode = drawMode;
+        this.vertexUsage = vertexUsage;
+        this.colorUsage = colorUsage;
+        this.normalUsage = normalUsage;
         this.vertexBuffer = new Buffer(numVertices, this.options.vertexUsage);
         this.normalBuffer = new Buffer(numVertices, this.options.normalUsage);
         this.colorBuffer = new Buffer(numVertices, this.options.colorUsage);
