@@ -12,9 +12,9 @@ var Mesh = new Class({
         this.colorUsage = colorUsage;
         this.normalUsage = normalUsage;
 
-        this.vertexBuffer = new Buffer(numVertices, this.options.vertexUsage);
-        this.normalBuffer = new Buffer(numVertices, this.options.normalUsage);
-        this.colorBuffer = new Buffer(numVertices, this.options.colorUsage);
+        this.vertexBuffer = new Buffer(numVertices, this.vertexUsage);
+        this.normalBuffer = new Buffer(numVertices, this.normalUsage);
+        this.colorBuffer = new Buffer(numVertices, this.colorUsage);
 
         this.position = [0, 0, 0];
         this.rotation = [0, 0, 0];
