@@ -36,21 +36,21 @@ var Attribute = new Class({
         this.sizes.set(gl.FLOAT_MAT_4, 16);
     },
 
-    setValues: function(values) {
+    setValue: function(value) {
         if (this.floatFunctions.has(this.type)) {
-            this.setFloat(values);
+            this.setFloat(value);
         }
         else if (this.matrixFunctions.has(this.type)) {
-            this.setMatrix(values);
+            this.setMatrix(value);
         }
     },
 
-    setFloat: function(values) {
-        (this.floatFunctions[this.type])(this.location, values);
+    setFloat: function(value) {
+        (this.floatFunctions[this.type])(this.location, value);
     },
 
-    setMatrix: function(values) {
-        (this.matrixFunctions[this.type])(this.location, values);
+    setMatrix: function(value) {
+        (this.matrixFunctions[this.type])(this.location, value);
     },
 
     setPointer: function() {

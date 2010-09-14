@@ -40,41 +40,41 @@ var Uniform = new Class({
         this.samplerFunctions.set(gl.SAMPLER_CUBE, gl.uniform1iv);
     },
 
-    setValues: function(values) {
+    setValue: function(value) {
         if (this.floatFunctions.has(this.type)) {
-            this.setFloat(values);
+            this.setFloat(value);
         }
         else if (this.intFunctions.has(this.type)) {
-            this.setInt(values);
+            this.setInt(value);
         }
         else if (this.boolFunctions.has(this.type)) {
-            this.setBool(values);
+            this.setBool(value);
         }
         else if (this.matrixFunctions.has(this.type)) {
-            this.setMatrix(values);
+            this.setMatrix(value);
         }
         else if (this.samplerFunctions.has(this.type)) {
-            this.setSampler(values);
+            this.setSampler(value);
         }
     },
 
-    setFloat: function(values) {
-        (this.floatFunctions[this.type])(this.location, values);
+    setFloat: function(value) {
+        (this.floatFunctions[this.type])(this.location, value);
     },
 
-    setInt: function(values) {
-        (this.intFunctions[this.type])(this.location, values);
+    setInt: function(value) {
+        (this.intFunctions[this.type])(this.location, value);
     },
 
-    setBool: function(values) {
-        (this.boolFunctions[this.type])(this.location, values);
+    setBool: function(value) {
+        (this.boolFunctions[this.type])(this.location, value);
     },
 
-    setMatrix: function(values) {
-        (this.matrixFunctions[this.type])(this.location, false, values);
+    setMatrix: function(value) {
+        (this.matrixFunctions[this.type])(this.location, false, value);
     },
 
-    setSampler: function(values) {
-        (this.samplerFunctions[this.type])(this.location, values);
+    setSampler: function(value) {
+        (this.samplerFunctions[this.type])(this.location, value);
     }
 });

@@ -5,7 +5,8 @@ var App = new Class({
     options: {
         name: 'webglet-app',
         width: 800,
-        height: 600
+        height: 600,
+        frameRate: 60
     },
 
     initialize: function(element, options) {
@@ -36,13 +37,11 @@ var App = new Class({
         }
     },
 
-    update: function() {
-    },
-
-    render: function() {
+    draw: function() {
     },
 
     run: function() {
+        setInterval('draw()', 1000/this.options.frameRate)
     }
 });
 
