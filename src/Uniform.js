@@ -31,9 +31,9 @@ var Uniform = new Class({
         this.boolFunctions.set(gl.BOOL_VEC4, gl.unform4iv);
 
         this.matrixFunctions = new Hash();
-        this.matrixFunctions.set(gl.FLOAT_MAT_2, gl.uniformMatrix2fv);
-        this.matrixFunctions.set(gl.FLOAT_MAT_3, gl.uniformMatrix3fv);
-        this.matrixFunctions.set(gl.FLOAT_MAT_4, gl.uniformMatrix4fv);
+        this.matrixFunctions.set(gl.FLOAT_MAT2, gl.uniformMatrix2fv);
+        this.matrixFunctions.set(gl.FLOAT_MAT3, gl.uniformMatrix3fv);
+        this.matrixFunctions.set(gl.FLOAT_MAT4, gl.uniformMatrix4fv);
 
         this.samplerFunctions = new Hash();
         this.samplerFunctions.set(gl.SAMPLER_2D, gl.uniform1iv);
@@ -59,22 +59,23 @@ var Uniform = new Class({
     },
 
     setFloat: function(value) {
-        (this.floatFunctions[this.type])(this.location, value);
+        this.floatFunctions[this.type].apply(gl, [this.location, value]);
     },
 
     setInt: function(value) {
-        (this.intFunctions[this.type])(this.location, value);
+        this.intFunctions[this.type].apply(gl, [this.location, value]);
     },
 
     setBool: function(value) {
-        (this.boolFunctions[this.type])(this.location, value);
+        this.boolFunctions[this.type].apply(gl, [this.location, value]);
     },
 
     setMatrix: function(value) {
-        (this.matrixFunctions[this.type])(this.location, false, value);
+        this.matrixFunctions[this.type].apply(gl, [this.location, false,
+                                                   value]);
     },
 
     setSampler: function(value) {
-        (this.samplerFunctions[this.type])(this.location, value);
+        this.samplerFunctions[this.type].apply(gl, [this.location, value]);
     }
 });

@@ -20,9 +20,9 @@ var Attribute = new Class({
         this.floatFunctions.set(gl.FLOAT_VEC4, gl.attrib4fv);
 
         this.matrixFunctions = new Hash();
-        this.matrixFunctions.set(gl.FLOAT_MAT_2, gl.attrib2fv);
-        this.matrixFunctions.set(gl.FLOAT_MAT_3, gl.attrib3fv);
-        this.matrixFunctions.set(gl.FLOAT_MAT_4, gl.attrib4fv);
+        this.matrixFunctions.set(gl.FLOAT_MAT2, gl.attrib2fv);
+        this.matrixFunctions.set(gl.FLOAT_MAT3, gl.attrib3fv);
+        this.matrixFunctions.set(gl.FLOAT_MAT4, gl.attrib4fv);
     },
 
     createSizeHash: function() {
@@ -31,9 +31,9 @@ var Attribute = new Class({
         this.sizes.set(gl.FLOAT_VEC2, 2);
         this.sizes.set(gl.FLOAT_VEC3, 3);
         this.sizes.set(gl.FLOAT_VEC4, 4);
-        this.sizes.set(gl.FLOAT_MAT_2, 4);
-        this.sizes.set(gl.FLOAT_MAT_3, 9);
-        this.sizes.set(gl.FLOAT_MAT_4, 16);
+        this.sizes.set(gl.FLOAT_MAT2, 4);
+        this.sizes.set(gl.FLOAT_MAT3, 9);
+        this.sizes.set(gl.FLOAT_MAT4, 16);
     },
 
     setValue: function(value) {
@@ -46,11 +46,11 @@ var Attribute = new Class({
     },
 
     setFloat: function(value) {
-        (this.floatFunctions[this.type])(this.location, value);
+        this.floatFunctions[this.type].apply(gl, [this.location, value]);
     },
 
     setMatrix: function(value) {
-        (this.matrixFunctions[this.type])(this.location, value);
+        this.matrixFunctions[this.type].apply(gl, [this.location, value]);
     },
 
     setPointer: function() {
