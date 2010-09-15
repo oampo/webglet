@@ -22,19 +22,16 @@
         <!-- Shaders -->
         <script id="basic-renderer-vert" type="x-shader/x-vertex">
             attribute vec3 aVertex;
-            attribute vec3 aNormal;
             attribute vec4 aColor;
 
             uniform mat4 uModelviewMatrix;
             uniform mat4 uProjectionMatrix;
             
-            varying vec3 vNormal;
             varying vec4 vColor;
 
             void main(void) {
                 gl_Position = uProjectionMatrix * uModelviewMatrix * vec4(aVertex, 1.0);
                 vColor = aColor;
-                vNormal = aNormal;
             }
         </script>
 
@@ -43,8 +40,10 @@
             precision highp float;
             #endif
 
+            varying vec4 vColor;
+
             void main(void) {
-                gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+                gl_FragColor = vColor;
             }
         </script>
     </head>

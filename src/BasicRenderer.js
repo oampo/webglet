@@ -18,7 +18,7 @@ var BasicRenderer = new Class({
     },
 
     createShaders: function(ids) {
-        for (var i = 0; i < ids; i++) {
+        for (var i = 0; i < ids.length; i++) {
             this.shaderProgram.addShader(ids[i]);
         }
     },
@@ -51,9 +51,6 @@ var BasicRenderer = new Class({
 
         var colorAttribute = sp.getAttribute('aColor');
         mesh.colorBuffer.associate(colorAttribute);
-
-        var normalAttribute = sp.getAttribute('aNormal');
-        mesh.normalBuffer.associate(normalAttribute);
 
         gl.drawArrays(mesh.drawMode, 0, mesh.numVertices);
     }
