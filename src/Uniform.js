@@ -7,7 +7,7 @@ var Uniform = new Class({
         this.size = uniformInfo.size;
         this.type = uniformInfo.type;
         this.name = uniformInfo.name;
-        this.location = gl.getUniformLocation(this.program, this.name);
+        this.location = gl.getUniformLocation(program, this.name);
         this.createFunctionHashes();
     },
 

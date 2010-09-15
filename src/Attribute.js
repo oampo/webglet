@@ -7,7 +7,7 @@ var Attribute = new Class({
         this.size = attribInfo.size;
         this.type = attribInfo.type;
         this.name = attribInfo.name;
-        this.location = gl.getAttribLocation(this.program, this.name);
+        this.location = gl.getAttribLocation(program, this.name);
         this.createFunctionHashes();
         this.createSizeHash();
     },
