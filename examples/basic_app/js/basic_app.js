@@ -21,6 +21,7 @@ window.addEvent("domready", function() {
         },
 
         draw: function() {
+            this.clear();
             this.renderer.renderMesh(this.triangle, this.camera);
         }
     });
