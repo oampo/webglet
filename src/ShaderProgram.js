@@ -25,7 +25,7 @@ var ShaderProgram = new Class({
 
     removeShader: function(shaderId) {
         for (var i = 0; i < this.shaderIds.length; i++) {
-            if (this.shadersIds[i] == shaderId) {
+            if (this.shaderIds[i] == shaderId) {
                 delete this.shaderIds[i];
             }
         }
@@ -42,7 +42,7 @@ var ShaderProgram = new Class({
     },
 
     attachShaders: function() {
-        for (var i = 0; i < this.shadersIds.length; i++) {
+        for (var i = 0; i < this.shaderIds.length; i++) {
             var shader = this.shaders[this.shaderIds[i]];
             gl.attachShader(this.program, shader.getShader());
         }
@@ -51,10 +51,13 @@ var ShaderProgram = new Class({
     getAttributes: function() {
         var numAttributes = gl.getProgramParameter(this.program,
                                                    gl.ACTIVE_ATTRIBUTES);
+        console.log("Program %i has %i active attributes", this.program,
+                    numAttributes);
         for (var i = 0; i < numAttributes; i++) {
             var attributeInfo = gl.getActiveAttribute(this.program, i);
             var attribute = new Attribute(attributeInfo, this.program);
             this.attributes[attribute.name] = attribute;
+            console.log("Attribute %i: %s", i, attribute.name);
         }
     },
 
