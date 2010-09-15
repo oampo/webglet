@@ -10,6 +10,7 @@ var BasicRenderer = new Class({
         this.parent(options);
         this.createShaderProgram();
         this.createShaders(['basic-renderer-vert', 'basic-renderer-frag']);
+        this.shaderProgram.use();
     },
 
     createShaderProgram: function() {
