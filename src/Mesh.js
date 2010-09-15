@@ -17,7 +17,7 @@ var Mesh = new Class({
         this.colorBuffer = new Buffer(numVertices, 4, this.colorUsage);
 
         this.position = [0, 0, 0];
-        this.rotation = [0, 0, 0];
+        this.rotation = quat4.create();
         this.scale = [1, 1, 1];
     }
 });

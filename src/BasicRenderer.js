@@ -35,7 +35,9 @@ var BasicRenderer = new Class({
         camera.modelview.pushMatrix();
 
         mat4.translate(camera.modelview.matrix, mesh.position);
-        mat4.multiply(camera.modelview.matrix, mesh.rotation);
+        var rotationMatrix = mat4.create();
+        quat4.toMat4(mesh.rotation, rotationMatrix);
+        mat4.multiply(camera.modelview.matrix, rotationMatrix);
         mat4.scale(camera.modelview.matrix, mesh.scale);
 
         var sp = this.shaderProgram;
