@@ -8,14 +8,14 @@ var Camera = new Class({
     },
 
     perspective: function(fovy, aspect, near, far) {
-        mat4.perspective(fovy, aspect, near, far, this.projection);
+        mat4.perspective(fovy, aspect, near, far, this.projection.matrix);
     },
 
     ortho: function(left, right, top, bottom, near, far) {
-        mat4.ortho(left, right, top, bottom, near, far, this.projection);
+        mat4.ortho(left, right, top, bottom, near, far, this.projection.matrix);
     },
 
     lookAt: function(eye, center, up) {
-        mat4.lookAt(eye, center, up, this.modelview);
+        mat4.lookAt(eye, center, up, this.modelview.matrix);
     }
 });
