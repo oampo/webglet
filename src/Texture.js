@@ -6,7 +6,7 @@
     initialize: function(width, height) {
         this.texture = gl.createTexture();
         this.bind();
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA,  width, height, 0, gl.RGBA,
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA,
                       gl.UNSIGNED_BYTE);
         this.end();
     },

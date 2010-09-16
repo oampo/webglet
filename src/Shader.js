@@ -11,8 +11,8 @@ var Shader = new Class({
         else if (typeString == 'x-shader/x-fragment') {
             this.type = gl.FRAGMENT_SHADER;
         }
-        
-        console.log("Creating %s shader %s", typeString, this.name);
+
+        console.log('Creating %s shader %s', typeString, this.name);
         this.shader = gl.createShader(this.type);
 
         gl.shaderSource(this.shader, sourceElement.get('text'));

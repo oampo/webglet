@@ -51,26 +51,26 @@ var ShaderProgram = new Class({
     getAttributes: function() {
         var numAttributes = gl.getProgramParameter(this.program,
                                                    gl.ACTIVE_ATTRIBUTES);
-        console.log("Program %i has %i active attributes", this.program,
+        console.log('Program %i has %i active attributes', this.program,
                     numAttributes);
         for (var i = 0; i < numAttributes; i++) {
             var attributeInfo = gl.getActiveAttrib(this.program, i);
             var attribute = new Attribute(attributeInfo, this.program);
             this.attributes[attribute.name] = attribute;
-            console.log("Attribute %i: %s", i, attribute.name);
+            console.log('Attribute %i: %s', i, attribute.name);
         }
     },
 
     getUniforms: function() {
         var numUniforms = gl.getProgramParameter(this.program,
                                                  gl.ACTIVE_UNIFORMS);
-        console.log("Program %i has %i active uniforms", this.program,
+        console.log('Program %i has %i active uniforms', this.program,
                     numUniforms);
         for (var i = 0; i < numUniforms; i++) {
             var uniformInfo = gl.getActiveUniform(this.program, i);
             var uniform = new Uniform(uniformInfo, this.program);
             this.uniforms[uniform.name] = uniform;
-            console.log("Uniform %i: %s", i, uniform.name);
+            console.log('Uniform %i: %s', i, uniform.name);
         }
     },
 
@@ -79,9 +79,9 @@ var ShaderProgram = new Class({
         gl.linkProgram(this.program);
         if (!gl.getProgramParameter(this.program, gl.LINK_STATUS)) {
             console.log('Could not link shader program, %i', this.program);
-            return(false);
+            return (false);
         }
-        return(true);
+        return (true);
     },
 
     useProgram: function() {

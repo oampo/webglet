@@ -45,7 +45,7 @@ var App = new Class({
     },
 
     run: function() {
-        this.draw.periodical(1000/this.options.frameRate, this);
+        this.draw.periodical(1000 / this.options.frameRate, this);
     },
 
     clear: function() {

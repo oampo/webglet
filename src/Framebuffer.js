@@ -6,7 +6,7 @@
 var Framebuffer = new Class({
     initialize: function(width, height) {
         this.framebuffer = gl.createFramebuffer();
-        
+
         this.begin();
 
         // Add depth buffer
@@ -24,22 +24,23 @@ var Framebuffer = new Class({
         gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT,
                                 gl.TEXTURE_2D, texture.getTexture(),
                                 0);
-        
+        this.texture.end();
+
         // Check it all worked
         if (gl.checkFrameBufferStatus(gl.FRAMEBUFFER) !=
             gl.FRAMEBUFFER_COMPLETE) {
-            console.error("Could not create framebuffer");
+            console.error('Could not create framebuffer');
         }
 
         this.end();
     },
 
     begin: function() {
-        gl.bindFramebuffer(gl.FRAMEBUFFER, this.framebuffer)
+        gl.bindFramebuffer(gl.FRAMEBUFFER, this.framebuffer);
     },
 
     end: function() {
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    },
+    }
 
 });
