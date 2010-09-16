@@ -8,26 +8,16 @@ var BasicRenderer = new Class({
     Extends: Renderer,
     initialize: function(options) {
         this.parent(options);
-        this.createShaderProgram();
-        this.createShaders(['basic-renderer-vert', 'basic-renderer-frag']);
+        this.shaderProgram.addShader('basic-renderer-vert');
+        this.shaderProgram.addShader('basic-renderer-frag');
         this.shaderProgram.use();
-    },
-
-    createShaderProgram: function() {
-        this.shaderProgram = new ShaderProgram();
-    },
-
-    createShaders: function(ids) {
-        for (var i = 0; i < ids.length; i++) {
-            this.shaderProgram.addShader(ids[i]);
-        }
     },
 
     render: function(meshes, camera) {
         this.shaderProgram.use();
         for (var i = 0; i < meshes.length; i++) {
             // Render
-            this.renderMesh(meshes[i]);
+            this.renderMesh(meshes[i], camera);
         }
     },
 

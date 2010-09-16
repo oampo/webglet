@@ -4,8 +4,9 @@ var Renderer = new Class({
 
     initialize: function(options) {
         this.setOptions(options);
+        this.shaderProgram = new ShaderProgram();
     },
 
-    render: function(objects, camera) {
+    render: function(meshes, camera) {
     }
 });
