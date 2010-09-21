@@ -14,13 +14,13 @@ var Mesh = new Class({
         this.texCoordUsage = texCoordUsage;
 
         this.vertexBuffer = new Buffer(numVertices, 3, this.vertexUsage);
-        if (typeof this.colorUsage != 'undefined') {
+        if ($chk(this.colorUsage)) {
             this.colorBuffer = new Buffer(numVertices, 4, this.colorUsage);
         }
-        if (typeof this.normalUsage != 'undefined') {
+        if ($chk(this.normalUsage)) {
             this.normalBuffer = new Buffer(numVertices, 3, this.normalUsage);
         }
-        if (typeof this.texCoordUsage != 'undefined') {
+        if ($chk(this.texCoordUsage)) {
             this.texCoordBuffer = new Buffer(numVertices, 2,
                                              this.texCoordUsage);
         }
@@ -41,15 +41,15 @@ var Mesh = new Class({
     associate: function(shaderProgram) {
         var vertexAttribute = shaderProgram.getAttribute('aVertex');
         this.vertexBuffer.associate(vertexAttribute);
-        if (typeof this.colorUsage != 'undefined') {
+        if ($chk(this.colorUsage)) {
             var colorAttribute = shaderProgram.getAttribute('aColor');
             this.colorBuffer.associate(colorAttribute);
         }
-        if (typeof this.normalUsage != 'undefined') {
+        if ($chk(this.normalUsage)) {
             var normalAttribute = shaderProgram.getAttribute('aNormal');
             this.normalBuffer.associate(normalAttribute);
         }
-        if (typeof this.texCoordUsage != 'undefined') {
+        if ($chk(this.texCoordUsage)) {
             var texCoordAttribute = shaderProgram.getAttribute('aTexCoord');
             this.texCoordBuffer.associate(texCoordAttribute);
         }
