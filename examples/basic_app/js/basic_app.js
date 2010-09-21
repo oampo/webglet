@@ -11,7 +11,7 @@ window.addEvent("domready", function() {
                                [0, 0, 0],
                                [0, 1, 0]);
             this.triangle = new Mesh(3, gl.TRIANGLES, gl.STATIC_DRAW,
-                                     gl.STATIC_DRAW, gl.STATIC_DRAW);
+                                     gl.STATIC_DRAW);
             this.triangle.vertexBuffer.setValues([ 0.0,  1.0, 0.0,
                                                   -1.0, -1.0, 0.0,
                                                    1.0, -1.0, 0.0]);
@@ -22,7 +22,7 @@ window.addEvent("domready", function() {
 
         draw: function() {
             this.clear();
-            this.renderer.renderMesh(this.triangle, this.camera);
+            this.renderer.render([this.triangle], this.camera);
         }
     });
 
