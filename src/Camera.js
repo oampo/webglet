@@ -17,5 +17,12 @@ var Camera = new Class({
 
     lookAt: function(eye, center, up) {
         mat4.lookAt(eye, center, up, this.modelview.matrix);
+    },
+
+    setUniforms: function(shaderProgram) {
+        var projectionUniform = shaderProgram.getUniform('uProjectionMatrix');
+        projectionUniform.setValue(this.projection.matrix);
+        var modelviewUniform = shaderProgram.getUniform('uModelviewMatrix');
+        modelviewUniform.setValue(this.modelview.matrix); 
     }
 });
