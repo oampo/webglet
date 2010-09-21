@@ -22,12 +22,12 @@ var Framebuffer = new Class({
         this.texture = new Texture(width, height);
         this.texture.begin();
         gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT,
-                                gl.TEXTURE_2D, texture.getTexture(),
+                                gl.TEXTURE_2D, this.texture.getTexture(),
                                 0);
         this.texture.end();
 
         // Check it all worked
-        if (gl.checkFrameBufferStatus(gl.FRAMEBUFFER) !=
+        if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !=
             gl.FRAMEBUFFER_COMPLETE) {
             console.error('Could not create framebuffer');
         }
