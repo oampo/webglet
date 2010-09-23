@@ -6,11 +6,11 @@
 
 var BasicRenderer = new Class({
     Extends: Renderer,
-    initialize: function(options) {
+    initialize: function(vertexShader, fragmentShader, options) {
         this.parent(options);
         this.shaderProgram = new ShaderProgram();
-        this.shaderProgram.addShader('basic-renderer-vert');
-        this.shaderProgram.addShader('basic-renderer-frag');
+        this.shaderProgram.addShader(vertexShader);
+        this.shaderProgram.addShader(fragmentShader);
     },
 
     render: function(meshes, camera) {
@@ -22,10 +22,9 @@ var BasicRenderer = new Class({
     },
 
     renderMesh: function(mesh, camera) {
-        camera.setUniforms(this.shaderProgram);
-
         camera.modelview.pushMatrix();
         mesh.applyTransformations(camera.modelview.matrix);
+        camera.setUniforms(this.shaderProgram);
         camera.modelview.popMatrix();
 
         mesh.associate(this.shaderProgram);
