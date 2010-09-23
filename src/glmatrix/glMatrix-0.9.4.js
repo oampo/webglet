@@ -1244,9 +1244,9 @@ mat4.ortho = function(left, right, bottom, top, near, far, dest) {
 	dest[9] = 0;
 	dest[10] = -2 / fn;
 	dest[11] = 0;
-	dest[12] = (left + right) / rl;
-	dest[13] = (top + bottom) / tb;
-	dest[14] = (far + near) / fn;
+	dest[12] = -(left + right) / rl;
+	dest[13] = -(top + bottom) / tb;
+	dest[14] = -(far + near) / fn;
 	dest[15] = 1;
 	return dest;
 };
