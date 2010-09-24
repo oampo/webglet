@@ -31,22 +31,10 @@ window.addEvent("domready", function() {
                                    this.options.height, 0,
                                    -1, 1);
 
-            this.textureMesh = new Mesh(6, gl.TRIANGLES, gl.STATIC_DRAW, null,
-                                        null, gl.STATIC_DRAW);
-            var w = this.options.width;
-            var h = this.options.height;
-            this.textureMesh.vertexBuffer.setValues([0, 0, 0,
-                                                     w, h, 0,
-                                                     0, h, 0,
-                                                     0, 0, 0,
-                                                     w, h, 0,
-                                                     w, 0, 0]);
-            this.textureMesh.texCoordBuffer.setValues([0, 1,
-                                                       1, 0,
-                                                       0, 0,
-                                                       0, 1,
-                                                       1, 0,
-                                                       1, 1]);
+            this.textureMesh = new RectMesh(this.options.width,
+                                            this.options.height,
+                                            gl.STATIC_DRAW, null,
+                                            null, gl.STATIC_DRAW);
         },
 
         draw: function() {
