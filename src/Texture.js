@@ -31,5 +31,18 @@
 
     getTexture: function() {
         return (this.texture);
+    },
+
+    load: function(filename) {
+        this.image = new Image();
+        this.image.src = filename;
+        this.image.addEvent('load', function() {
+            this.bind();
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE,
+                          this.image);
+            this.end();
+        }.bind(this));
+        this.image.src = filename;
     }
 });
