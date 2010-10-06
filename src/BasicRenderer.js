@@ -11,6 +11,7 @@ var BasicRenderer = new Class({
         this.shaderProgram = new ShaderProgram();
         this.shaderProgram.addShader(vertexShader);
         this.shaderProgram.addShader(fragmentShader);
+        this.shaderProgram.use();
     },
 
     render: function(meshes, camera) {
