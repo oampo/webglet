@@ -1,7 +1,7 @@
 /**
  * @depends App.js
- * @depends Renderer.js
- * @depends ShaderProgram.js
+ * @depends BasicRenderer.js
+ * @depends Framebuffer.js
  */
 
 var FramebufferRenderer = new Class({
