@@ -78,7 +78,7 @@ var ShaderProgram = new Class({
     linkProgram: function() {
         gl.linkProgram(this.program);
         if (!gl.getProgramParameter(this.program, gl.LINK_STATUS)) {
-            console.log('Could not link shader program, %i', this.program);
+            console.error('Could not link shader program, %i', this.program);
             return (false);
         }
         return (true);
