@@ -5,6 +5,9 @@
 
 var Framebuffer = new Class({
     initialize: function(width, height) {
+        this.width = width;
+        this.height = height;
+
         this.framebuffer = gl.createFramebuffer();
 
         this.begin();
@@ -37,11 +40,28 @@ var Framebuffer = new Class({
     },
 
     begin: function() {
+        this.pushViewport();
         gl.bindFramebuffer(gl.FRAMEBUFFER, this.framebuffer);
     },
 
     end: function() {
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    }
+        this.popViewport();
+    },
 
+    clear: function() {
+        this.begin();
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        this.end();
+    },
+
+    pushViewport: function() {
+        this.storedViewport = gl.getParameter(gl.VIEWPORT);
+        gl.viewport(0, 0, this.width, this.height);
+    },
+
+    popViewport: function() {
+        gl.viewport(this.storedViewport[0], this.storedViewport[1],
+                    this.storedViewport[2], this.storedViewport[3]);
+    }
 });
