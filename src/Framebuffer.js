@@ -57,6 +57,9 @@ var Framebuffer = new Class({
 
     pushViewport: function() {
         this.storedViewport = gl.getParameter(gl.VIEWPORT);
+        if (!this.storedViewport) {
+            this.storedViewport = gl.getParameter(gl.VIEWPORT_RECT);
+        }
         gl.viewport(0, 0, this.width, this.height);
     },
 
