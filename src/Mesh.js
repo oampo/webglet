@@ -40,17 +40,30 @@ var Mesh = new Class({
 
     associate: function(shaderProgram) {
         var vertexAttribute = shaderProgram.getAttribute('aVertex');
+        if (!$chk(vertexAttribute)) {
+            console.error("Could not associate vertex attribute");
+        }
         this.vertexBuffer.associate(vertexAttribute);
+
         if ($chk(this.colorUsage)) {
             var colorAttribute = shaderProgram.getAttribute('aColor');
+            if (!$chk(colorAttribute)) {
+                console.error("Could not associate color attribute");
+            }
             this.colorBuffer.associate(colorAttribute);
         }
         if ($chk(this.normalUsage)) {
             var normalAttribute = shaderProgram.getAttribute('aNormal');
+            if (!$chk(normalAttribute)) {
+                console.error("Could not associate normal attribute");
+            }
             this.normalBuffer.associate(normalAttribute);
         }
         if ($chk(this.texCoordUsage)) {
             var texCoordAttribute = shaderProgram.getAttribute('aTexCoord');
+            if (!$chk(texCoordAttribute)) {
+                console.error("Could not associate texCoord attribute");
+            }
             this.texCoordBuffer.associate(texCoordAttribute);
         }
     },
