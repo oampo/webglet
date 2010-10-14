@@ -6,16 +6,11 @@ window.addEvent("domready", function() {
             this.renderer = new BasicRenderer('basic-renderer-vert',
                                               'basic-renderer-frag');
             this.camera = new Camera();
-            /*
             this.camera.perspective(45, this.options.width/this.options.height,
                                     0.1, 100);
             this.camera.lookAt([0, 0, 5],
                                [0, 0, 0],
                                [0, 1, 0]);
-            */
-            this.camera.ortho(0, 1, 0, 1, -1, 1);
-            mat4.translate(this.camera.modelview.matrix, [0, 0, 1],
-            this.camera.modelview.matrix);
 
             this.triangle = new Mesh(3, gl.TRIANGLES, gl.STATIC_DRAW,
                                      gl.STATIC_DRAW);
