@@ -14,6 +14,7 @@ var App = new Class({
         this.setOptions(options);
         this.element = element;
         this.createCanvas();
+        this.frameCount = 0;
     },
 
     createCanvas: function() {
@@ -22,6 +23,9 @@ var App = new Class({
                                              'height': this.options.height});
         try {
             gl = this.canvas.getContext('experimental-webgl');
+            if (this.options.debug) {
+                gl = WebGLDebugUtils.makeDebugContext(gl);
+            }
             gl.viewport(0, 0, this.options.width, this.options.height);
             gl.clearColor(this.options.backgroundColor[0],
                           this.options.backgroundColor[1],
@@ -45,11 +49,16 @@ var App = new Class({
         }
     },
 
+    preDraw: function() {
+        this.frameCount += 1;
+        this.draw();
+    },
+
     draw: function() {
     },
 
     run: function() {
-        this.draw.periodical(1000 / this.options.frameRate, this);
+        this.preDraw.periodical(1000 / this.options.frameRate, this);
     },
 
     clear: function() {
@@ -525,8 +534,10 @@ var Camera = new Class({
     initialize: function(width, height) {
         this.texture = gl.createTexture();
         this.bind();
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA,
                       gl.UNSIGNED_BYTE, null);
         this.end();
@@ -653,7 +664,7 @@ var FramebufferRenderer = new Class({
 
     renderMesh: function(mesh, camera) {
         camera.modelview.pushMatrix();
-        mesh.applyTransformations(camera);
+        mesh.applyTransformations(camera.modelview.matrix);
         camera.setUniforms(this.shaderProgram);
         camera.modelview.popMatrix();
 
@@ -756,17 +767,30 @@ var Mesh = new Class({
 
     associate: function(shaderProgram) {
         var vertexAttribute = shaderProgram.getAttribute('aVertex');
+        if (!$chk(vertexAttribute)) {
+            console.error("Could not associate vertex attribute");
+        }
         this.vertexBuffer.associate(vertexAttribute);
+
         if ($chk(this.colorUsage)) {
             var colorAttribute = shaderProgram.getAttribute('aColor');
+            if (!$chk(colorAttribute)) {
+                console.error("Could not associate color attribute");
+            }
             this.colorBuffer.associate(colorAttribute);
         }
         if ($chk(this.normalUsage)) {
             var normalAttribute = shaderProgram.getAttribute('aNormal');
+            if (!$chk(normalAttribute)) {
+                console.error("Could not associate normal attribute");
+            }
             this.normalBuffer.associate(normalAttribute);
         }
         if ($chk(this.texCoordUsage)) {
             var texCoordAttribute = shaderProgram.getAttribute('aTexCoord');
+            if (!$chk(texCoordAttribute)) {
+                console.error("Could not associate texCoord attribute");
+            }
             this.texCoordBuffer.associate(texCoordAttribute);
         }
     },
