@@ -14,7 +14,7 @@ var FramebufferRenderer = new Class({
 
     renderMesh: function(mesh, camera) {
         camera.modelview.pushMatrix();
-        mesh.applyTransformations(camera);
+        mesh.applyTransformations(camera.modelview.matrix);
         camera.setUniforms(this.shaderProgram);
         camera.modelview.popMatrix();
 
