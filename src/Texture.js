@@ -16,7 +16,7 @@
     },
 
     begin: function(textureUnit) {
-        if (!$chk(textureUnit)) {
+        if (!textureUnit) {
             textureUnit = 0;
         }
         gl.activeTexture(gl.TEXTURE0 + textureUnit);

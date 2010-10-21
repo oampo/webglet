@@ -118,34 +118,34 @@ var Attribute = new Class({
     },
 
     createFunctionHashes: function() {
-        this.floatFunctions = new Hash();
-        this.floatFunctions.set(gl.FLOAT, gl.attrib1fv);
-        this.floatFunctions.set(gl.FLOAT_VEC2, gl.attrib2fv);
-        this.floatFunctions.set(gl.FLOAT_VEC3, gl.attrib3fv);
-        this.floatFunctions.set(gl.FLOAT_VEC4, gl.attrib4fv);
+        this.floatFunctions = {};
+        this.floatFunctions[gl.FLOAT] = gl.attrib1fv;
+        this.floatFunctions[gl.FLOAT_VEC2] = gl.attrib2fv;
+        this.floatFunctions[gl.FLOAT_VEC3] = gl.attrib3fv;
+        this.floatFunctions[gl.FLOAT_VEC4] = gl.attrib4fv;
 
-        this.matrixFunctions = new Hash();
-        this.matrixFunctions.set(gl.FLOAT_MAT2, gl.attrib2fv);
-        this.matrixFunctions.set(gl.FLOAT_MAT3, gl.attrib3fv);
-        this.matrixFunctions.set(gl.FLOAT_MAT4, gl.attrib4fv);
+        this.matrixFunctions = {};
+        this.matrixFunctions[gl.FLOAT_MAT2] = gl.attrib2fv;
+        this.matrixFunctions[gl.FLOAT_MAT3] = gl.attrib3fv;
+        this.matrixFunctions[gl.FLOAT_MAT4] = gl.attrib4fv;
     },
 
     createSizeHash: function() {
-        this.sizes = new Hash();
-        this.sizes.set(gl.FLOAT, 1);
-        this.sizes.set(gl.FLOAT_VEC2, 2);
-        this.sizes.set(gl.FLOAT_VEC3, 3);
-        this.sizes.set(gl.FLOAT_VEC4, 4);
-        this.sizes.set(gl.FLOAT_MAT2, 4);
-        this.sizes.set(gl.FLOAT_MAT3, 9);
-        this.sizes.set(gl.FLOAT_MAT4, 16);
+        this.sizes = {};
+        this.sizes[gl.FLOAT] = 1;
+        this.sizes[gl.FLOAT_VEC2] = 2;
+        this.sizes[gl.FLOAT_VEC3] = 3;
+        this.sizes[gl.FLOAT_VEC4] = 4;
+        this.sizes[gl.FLOAT_MAT2] = 4;
+        this.sizes[gl.FLOAT_MAT3] = 9;
+        this.sizes[gl.FLOAT_MAT4] = 16;
     },
 
     setValue: function(value) {
-        if (this.floatFunctions.has(this.type)) {
+        if (this.floatFunctions[this.type]) {
             this.setFloat(value);
         }
-        else if (this.matrixFunctions.has(this.type)) {
+        else if (this.matrixFunctions[this.type]) {
             this.setMatrix(value);
         }
     },
@@ -222,48 +222,48 @@ var Uniform = new Class({
     },
 
     createFunctionHashes: function() {
-        this.floatFunctions = new Hash();
-        this.floatFunctions.set(gl.FLOAT, gl.uniform1fv);
-        this.floatFunctions.set(gl.FLOAT_VEC2, gl.uniform2fv);
-        this.floatFunctions.set(gl.FLOAT_VEC3, gl.uniform3fv);
-        this.floatFunctions.set(gl.FLOAT_VEC4, gl.uniform4fv);
+        this.floatFunctions = {};
+        this.floatFunctions[gl.FLOAT] = gl.uniform1fv;
+        this.floatFunctions[gl.FLOAT_VEC2] = gl.uniform2fv;
+        this.floatFunctions[gl.FLOAT_VEC3] = gl.uniform3fv;
+        this.floatFunctions[gl.FLOAT_VEC4] = gl.uniform4fv;
 
-        this.intFunctions = new Hash();
-        this.intFunctions.set(gl.INT, gl.uniform1iv);
-        this.intFunctions.set(gl.INT_VEC2, gl.uniform2iv);
-        this.intFunctions.set(gl.INT_VEC3, gl.uniform3iv);
-        this.intFunctions.set(gl.INT_VEC4, gl.uniform4iv);
+        this.intFunctions = {};
+        this.intFunctions[gl.INT] = gl.uniform1iv;
+        this.intFunctions[gl.INT_VEC2] = gl.uniform2iv;
+        this.intFunctions[gl.INT_VEC3] = gl.uniform3iv;
+        this.intFunctions[gl.INT_VEC4] = gl.uniform4iv;
 
-        this.boolFunctions = new Hash();
-        this.boolFunctions.set(gl.BOOL, gl.uniform1iv);
-        this.boolFunctions.set(gl.BOOL_VEC2, gl.uniform2iv);
-        this.boolFunctions.set(gl.BOOL_VEC3, gl.uniform3iv);
-        this.boolFunctions.set(gl.BOOL_VEC4, gl.unform4iv);
+        this.boolFunctions = {};
+        this.boolFunctions[gl.BOOL] = gl.uniform1iv;
+        this.boolFunctions[gl.BOOL_VEC2] = gl.uniform2iv;
+        this.boolFunctions[gl.BOOL_VEC3] = gl.uniform3iv;
+        this.boolFunctions[gl.BOOL_VEC4] = gl.unform4iv;
 
-        this.matrixFunctions = new Hash();
-        this.matrixFunctions.set(gl.FLOAT_MAT2, gl.uniformMatrix2fv);
-        this.matrixFunctions.set(gl.FLOAT_MAT3, gl.uniformMatrix3fv);
-        this.matrixFunctions.set(gl.FLOAT_MAT4, gl.uniformMatrix4fv);
+        this.matrixFunctions = {};
+        this.matrixFunctions[gl.FLOAT_MAT2] = gl.uniformMatrix2fv;
+        this.matrixFunctions[gl.FLOAT_MAT3] = gl.uniformMatrix3fv;
+        this.matrixFunctions[gl.FLOAT_MAT4] = gl.uniformMatrix4fv;
 
-        this.samplerFunctions = new Hash();
-        this.samplerFunctions.set(gl.SAMPLER_2D, gl.uniform1iv);
-        this.samplerFunctions.set(gl.SAMPLER_CUBE, gl.uniform1iv);
+        this.samplerFunctions = {};
+        this.samplerFunctions[gl.SAMPLER_2D] = gl.uniform1iv;
+        this.samplerFunctions[gl.SAMPLER_CUBE] = gl.uniform1iv;
     },
 
     setValue: function(value) {
-        if (this.floatFunctions.has(this.type)) {
+        if (this.floatFunctions[this.type]) {
             this.setFloat(value);
         }
-        else if (this.intFunctions.has(this.type)) {
+        else if (this.intFunctions[this.type]) {
             this.setInt(value);
         }
-        else if (this.boolFunctions.has(this.type)) {
+        else if (this.boolFunctions[this.type]) {
             this.setBool(value);
         }
-        else if (this.matrixFunctions.has(this.type)) {
+        else if (this.matrixFunctions[this.type]) {
             this.setMatrix(value);
         }
-        else if (this.samplerFunctions.has(this.type)) {
+        else if (this.samplerFunctions[this.type]) {
             this.setSampler(value);
         }
     },
@@ -544,7 +544,7 @@ var Camera = new Class({
     },
 
     begin: function(textureUnit) {
-        if (!$chk(textureUnit)) {
+        if (!textureUnit) {
             textureUnit = 0;
         }
         gl.activeTexture(gl.TEXTURE0 + textureUnit);
@@ -741,20 +741,22 @@ var Mesh = new Class({
         this.texCoordUsage = texCoordUsage;
 
         this.vertexBuffer = new Buffer(numVertices, 3, this.vertexUsage);
-        if ($chk(this.colorUsage)) {
+        if (this.colorUsage) {
             this.colorBuffer = new Buffer(numVertices, 4, this.colorUsage);
         }
-        if ($chk(this.normalUsage)) {
+        if (this.normalUsage) {
             this.normalBuffer = new Buffer(numVertices, 3, this.normalUsage);
         }
-        if ($chk(this.texCoordUsage)) {
+        if (this.texCoordUsage) {
             this.texCoordBuffer = new Buffer(numVertices, 2,
                                              this.texCoordUsage);
         }
 
-        this.position = [0, 0, 0];
+        this.position = vec3.create();
+        vec3.set([0, 0, 0], this.position);
         this.rotation = quat4.create();
-        this.scale = [1, 1, 1];
+        this.scale = vec3.create();
+        vec3.set([1, 1, 1], this.scale);
     },
 
     applyTransformations: function(matrix) {
@@ -767,28 +769,28 @@ var Mesh = new Class({
 
     associate: function(shaderProgram) {
         var vertexAttribute = shaderProgram.getAttribute('aVertex');
-        if (!$chk(vertexAttribute)) {
+        if (!vertexAttribute) {
             console.error("Could not associate vertex attribute");
         }
         this.vertexBuffer.associate(vertexAttribute);
 
-        if ($chk(this.colorUsage)) {
+        if (this.colorUsage) {
             var colorAttribute = shaderProgram.getAttribute('aColor');
-            if (!$chk(colorAttribute)) {
+            if (!colorAttribute) {
                 console.error("Could not associate color attribute");
             }
             this.colorBuffer.associate(colorAttribute);
         }
-        if ($chk(this.normalUsage)) {
+        if (this.normalUsage) {
             var normalAttribute = shaderProgram.getAttribute('aNormal');
-            if (!$chk(normalAttribute)) {
+            if (!normalAttribute) {
                 console.error("Could not associate normal attribute");
             }
             this.normalBuffer.associate(normalAttribute);
         }
-        if ($chk(this.texCoordUsage)) {
+        if (this.texCoordUsage) {
             var texCoordAttribute = shaderProgram.getAttribute('aTexCoord');
-            if (!$chk(texCoordAttribute)) {
+            if (!texCoordAttribute) {
                 console.error("Could not associate texCoord attribute");
             }
             this.texCoordBuffer.associate(texCoordAttribute);
@@ -846,7 +848,7 @@ var RectMesh = new Class({
                                      0,     height, 0,
                                      width,     0, 0,
                                      width, height, 0]);
-        if ($chk(this.texCoordUsage)) {
+        if (this.texCoordUsage) {
             this.texCoordBuffer.setValues([0, 1,
                                            0, 0,
                                            1, 1,

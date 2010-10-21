@@ -13,34 +13,34 @@ var Attribute = new Class({
     },
 
     createFunctionHashes: function() {
-        this.floatFunctions = new Hash();
-        this.floatFunctions.set(gl.FLOAT, gl.attrib1fv);
-        this.floatFunctions.set(gl.FLOAT_VEC2, gl.attrib2fv);
-        this.floatFunctions.set(gl.FLOAT_VEC3, gl.attrib3fv);
-        this.floatFunctions.set(gl.FLOAT_VEC4, gl.attrib4fv);
+        this.floatFunctions = {};
+        this.floatFunctions[gl.FLOAT] = gl.attrib1fv;
+        this.floatFunctions[gl.FLOAT_VEC2] = gl.attrib2fv;
+        this.floatFunctions[gl.FLOAT_VEC3] = gl.attrib3fv;
+        this.floatFunctions[gl.FLOAT_VEC4] = gl.attrib4fv;
 
-        this.matrixFunctions = new Hash();
-        this.matrixFunctions.set(gl.FLOAT_MAT2, gl.attrib2fv);
-        this.matrixFunctions.set(gl.FLOAT_MAT3, gl.attrib3fv);
-        this.matrixFunctions.set(gl.FLOAT_MAT4, gl.attrib4fv);
+        this.matrixFunctions = {};
+        this.matrixFunctions[gl.FLOAT_MAT2] = gl.attrib2fv;
+        this.matrixFunctions[gl.FLOAT_MAT3] = gl.attrib3fv;
+        this.matrixFunctions[gl.FLOAT_MAT4] = gl.attrib4fv;
     },
 
     createSizeHash: function() {
-        this.sizes = new Hash();
-        this.sizes.set(gl.FLOAT, 1);
-        this.sizes.set(gl.FLOAT_VEC2, 2);
-        this.sizes.set(gl.FLOAT_VEC3, 3);
-        this.sizes.set(gl.FLOAT_VEC4, 4);
-        this.sizes.set(gl.FLOAT_MAT2, 4);
-        this.sizes.set(gl.FLOAT_MAT3, 9);
-        this.sizes.set(gl.FLOAT_MAT4, 16);
+        this.sizes = {};
+        this.sizes[gl.FLOAT] = 1;
+        this.sizes[gl.FLOAT_VEC2] = 2;
+        this.sizes[gl.FLOAT_VEC3] = 3;
+        this.sizes[gl.FLOAT_VEC4] = 4;
+        this.sizes[gl.FLOAT_MAT2] = 4;
+        this.sizes[gl.FLOAT_MAT3] = 9;
+        this.sizes[gl.FLOAT_MAT4] = 16;
     },
 
     setValue: function(value) {
-        if (this.floatFunctions.has(this.type)) {
+        if (this.floatFunctions[this.type]) {
             this.setFloat(value);
         }
-        else if (this.matrixFunctions.has(this.type)) {
+        else if (this.matrixFunctions[this.type]) {
             this.setMatrix(value);
         }
     },

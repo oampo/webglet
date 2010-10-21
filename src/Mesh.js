@@ -14,20 +14,22 @@ var Mesh = new Class({
         this.texCoordUsage = texCoordUsage;
 
         this.vertexBuffer = new Buffer(numVertices, 3, this.vertexUsage);
-        if ($chk(this.colorUsage)) {
+        if (this.colorUsage) {
             this.colorBuffer = new Buffer(numVertices, 4, this.colorUsage);
         }
-        if ($chk(this.normalUsage)) {
+        if (this.normalUsage) {
             this.normalBuffer = new Buffer(numVertices, 3, this.normalUsage);
         }
-        if ($chk(this.texCoordUsage)) {
+        if (this.texCoordUsage) {
             this.texCoordBuffer = new Buffer(numVertices, 2,
                                              this.texCoordUsage);
         }
 
-        this.position = [0, 0, 0];
+        this.position = vec3.create();
+        vec3.set([0, 0, 0], this.position);
         this.rotation = quat4.create();
-        this.scale = [1, 1, 1];
+        this.scale = vec3.create();
+        vec3.set([1, 1, 1], this.scale);
     },
 
     applyTransformations: function(matrix) {
@@ -40,28 +42,28 @@ var Mesh = new Class({
 
     associate: function(shaderProgram) {
         var vertexAttribute = shaderProgram.getAttribute('aVertex');
-        if (!$chk(vertexAttribute)) {
+        if (!vertexAttribute) {
             console.error("Could not associate vertex attribute");
         }
         this.vertexBuffer.associate(vertexAttribute);
 
-        if ($chk(this.colorUsage)) {
+        if (this.colorUsage) {
             var colorAttribute = shaderProgram.getAttribute('aColor');
-            if (!$chk(colorAttribute)) {
+            if (!colorAttribute) {
                 console.error("Could not associate color attribute");
             }
             this.colorBuffer.associate(colorAttribute);
         }
-        if ($chk(this.normalUsage)) {
+        if (this.normalUsage) {
             var normalAttribute = shaderProgram.getAttribute('aNormal');
-            if (!$chk(normalAttribute)) {
+            if (!normalAttribute) {
                 console.error("Could not associate normal attribute");
             }
             this.normalBuffer.associate(normalAttribute);
         }
-        if ($chk(this.texCoordUsage)) {
+        if (this.texCoordUsage) {
             var texCoordAttribute = shaderProgram.getAttribute('aTexCoord');
-            if (!$chk(texCoordAttribute)) {
+            if (!texCoordAttribute) {
                 console.error("Could not associate texCoord attribute");
             }
             this.texCoordBuffer.associate(texCoordAttribute);

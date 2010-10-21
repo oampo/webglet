@@ -12,48 +12,48 @@ var Uniform = new Class({
     },
 
     createFunctionHashes: function() {
-        this.floatFunctions = new Hash();
-        this.floatFunctions.set(gl.FLOAT, gl.uniform1fv);
-        this.floatFunctions.set(gl.FLOAT_VEC2, gl.uniform2fv);
-        this.floatFunctions.set(gl.FLOAT_VEC3, gl.uniform3fv);
-        this.floatFunctions.set(gl.FLOAT_VEC4, gl.uniform4fv);
+        this.floatFunctions = {};
+        this.floatFunctions[gl.FLOAT] = gl.uniform1fv;
+        this.floatFunctions[gl.FLOAT_VEC2] = gl.uniform2fv;
+        this.floatFunctions[gl.FLOAT_VEC3] = gl.uniform3fv;
+        this.floatFunctions[gl.FLOAT_VEC4] = gl.uniform4fv;
 
-        this.intFunctions = new Hash();
-        this.intFunctions.set(gl.INT, gl.uniform1iv);
-        this.intFunctions.set(gl.INT_VEC2, gl.uniform2iv);
-        this.intFunctions.set(gl.INT_VEC3, gl.uniform3iv);
-        this.intFunctions.set(gl.INT_VEC4, gl.uniform4iv);
+        this.intFunctions = {};
+        this.intFunctions[gl.INT] = gl.uniform1iv;
+        this.intFunctions[gl.INT_VEC2] = gl.uniform2iv;
+        this.intFunctions[gl.INT_VEC3] = gl.uniform3iv;
+        this.intFunctions[gl.INT_VEC4] = gl.uniform4iv;
 
-        this.boolFunctions = new Hash();
-        this.boolFunctions.set(gl.BOOL, gl.uniform1iv);
-        this.boolFunctions.set(gl.BOOL_VEC2, gl.uniform2iv);
-        this.boolFunctions.set(gl.BOOL_VEC3, gl.uniform3iv);
-        this.boolFunctions.set(gl.BOOL_VEC4, gl.unform4iv);
+        this.boolFunctions = {};
+        this.boolFunctions[gl.BOOL] = gl.uniform1iv;
+        this.boolFunctions[gl.BOOL_VEC2] = gl.uniform2iv;
+        this.boolFunctions[gl.BOOL_VEC3] = gl.uniform3iv;
+        this.boolFunctions[gl.BOOL_VEC4] = gl.unform4iv;
 
-        this.matrixFunctions = new Hash();
-        this.matrixFunctions.set(gl.FLOAT_MAT2, gl.uniformMatrix2fv);
-        this.matrixFunctions.set(gl.FLOAT_MAT3, gl.uniformMatrix3fv);
-        this.matrixFunctions.set(gl.FLOAT_MAT4, gl.uniformMatrix4fv);
+        this.matrixFunctions = {};
+        this.matrixFunctions[gl.FLOAT_MAT2] = gl.uniformMatrix2fv;
+        this.matrixFunctions[gl.FLOAT_MAT3] = gl.uniformMatrix3fv;
+        this.matrixFunctions[gl.FLOAT_MAT4] = gl.uniformMatrix4fv;
 
-        this.samplerFunctions = new Hash();
-        this.samplerFunctions.set(gl.SAMPLER_2D, gl.uniform1iv);
-        this.samplerFunctions.set(gl.SAMPLER_CUBE, gl.uniform1iv);
+        this.samplerFunctions = {};
+        this.samplerFunctions[gl.SAMPLER_2D] = gl.uniform1iv;
+        this.samplerFunctions[gl.SAMPLER_CUBE] = gl.uniform1iv;
     },
 
     setValue: function(value) {
-        if (this.floatFunctions.has(this.type)) {
+        if (this.floatFunctions[this.type]) {
             this.setFloat(value);
         }
-        else if (this.intFunctions.has(this.type)) {
+        else if (this.intFunctions[this.type]) {
             this.setInt(value);
         }
-        else if (this.boolFunctions.has(this.type)) {
+        else if (this.boolFunctions[this.type]) {
             this.setBool(value);
         }
-        else if (this.matrixFunctions.has(this.type)) {
+        else if (this.matrixFunctions[this.type]) {
             this.setMatrix(value);
         }
-        else if (this.samplerFunctions.has(this.type)) {
+        else if (this.samplerFunctions[this.type]) {
             this.setSampler(value);
         }
     },
