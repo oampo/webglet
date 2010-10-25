@@ -38,7 +38,7 @@ window.addEvent("domready", function() {
         },
 
         draw: function() {
-            this.clear();
+            this.clear([1, 1, 1, 1]);
             this.fbRenderer.render([this.triangle], this.camera);
             this.fbRenderer.framebuffer.texture.begin();
             this.texRenderer.render([this.textureMesh], this.orthoCamera);

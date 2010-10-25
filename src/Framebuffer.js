@@ -49,8 +49,9 @@ var Framebuffer = new Class({
         this.popViewport();
     },
 
-    clear: function() {
+    clear: function(color) {
         this.begin();
+        gl.clearColor(color[0], color[1], color[2], color[3]);
         gl.clear(gl.COLOR_BUFFER_BIT);
         this.end();
     },

@@ -20,7 +20,7 @@ window.addEvent("domready", function() {
         },
 
         draw: function() {
-            this.clear();
+            this.clear([1, 1, 1, 1]);
             this.texture.begin();
             this.texRenderer.render([this.textureMesh], this.orthoCamera);
             this.texture.end();

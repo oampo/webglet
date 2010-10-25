@@ -23,7 +23,7 @@ window.addEvent("domready", function() {
         },
 
         draw: function() {
-            this.clear();
+            this.clear([1, 1, 1, 1]);
             this.renderer.render([this.triangle], this.camera);
         }
     });
