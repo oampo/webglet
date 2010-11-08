@@ -2,7 +2,7 @@ window.addEvent("domready", function() {
     var BasicApp = new Class({
         Extends: App,
         initialize: function(element, options) {
-            this.parent(element, options);
+            App.prototype.initialize.apply(this, [element, options]);
             this.renderer = new BasicRenderer('basic-renderer-vert',
                                               'basic-renderer-frag');
             this.camera = new Camera();
