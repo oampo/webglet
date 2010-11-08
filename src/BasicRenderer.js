@@ -7,7 +7,7 @@
 var BasicRenderer = new Class({
     Extends: Renderer,
     initialize: function(vertexShader, fragmentShader, options) {
-        this.parent(options);
+        Renderer.prototype.initialize.apply(this, [options]);
         this.shaderProgram = new ShaderProgram();
         this.shaderProgram.addShader(vertexShader);
         this.shaderProgram.addShader(fragmentShader);

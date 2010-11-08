@@ -2,7 +2,7 @@ window.addEvent("domready", function() {
     var TextureExample = new Class({
         Extends: App,
         initialize: function(element, options) {
-            this.parent(element, options);
+            App.prototype.initialize.apply(this, [element, options]);
             this.texture = new Texture(163, 75);
             this.texture.load("WebGL_logo.png");
             

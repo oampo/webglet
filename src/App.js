@@ -32,10 +32,15 @@ var App = new Class({
 
         if (gl) {
             this.canvas.inject(this.element);
+            // Mouse Events
             this.canvas.addEvent("click", this.preMouseClicked.bind(this));
             this.canvas.addEvent("mousedown", this.preMousePressed.bind(this));
             this.canvas.addEvent("mouseup", this.preMouseReleased.bind(this));
             this.canvas.addEvent("mousemove", this.preMouseMoved.bind(this));
+
+            // Key Events
+            document.addEvent("keydown", this.preKeyPressed.bind(this));
+            document.addEvent("keyup", this.preKeyReleased.bind(this));
         }
         else {
             var alertDiv = new Element('div', {'class': 'webglet-alert'});
@@ -95,6 +100,20 @@ var App = new Class({
     },
 
     mouseMoved: function(mouseX, mouseY) {
+    },
+
+    preKeyPressed: function(event) {
+        this.keyPressed(event.key);
+    },
+
+    keyPressed: function(key) {
+    },
+
+    preKeyReleased: function(event) {
+        this.keyReleased(event.key);
+    },
+
+    keyReleased: function(key) {
     }
 });
 

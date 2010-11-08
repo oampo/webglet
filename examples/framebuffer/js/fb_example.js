@@ -2,7 +2,7 @@ window.addEvent("domready", function() {
     var FramebufferExample = new Class({
         Extends: App,
         initialize: function(element, options) {
-            this.parent(element, options);
+            App.prototype.initialize.apply(this, [element, options]);
             // For rendering to the framebuffer
             this.fbRenderer = new FramebufferRenderer(this.options.width,
                                                       this.options.height,

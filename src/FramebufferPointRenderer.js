@@ -9,7 +9,10 @@ var FramebufferPointRenderer = new Class({
     Implements: PointRendererMixin,
     initialize: function(width, height, pointParams, vertexShader,
                          fragmentShader, options) {
-        this.parent(width, height, vertexShader, fragmentShader, options);
+        FramebufferRenderer.prototype.initialize.apply(this, [width, height,
+                                                              vertexShader,
+                                                              fragmentShader,
+                                                              options]);
         this.pointParams = pointParams;
         this.getPointSizeUniforms(this.shaderProgram);
     },
