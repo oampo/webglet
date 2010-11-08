@@ -9,7 +9,9 @@ var PointRenderer = new Class({
     Extends: BasicRenderer,
     Implements: PointRendererMixin,
     initialize: function(pointParams, vertexShader, fragmentShader, options) {
-        this.parent(vertexShader, fragmentShader, options);
+        BasicRenderer.prototype.initialize.apply(this, [vertexShader,
+                                                        fragmentShader,
+                                                        options]);
         this.pointParams = pointParams;
         this.getPointSizeUniforms(this.shaderProgram);
     },

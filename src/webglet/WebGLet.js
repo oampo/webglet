@@ -428,7 +428,7 @@ var ShaderProgram = new Class({
 var BasicRenderer = new Class({
     Extends: Renderer,
     initialize: function(vertexShader, fragmentShader, options) {
-        this.parent(options);
+        Renderer.prototype.initialize.apply(this, [options]);
         this.shaderProgram = new ShaderProgram();
         this.shaderProgram.addShader(vertexShader);
         this.shaderProgram.addShader(fragmentShader);
@@ -674,7 +674,9 @@ var FramebufferRenderer = new Class({
     Extends: BasicRenderer,
     initialize: function(width, height, vertexShader, fragmentShader,
                          options) {
-        this.parent(vertexShader, fragmentShader, options);
+        BasicRenderer.prototype.initialize.apply(this, [vertexShader,
+                                                        fragmentShader,
+                                                        options]);
         this.framebuffer = new Framebuffer(width, height);
     },
 
@@ -722,7 +724,10 @@ var FramebufferPointRenderer = new Class({
     Implements: PointRendererMixin,
     initialize: function(width, height, pointParams, vertexShader,
                          fragmentShader, options) {
-        this.parent(width, height, vertexShader, fragmentShader, options);
+        FramebufferRenderer.prototype.initialize.apply(this, [width, height,
+                                                              vertexShader,
+                                                              fragmentShader,
+                                                              options]);
         this.pointParams = pointParams;
         this.getPointSizeUniforms(this.shaderProgram);
     },
@@ -773,13 +778,15 @@ var Mesh = new Class({
         this.rotation = quat4.create();
         this.scale = vec3.create();
         vec3.set([1, 1, 1], this.scale);
+
+        // Cache matrix 
+        this.rotationMatrix = mat4.create();
     },
 
     applyTransformations: function(matrix) {
        mat4.translate(matrix, this.position);
-       var rotationMatrix = mat4.create();
-       quat4.toMat4(this.rotation, rotationMatrix);
-       mat4.multiply(matrix, rotationMatrix);
+       quat4.toMat4(this.rotation, this.rotationMatrix);
+       mat4.multiply(matrix, this.rotationMatrix);
        mat4.scale(matrix, this.scale); 
     },
 
@@ -830,7 +837,9 @@ var PointRenderer = new Class({
     Extends: BasicRenderer,
     Implements: PointRendererMixin,
     initialize: function(pointParams, vertexShader, fragmentShader, options) {
-        this.parent(vertexShader, fragmentShader, options);
+        BasicRenderer.prototype.initialize.apply(this, [vertexShader,
+                                                        fragmentShader,
+                                                        options]);
         this.pointParams = pointParams;
         this.getPointSizeUniforms(this.shaderProgram);
     },
@@ -857,8 +866,9 @@ var RectMesh = new Class({
     Extends: Mesh,
     initialize: function(width, height, vertexUsage, colorUsage, normalUsage,
                          texCoordUsage) {
-        this.parent(4, gl.TRIANGLE_STRIP, vertexUsage, colorUsage, normalUsage,
-                    texCoordUsage);
+        Mesh.prototype.initialize.apply(this, [4, gl.TRIANGLE_STRIP,
+                                               vertexUsage, colorUsage,
+                                               normalUsage, texCoordUsage]);
 
         this.vertexBuffer.setValues([0,     0,      0,
                                      0,     height, 0,

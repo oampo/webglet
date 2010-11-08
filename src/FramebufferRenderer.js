@@ -8,7 +8,9 @@ var FramebufferRenderer = new Class({
     Extends: BasicRenderer,
     initialize: function(width, height, vertexShader, fragmentShader,
                          options) {
-        this.parent(vertexShader, fragmentShader, options);
+        BasicRenderer.prototype.initialize.apply(this, [vertexShader,
+                                                        fragmentShader,
+                                                        options]);
         this.framebuffer = new Framebuffer(width, height);
     },
 
