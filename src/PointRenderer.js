@@ -18,7 +18,7 @@ var PointRenderer = new Class({
 
     renderMesh: function(mesh, camera) {
         camera.modelview.pushMatrix();
-        mesh.applyTransformations(camera.modelview.matrix);
+        mesh.transformation.apply(camera.modelview.matrix);
         camera.setUniforms(this.shaderProgram);
         camera.modelview.popMatrix();
 

@@ -1,6 +1,7 @@
 /**
  * @depends App.js
  * @depends Buffer.js
+ * @depends Transformation.js
  */
 
 var Mesh = new Class({
@@ -24,22 +25,8 @@ var Mesh = new Class({
             this.texCoordBuffer = new Buffer(numVertices, 2,
                                              this.texCoordUsage);
         }
-
-        this.position = vec3.create();
-        vec3.set([0, 0, 0], this.position);
-        this.rotation = quat4.create();
-        this.scale = vec3.create();
-        vec3.set([1, 1, 1], this.scale);
-
-        // Cache matrix 
-        this.rotationMatrix = mat4.create();
-    },
-
-    applyTransformations: function(matrix) {
-       mat4.translate(matrix, this.position);
-       quat4.toMat4(this.rotation, this.rotationMatrix);
-       mat4.multiply(matrix, this.rotationMatrix);
-       mat4.scale(matrix, this.scale); 
+        
+        this.transformation = new Transformation();
     },
 
     associate: function(shaderProgram) {
