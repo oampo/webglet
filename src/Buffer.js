@@ -13,11 +13,13 @@ var Buffer = new Class({
         gl.bufferData(gl.ARRAY_BUFFER,
                       numItems * itemSize * 4, // 4 is size (bytes) of Float32
                       this.usage);
+        this.array = new Float32Array(numItems * itemSize);
     },
 
     setValues: function(values) {
+        this.array.set(values);
         this.bind();
-        gl.bufferSubData(gl.ARRAY_BUFFER, 0, new Float32Array(values));
+        gl.bufferSubData(gl.ARRAY_BUFFER, 0, this.array);
     },
 
     bind: function() {
