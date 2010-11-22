@@ -6,19 +6,20 @@
 
 var FramebufferRenderer = new Class({
     Extends: BasicRenderer,
-    initialize: function(width, height, vertexShader, fragmentShader,
-                         options) {
+    initialize: function(width, height, vertexShader, fragmentShader) {
         BasicRenderer.prototype.initialize.apply(this, [vertexShader,
-                                                        fragmentShader,
-                                                        options]);
+                                                        fragmentShader]);
         this.framebuffer = new Framebuffer(width, height);
     },
 
-    renderMesh: function(mesh, camera) {
-        camera.modelview.pushMatrix();
-        mesh.transformation.apply(camera.modelview.matrix);
-        camera.setUniforms(this.shaderProgram);
-        camera.modelview.popMatrix();
+    renderMesh: function(mesh, matrices) {
+        matrices.modelview.pushMatrix();
+        mesh.transformation.apply(matrices.modelview.matrix);
+        this.shaderProgram.setUniform('uProjectionMatrix',
+                                      matrices.projection.matrix);
+        this.shaderProgram.setUniform('uModelviewMatrix',
+                                      matrices.modelview.matrix);
+        matrices.modelview.popMatrix();
 
         mesh.associate(this.shaderProgram);
         this.framebuffer.begin();

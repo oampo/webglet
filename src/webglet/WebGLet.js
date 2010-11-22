@@ -32,15 +32,6 @@ var App = new Class({
 
         if (gl) {
             this.canvas.inject(this.element);
-            // Mouse Events
-            this.canvas.addEvent("click", this.preMouseClicked.bind(this));
-            this.canvas.addEvent("mousedown", this.preMousePressed.bind(this));
-            this.canvas.addEvent("mouseup", this.preMouseReleased.bind(this));
-            this.canvas.addEvent("mousemove", this.preMouseMoved.bind(this));
-
-            // Key Events
-            document.addEvent("keydown", this.preKeyPressed.bind(this));
-            document.addEvent("keyup", this.preKeyReleased.bind(this));
         }
         else {
             var alertDiv = new Element('div', {'class': 'webglet-alert'});
@@ -65,56 +56,6 @@ var App = new Class({
         gl.clearColor(color[0], color[1], color[2], color[3]);
         gl.clear(gl.COLOR_BUFFER_BIT);
     },
-
-    preMouseClicked: function(event) {
-        var position = this.canvas.getPosition();
-        this.mouseClicked(event.page.x - position.x,
-                          event.page.y - position.y);
-    },
-
-    mouseClicked: function(mouseX, mouseY) {
-    },
-
-    preMousePressed: function(event) {
-        var position = this.canvas.getPosition();
-        this.mousePressed(event.page.x - position.x,
-                          event.page.y - position.y);
-    },
-
-    mousePressed: function(mouseX, mouseY) {
-    },
-
-    preMouseReleased: function(event) {
-        var position = this.canvas.getPosition();
-        this.mouseReleased(event.page.x - position.x,
-                           event.page.y - position.y);
-    },
-
-    mouseReleased: function(mouseX, mouseY) {
-    },
-
-    preMouseMoved: function(event) {
-        var position = this.canvas.getPosition();
-        this.mouseMoved(event.page.x - position.x,
-                        event.page.y - position.y);
-    },
-
-    mouseMoved: function(mouseX, mouseY) {
-    },
-
-    preKeyPressed: function(event) {
-        this.keyPressed(event.key);
-    },
-
-    keyPressed: function(key) {
-    },
-
-    preKeyReleased: function(event) {
-        this.keyReleased(event.key);
-    },
-
-    keyReleased: function(key) {
-    }
 });
 
 
@@ -177,18 +118,6 @@ var Attribute = new Class({
         gl.enableVertexAttribArray(this.location);
         gl.vertexAttribPointer(this.location, this.sizes[this.type],
                                gl.FLOAT, false, 0, 0);
-    }
-});
-
-var Renderer = new Class({
-    Implements: Options,
-    options: {},
-
-    initialize: function(options) {
-        this.setOptions(options);
-    },
-
-    render: function() {
     }
 });
 
@@ -414,40 +343,48 @@ var ShaderProgram = new Class({
         return (this.uniforms[name]);
     },
 
+    setUniform: function(name, value) {
+        this.uniforms[name].setValue(value);
+    },
+
     getAttribute: function(name) {
         return (this.attributes[name]);
+    },
+
+    setAttribute: function(name, value) {
+        this.attributes[name].setValue(value);
     }
 });
 
 /**
  * @depends App.js
- * @depends Renderer.js
  * @depends ShaderProgram.js
  */
 
 var BasicRenderer = new Class({
-    Extends: Renderer,
-    initialize: function(vertexShader, fragmentShader, options) {
-        Renderer.prototype.initialize.apply(this, [options]);
+    initialize: function(vertexShader, fragmentShader) {
         this.shaderProgram = new ShaderProgram();
         this.shaderProgram.addShader(vertexShader);
         this.shaderProgram.addShader(fragmentShader);
         this.shaderProgram.use();
     },
 
-    render: function(meshes, camera) {
+    render: function(meshes, matrices) {
         this.shaderProgram.use();
         for (var i = 0; i < meshes.length; i++) {
             // Render
-            this.renderMesh(meshes[i], camera);
+            this.renderMesh(meshes[i], matrices);
         }
     },
 
-    renderMesh: function(mesh, camera) {
-        camera.modelview.pushMatrix();
-        mesh.transformation.apply(camera.modelview.matrix);
-        camera.setUniforms(this.shaderProgram);
-        camera.modelview.popMatrix();
+    renderMesh: function(mesh, matrices) {
+        matrices.modelview.pushMatrix();
+        mesh.transformation.apply(matrices.modelview.matrix);
+        this.shaderProgram.setUniform('uProjectionMatrix',
+                                      matrices.projection.matrix);
+        this.shaderProgram.setUniform('uModelviewMatrix',
+                                      matrices.modelview.matrix);
+        matrices.modelview.popMatrix();
 
         mesh.associate(this.shaderProgram);
         mesh.render();
@@ -493,55 +430,6 @@ var Buffer = new Class({
     }
 });
 
-
-var MatrixStack = new Class({
-    initialize: function() {
-        this.stack = [];
-        this.matrix = mat4.create();
-        mat4.identity(this.matrix);
-    },
-
-    pushMatrix: function() {
-        var newMatrix = mat4.create();
-        mat4.set(this.matrix, newMatrix);
-        this.stack.push(newMatrix);
-    },
-
-    popMatrix: function() {
-        if (this.stack.length > 0) {
-            this.matrix = this.stack.pop();
-        }
-    }
-});
-
-/**
- * @depends MatrixStack.js
- */
-var Camera = new Class({
-    initialize: function() {
-        this.projection = new MatrixStack();
-        this.modelview = new MatrixStack();
-    },
-
-    perspective: function(fovy, aspect, near, far) {
-        mat4.perspective(fovy, aspect, near, far, this.projection.matrix);
-    },
-
-    ortho: function(left, right, top, bottom, near, far) {
-        mat4.ortho(left, right, top, bottom, near, far, this.projection.matrix);
-    },
-
-    lookAt: function(eye, center, up) {
-        mat4.lookAt(eye, center, up, this.modelview.matrix);
-    },
-
-    setUniforms: function(shaderProgram) {
-        var projectionUniform = shaderProgram.getUniform('uProjectionMatrix');
-        projectionUniform.setValue(this.projection.matrix);
-        var modelviewUniform = shaderProgram.getUniform('uModelviewMatrix');
-        modelviewUniform.setValue(this.modelview.matrix); 
-    }
-});
 
 /**
  * @depends App.js
@@ -674,19 +562,20 @@ var Framebuffer = new Class({
 
 var FramebufferRenderer = new Class({
     Extends: BasicRenderer,
-    initialize: function(width, height, vertexShader, fragmentShader,
-                         options) {
+    initialize: function(width, height, vertexShader, fragmentShader) {
         BasicRenderer.prototype.initialize.apply(this, [vertexShader,
-                                                        fragmentShader,
-                                                        options]);
+                                                        fragmentShader]);
         this.framebuffer = new Framebuffer(width, height);
     },
 
-    renderMesh: function(mesh, camera) {
-        camera.modelview.pushMatrix();
-        mesh.transformation.apply(camera.modelview.matrix);
-        camera.setUniforms(this.shaderProgram);
-        camera.modelview.popMatrix();
+    renderMesh: function(mesh, matrices) {
+        matrices.modelview.pushMatrix();
+        mesh.transformation.apply(matrices.modelview.matrix);
+        this.shaderProgram.setUniform('uProjectionMatrix',
+                                      matrices.projection.matrix);
+        this.shaderProgram.setUniform('uModelviewMatrix',
+                                      matrices.modelview.matrix);
+        matrices.modelview.popMatrix();
 
         mesh.associate(this.shaderProgram);
         this.framebuffer.begin();
@@ -695,56 +584,23 @@ var FramebufferRenderer = new Class({
     }
 });
 
-var PointRendererMixin = new Class({
-    getPointSizeUniforms: function(shaderProgram) {
-        this.pointSizeUniform = shaderProgram.getUniform('uPointSize');
-        this.constantAttenuationUniform = shaderProgram.getUniform('uConstantAttenuation');
-        this.linearAttenuationUniform = shaderProgram.getUniform('uLinearAttenuation');
-        this.quadraticAttenuationUniform = shaderProgram.getUniform('uQuadraticAttenuation');
-        this.minPointSizeUniform = shaderProgram.getUniform('uMinPointSize');
-        this.maxPointSizeUniform = shaderProgram.getUniform('uMaxPointSize');
+var MatrixStack = new Class({
+    initialize: function() {
+        this.stack = [];
+        this.matrix = mat4.create();
+        mat4.identity(this.matrix);
     },
 
-    setPointSizeUniforms: function(params) {
-        this.pointSizeUniform.setValue([params.pointSize]);
-        this.constantAttenuationUniform.setValue([params.constantAttenuation]);
-        this.linearAttenuationUniform.setValue([params.linearAttenuation]);
-        this.quadraticAttenuationUniform.setValue([params.quadraticAttenuation]);
-        this.minPointSizeUniform.setValue([params.minPointSize]);
-        this.maxPointSizeUniform.setValue([params.maxPointSize]);
-    }
-});
-
-/**
- * @depends App.js
- * @depends FramebufferRenderer.js
- * @depends PointRendererMixin.js
- */
-
-var FramebufferPointRenderer = new Class({
-    Extends: FramebufferRenderer,
-    Implements: PointRendererMixin,
-    initialize: function(width, height, pointParams, vertexShader,
-                         fragmentShader, options) {
-        FramebufferRenderer.prototype.initialize.apply(this, [width, height,
-                                                              vertexShader,
-                                                              fragmentShader,
-                                                              options]);
-        this.pointParams = pointParams;
-        this.getPointSizeUniforms(this.shaderProgram);
+    pushMatrix: function() {
+        var newMatrix = mat4.create();
+        mat4.set(this.matrix, newMatrix);
+        this.stack.push(newMatrix);
     },
 
-    renderMesh: function(mesh, camera) {
-        camera.modelview.pushMatrix();
-        mesh.transformation.apply(camera.modelview.matrix);
-        camera.setUniforms(this.shaderProgram);
-        camera.modelview.popMatrix();
-
-        this.setPointSizeUniforms(this.pointParams);
-        mesh.associate(this.shaderProgram);
-        this.framebuffer.begin();
-        mesh.render();
-        this.framebuffer.end();
+    popMatrix: function() {
+        if (this.stack.length > 0) {
+            this.matrix = this.stack.pop();
+        }
     }
 });
 
@@ -836,36 +692,6 @@ var Mesh = new Class({
 
 /**
  * @depends App.js
- * @depends BasicRenderer.js
- * @depends PointRendererMixin.js
- * @depends ShaderProgram.js
- */
-
-var PointRenderer = new Class({
-    Extends: BasicRenderer,
-    Implements: PointRendererMixin,
-    initialize: function(pointParams, vertexShader, fragmentShader, options) {
-        BasicRenderer.prototype.initialize.apply(this, [vertexShader,
-                                                        fragmentShader,
-                                                        options]);
-        this.pointParams = pointParams;
-        this.getPointSizeUniforms(this.shaderProgram);
-    },
-
-    renderMesh: function(mesh, camera) {
-        camera.modelview.pushMatrix();
-        mesh.transformation.apply(camera.modelview.matrix);
-        camera.setUniforms(this.shaderProgram);
-        camera.modelview.popMatrix();
-
-        this.setPointSizeUniforms(this.pointParams);
-        mesh.associate(this.shaderProgram);
-        mesh.render();
-    }
-});
-
-/**
- * @depends App.js
  * @depends Buffer.js
  * @depends Mesh.js
  */
@@ -891,4 +717,14 @@ var RectMesh = new Class({
     }
 });
 
+
+/**
+ * @depends MatrixStack.js
+ */
+var TransformationMatrices = new Class({
+    initialize: function() {
+        this.projection = new MatrixStack();
+        this.modelview = new MatrixStack();
+    }
+});
 

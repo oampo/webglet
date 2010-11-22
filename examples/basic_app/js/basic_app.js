@@ -5,12 +5,12 @@ window.addEvent("domready", function() {
             App.prototype.initialize.apply(this, [element, options]);
             this.renderer = new BasicRenderer('basic-renderer-vert',
                                               'basic-renderer-frag');
-            this.camera = new Camera();
-            this.camera.perspective(45, this.options.width/this.options.height,
-                                    0.1, 100);
-            this.camera.lookAt([0, 0, 5],
-                               [0, 0, 0],
-                               [0, 1, 0]);
+            this.matrices = new TransformationMatrices();
+            mat4.perspective(45, this.options.width/this.options.height,
+                             0.1, 100, this.matrices.projection.matrix);
+            mat4.lookAt([0, 0, 5],
+                        [0, 0, 0],
+                        [0, 1, 0], this.matrices.modelview.matrix);
 
             this.triangle = new Mesh(3, gl.TRIANGLES, gl.STATIC_DRAW,
                                      gl.STATIC_DRAW);
@@ -24,7 +24,7 @@ window.addEvent("domready", function() {
 
         draw: function() {
             this.clear([1, 1, 1, 1]);
-            this.renderer.render([this.triangle], this.camera);
+            this.renderer.render([this.triangle], this.matrices);
         }
     });
 

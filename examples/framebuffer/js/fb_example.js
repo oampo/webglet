@@ -8,12 +8,12 @@ window.addEvent("domready", function() {
                                                       this.options.height,
                                                       'basic-renderer-vert',
                                                       'basic-renderer-frag');
-            this.camera = new Camera();
-            this.camera.perspective(45, this.options.width/this.options.height,
-                                    0.1, 100);
-            this.camera.lookAt([0, 0, 5],
-                               [0, 0, 0],
-                               [0, 1, 0]);
+            this.matrices = new TransformationMatrices();
+            mat4.perspective(45, this.options.width/this.options.height,
+                            0.1, 100, this.matrices.projection.matrix);
+            mat4.lookAt([0, 0, 5],
+                        [0, 0, 0],
+                        [0, 1, 0], this.matrices.modelview.matrix);
             this.triangle = new Mesh(3, gl.TRIANGLES, gl.STATIC_DRAW,
                                      gl.STATIC_DRAW);
             this.triangle.vertexBuffer.setValues([ 0.0,  1.0, 0.0,
@@ -26,10 +26,9 @@ window.addEvent("domready", function() {
             this.texRenderer = new BasicRenderer('texture-renderer-vert',
                                                  'texture-renderer-frag');
 
-            this.orthoCamera = new Camera();
-            this.orthoCamera.ortho(0, this.options.width,
-                                   this.options.height, 0,
-                                   -1, 1);
+            this.orthoMatrices = new TransformationMatrices();
+            mat4.ortho(0, this.options.width, this.options.height, 0, -1, 1,
+                       this.orthoMatrices.projection.matrix);
 
             this.textureMesh = new RectMesh(this.options.width,
                                             this.options.height,
@@ -39,9 +38,9 @@ window.addEvent("domready", function() {
 
         draw: function() {
             this.clear([1, 1, 1, 1]);
-            this.fbRenderer.render([this.triangle], this.camera);
+            this.fbRenderer.render([this.triangle], this.matrices);
             this.fbRenderer.framebuffer.texture.begin();
-            this.texRenderer.render([this.textureMesh], this.orthoCamera);
+            this.texRenderer.render([this.textureMesh], this.orthoMatrices);
             this.fbRenderer.framebuffer.texture.end();
         }
     });
