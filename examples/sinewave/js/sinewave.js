@@ -4,7 +4,7 @@ window.addEvent("domready", function() {
         Implements: AudioOutput,
         initialize: function(element, options) {
             App.prototype.initialize.apply(this, [element, options]);
-            this.initAudio(1);
+            this.initAudioOutput(1);
             this.sineWave = new Oscillator(Oscillator.Sine, 300,
                                            this.numChannels,
                                            this.bufferSize, this.sampleRate);

@@ -1,5 +1,5 @@
 var AudioOutput = new Class({
-    initAudio: function(numChannels, bufferSize, sampleRate) {
+    initAudioOutput: function(numChannels, bufferSize, sampleRate) {
         this.numChannels = numChannels || 2;
         this.bufferSize = bufferSize || 32784;
         this.sampleRate = sampleRate || 44100.0;
