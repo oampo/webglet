@@ -32,15 +32,6 @@ var App = new Class({
 
         if (gl) {
             this.canvas.inject(this.element);
-            // Mouse Events
-            this.canvas.addEvent("click", this.preMouseClicked.bind(this));
-            this.canvas.addEvent("mousedown", this.preMousePressed.bind(this));
-            this.canvas.addEvent("mouseup", this.preMouseReleased.bind(this));
-            this.canvas.addEvent("mousemove", this.preMouseMoved.bind(this));
-
-            // Key Events
-            document.addEvent("keydown", this.preKeyPressed.bind(this));
-            document.addEvent("keyup", this.preKeyReleased.bind(this));
         }
         else {
             var alertDiv = new Element('div', {'class': 'webglet-alert'});
@@ -65,55 +56,5 @@ var App = new Class({
         gl.clearColor(color[0], color[1], color[2], color[3]);
         gl.clear(gl.COLOR_BUFFER_BIT);
     },
-
-    preMouseClicked: function(event) {
-        var position = this.canvas.getPosition();
-        this.mouseClicked(event.page.x - position.x,
-                          event.page.y - position.y);
-    },
-
-    mouseClicked: function(mouseX, mouseY) {
-    },
-
-    preMousePressed: function(event) {
-        var position = this.canvas.getPosition();
-        this.mousePressed(event.page.x - position.x,
-                          event.page.y - position.y);
-    },
-
-    mousePressed: function(mouseX, mouseY) {
-    },
-
-    preMouseReleased: function(event) {
-        var position = this.canvas.getPosition();
-        this.mouseReleased(event.page.x - position.x,
-                           event.page.y - position.y);
-    },
-
-    mouseReleased: function(mouseX, mouseY) {
-    },
-
-    preMouseMoved: function(event) {
-        var position = this.canvas.getPosition();
-        this.mouseMoved(event.page.x - position.x,
-                        event.page.y - position.y);
-    },
-
-    mouseMoved: function(mouseX, mouseY) {
-    },
-
-    preKeyPressed: function(event) {
-        this.keyPressed(event.key);
-    },
-
-    keyPressed: function(key) {
-    },
-
-    preKeyReleased: function(event) {
-        this.keyReleased(event.key);
-    },
-
-    keyReleased: function(key) {
-    }
 });
 
