@@ -1,3 +1,2 @@
 #! /bin/bash
 juicer merge *.js -f -s -m none -o webglet/WebGLet.js
-juicer merge *.js -f -s -o webglet/WebGLet.min.js
