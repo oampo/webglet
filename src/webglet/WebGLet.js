@@ -6,7 +6,7 @@ var App = new Class({
         name: 'webglet-app',
         width: 800,
         height: 600,
-        frameRate: 60,
+        frameRate: 60
     },
 
     initialize: function(element, options) {
@@ -55,7 +55,7 @@ var App = new Class({
     clear: function(color) {
         gl.clearColor(color[0], color[1], color[2], color[3]);
         gl.clear(gl.COLOR_BUFFER_BIT);
-    },
+    }
 });
 
 
@@ -611,7 +611,7 @@ var Transformation = new Class({
         this.scale = vec3.create();
         vec3.set([1, 1, 1], this.scale);
 
-        // Cache matrix 
+        // Cache matrix
         this.rotationMatrix = mat4.create();
     },
 
@@ -650,40 +650,40 @@ var Mesh = new Class({
             this.texCoordBuffer = new Buffer(numVertices, 2,
                                              this.texCoordUsage);
         }
-        
+
         this.transformation = new Transformation();
     },
 
     associate: function(shaderProgram) {
         var vertexAttribute = shaderProgram.getAttribute('aVertex');
         if (!vertexAttribute) {
-            console.error("Could not associate vertex attribute");
+            console.error('Could not associate vertex attribute');
         }
         this.vertexBuffer.associate(vertexAttribute);
 
         if (this.colorUsage) {
             var colorAttribute = shaderProgram.getAttribute('aColor');
             if (!colorAttribute) {
-                console.error("Could not associate color attribute");
+                console.error('Could not associate color attribute');
             }
             this.colorBuffer.associate(colorAttribute);
         }
         if (this.normalUsage) {
             var normalAttribute = shaderProgram.getAttribute('aNormal');
             if (!normalAttribute) {
-                console.error("Could not associate normal attribute");
+                console.error('Could not associate normal attribute');
             }
             this.normalBuffer.associate(normalAttribute);
         }
         if (this.texCoordUsage) {
             var texCoordAttribute = shaderProgram.getAttribute('aTexCoord');
             if (!texCoordAttribute) {
-                console.error("Could not associate texCoord attribute");
+                console.error('Could not associate texCoord attribute');
             }
             this.texCoordBuffer.associate(texCoordAttribute);
         }
     },
-        
+
     render: function() {
         gl.drawArrays(this.drawMode, 0, this.numVertices);
     }
@@ -706,7 +706,7 @@ var RectMesh = new Class({
 
         this.vertexBuffer.setValues([0,     0,      0,
                                      0,     height, 0,
-                                     width,     0, 0,
+                                     width, 0,      0,
                                      width, height, 0]);
         if (this.texCoordUsage) {
             this.texCoordBuffer.setValues([0, 1,
