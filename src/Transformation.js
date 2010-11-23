@@ -5,7 +5,7 @@ var Transformation = new Class({
         this.scale = vec3.create();
         vec3.set([1, 1, 1], this.scale);
 
-        // Cache matrix 
+        // Cache matrix
         this.rotationMatrix = mat4.create();
     },
 

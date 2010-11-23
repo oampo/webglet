@@ -25,40 +25,40 @@ var Mesh = new Class({
             this.texCoordBuffer = new Buffer(numVertices, 2,
                                              this.texCoordUsage);
         }
-        
+
         this.transformation = new Transformation();
     },
 
     associate: function(shaderProgram) {
         var vertexAttribute = shaderProgram.getAttribute('aVertex');
         if (!vertexAttribute) {
-            console.error("Could not associate vertex attribute");
+            console.error('Could not associate vertex attribute');
         }
         this.vertexBuffer.associate(vertexAttribute);
 
         if (this.colorUsage) {
             var colorAttribute = shaderProgram.getAttribute('aColor');
             if (!colorAttribute) {
-                console.error("Could not associate color attribute");
+                console.error('Could not associate color attribute');
             }
             this.colorBuffer.associate(colorAttribute);
         }
         if (this.normalUsage) {
             var normalAttribute = shaderProgram.getAttribute('aNormal');
             if (!normalAttribute) {
-                console.error("Could not associate normal attribute");
+                console.error('Could not associate normal attribute');
             }
             this.normalBuffer.associate(normalAttribute);
         }
         if (this.texCoordUsage) {
             var texCoordAttribute = shaderProgram.getAttribute('aTexCoord');
             if (!texCoordAttribute) {
-                console.error("Could not associate texCoord attribute");
+                console.error('Could not associate texCoord attribute');
             }
             this.texCoordBuffer.associate(texCoordAttribute);
         }
     },
-        
+
     render: function() {
         gl.drawArrays(this.drawMode, 0, this.numVertices);
     }
