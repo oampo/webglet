@@ -21,21 +21,19 @@ var Framebuffer = new Class({
                                    gl.RENDERBUFFER, this.depthBuffer);
         gl.bindRenderbuffer(gl.RENDERBUFFER, null);
 
+        this.end();
+
         // Add texture for color
         this.texture = new Texture(width, height);
-        this.texture.begin();
-        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
-                                gl.TEXTURE_2D, this.texture.getTexture(),
-                                0);
-        this.texture.end();
+        this.attachTexture(this.texture);
 
+        this.begin();
         // Check it all worked
         if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !=
             gl.FRAMEBUFFER_COMPLETE) {
             console.error('Could not create framebuffer - error ',
                           gl.checkFramebufferStatus(gl.FRAMEBUFFER));
         }
-
         this.end();
     },
 
@@ -47,6 +45,17 @@ var Framebuffer = new Class({
     end: function() {
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
         this.popViewport();
+    },
+
+    attachTexture: function(texture) {
+        this.texture = texture;
+        this.begin();
+        this.texture.begin();
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
+                                gl.TEXTURE_2D, this.texture.getTexture(),
+                                0);
+        this.texture.end();
+        this.end();
     },
 
     clear: function(color) {
