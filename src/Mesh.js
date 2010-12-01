@@ -9,54 +9,38 @@ var Mesh = new Class({
                          normalUsage, texCoordUsage) {
         this.numVertices = numVertices;
         this.drawMode = drawMode;
-        this.vertexUsage = vertexUsage;
-        this.colorUsage = colorUsage;
-        this.normalUsage = normalUsage;
-        this.texCoordUsage = texCoordUsage;
+        this.buffers = {};
 
-        this.vertexBuffer = new Buffer(numVertices, 3, this.vertexUsage);
-        if (this.colorUsage) {
-            this.colorBuffer = new Buffer(numVertices, 4, this.colorUsage);
+        this.createBuffer("vertex", numVertices, 3, vertexUsage);
+        if (colorUsage) {
+            this.createBuffer("color", numVertices, 4, colorUsage);
         }
-        if (this.normalUsage) {
-            this.normalBuffer = new Buffer(numVertices, 3, this.normalUsage);
+        if (normalUsage) {
+            this.createBuffer("normal", numVertices, 3, normalUsage);
         }
-        if (this.texCoordUsage) {
-            this.texCoordBuffer = new Buffer(numVertices, 2,
-                                             this.texCoordUsage);
+        if (texCoordUsage) {
+            this.createBuffer("texCoord", numVertices, 2, texCoordUsage);
         }
-
         this.transformation = new Transformation();
     },
 
-    associate: function(shaderProgram) {
-        var vertexAttribute = shaderProgram.getAttribute('aVertex');
-        if (!vertexAttribute) {
-            console.error('Could not associate vertex attribute');
-        }
-        this.vertexBuffer.associate(vertexAttribute);
+    createBuffer: function(name, numVertices, stride, usage) {
+        this.buffers[name] = new Buffer(numVertices, stride, usage);
+        // Also store the buffer in this, for ease of access and backwards
+        // compatibility
+        this[name + 'Buffer'] = this.buffers[name]
+    },  
 
-        if (this.colorUsage) {
-            var colorAttribute = shaderProgram.getAttribute('aColor');
-            if (!colorAttribute) {
-                console.error('Could not associate color attribute');
+    associate: function(shaderProgram) {
+        Object.each(this.buffers, function(buffer, bufferName) {
+            // Convert bufferName to aAttributeName
+            var attributeName = 'a' + bufferName.capitalize();
+            var attribute = shaderProgram.getAttribute(attributeName);
+            if (!attribute) {
+                console.error('Could not associate ' + attributeName + ' attribute');
             }
-            this.colorBuffer.associate(colorAttribute);
-        }
-        if (this.normalUsage) {
-            var normalAttribute = shaderProgram.getAttribute('aNormal');
-            if (!normalAttribute) {
-                console.error('Could not associate normal attribute');
-            }
-            this.normalBuffer.associate(normalAttribute);
-        }
-        if (this.texCoordUsage) {
-            var texCoordAttribute = shaderProgram.getAttribute('aTexCoord');
-            if (!texCoordAttribute) {
-                console.error('Could not associate texCoord attribute');
-            }
-            this.texCoordBuffer.associate(texCoordAttribute);
-        }
+            buffer.associate(attribute);
+        }, this);
     },
 
     render: function() {

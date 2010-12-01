@@ -16,7 +16,7 @@ var RectMesh = new Class({
                                      0,     height, 0,
                                      width, 0,      0,
                                      width, height, 0]);
-        if (this.texCoordUsage) {
+        if (texCoordUsage) {
             this.texCoordBuffer.setValues([0, 1,
                                            0, 0,
                                            1, 1,
