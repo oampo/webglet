@@ -89,18 +89,22 @@ var ShaderProgram = new Class({
     },
 
     use: function() {
-        if (this.needRecompile) {
-            if (this.program !== null) {
-                this.deleteProgram();
+        if (this.needRecompile ||
+            ShaderProgram.activeProgram != this.program) {
+            if (this.needRecompile) {
+                if (this.program !== null) {
+                    this.deleteProgram();
+                }
+                this.createProgram();
+                this.attachShaders();
+                this.linkProgram();
+                this.getAttributes();
+                this.getUniforms();
+                this.needRecompile = false;
             }
-            this.createProgram();
-            this.attachShaders();
-            this.linkProgram();
-            this.getAttributes();
-            this.getUniforms();
-            this.needRecompile = false;
+            this.useProgram();
+            ShaderProgram.activeProgram = this.program;
         }
-        this.useProgram();
     },
 
     getUniform: function(name) {
@@ -119,3 +123,5 @@ var ShaderProgram = new Class({
         this.attributes[name].setValue(value);
     }
 });
+
+ShaderProgram.activeProgram = null;
