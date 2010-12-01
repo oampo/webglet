@@ -10,9 +10,15 @@ window.addEvent("domready", function() {
             this.texRenderer = new BasicRenderer('texture-vert',
                                                  'texture-frag');
 
-            this.orthoMatrices = new TransformationMatrices();
+            this.orthoProjection = new MatrixStack();
             mat4.ortho(0, this.options.width, this.options.height, 0, -1, 1,
-                       this.orthoMatrices.projection.matrix);
+                       this.orthoProjection.matrix);
+            this.texRenderer.setUniform('uProjectionMatrix',
+                                        this.orthoProjection.matrix);
+
+            this.orthoModelview = new MatrixStack();
+            this.texRenderer.setUniform('uModelviewMatrix',
+                                        this.orthoModelview.matrix);
 
             this.textureMesh = new RectMesh(163, 75, gl.STATIC_DRAW, null,
                                             null, gl.STATIC_DRAW);
@@ -21,7 +27,7 @@ window.addEvent("domready", function() {
         draw: function() {
             this.clear([1, 1, 1, 1]);
             this.texture.begin();
-            this.texRenderer.render([this.textureMesh], this.orthoMatrices);
+            this.texRenderer.render(this.textureMesh);
             this.texture.end();
         }
     });

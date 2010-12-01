@@ -11,24 +11,13 @@ var BasicRenderer = new Class({
         this.shaderProgram.use();
     },
 
-    render: function(meshes, matrices) {
+    render: function(mesh) {
         this.shaderProgram.use();
-        this.shaderProgram.setUniform('uProjectionMatrix',
-                                      matrices.projection.matrix);
-        for (var i = 0; i < meshes.length; i++) {
-            // Render
-            this.renderMesh(meshes[i], matrices);
-        }
-    },
-
-    renderMesh: function(mesh, matrices) {
-        matrices.modelview.pushMatrix();
-        mesh.transformation.apply(matrices.modelview.matrix);
-        this.shaderProgram.setUniform('uModelviewMatrix',
-                                      matrices.modelview.matrix);
-        matrices.modelview.popMatrix();
-
         mesh.associate(this.shaderProgram);
         mesh.render();
-    }
+    },
+
+    setUniform: function(name, value) {
+        this.shaderProgram.setUniform(name, value);
+    }   
 });

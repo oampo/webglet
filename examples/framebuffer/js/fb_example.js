@@ -8,12 +8,20 @@ window.addEvent("domready", function() {
                                                       this.options.height,
                                                       'basic-renderer-vert',
                                                       'basic-renderer-frag');
-            this.matrices = new TransformationMatrices();
+
+            this.projection = new MatrixStack();
             mat4.perspective(45, this.options.width/this.options.height,
-                            0.1, 100, this.matrices.projection.matrix);
+                             0.1, 100, this.projection.matrix);
+            this.fbRenderer.setUniform('uProjectionMatrix',
+                                       this.projection.matrix);
+
+            this.modelview = new MatrixStack();
             mat4.lookAt([0, 0, 5],
                         [0, 0, 0],
-                        [0, 1, 0], this.matrices.modelview.matrix);
+                        [0, 1, 0], this.modelview.matrix);
+            this.fbRenderer.setUniform('uModelviewMatrix',
+                                       this.modelview.matrix);
+
             this.triangle = new Mesh(3, gl.TRIANGLES, gl.STATIC_DRAW,
                                      gl.STATIC_DRAW);
             this.triangle.vertexBuffer.setValues([ 0.0,  1.0, 0.0,
@@ -22,13 +30,20 @@ window.addEvent("domready", function() {
             this.triangle.colorBuffer.setValues([1.0, 0.0, 0.0, 1.0,
                                                  1.0, 0.0, 0.0, 1.0,
                                                  1.0, 0.0, 0.0, 1.0]);
+
             // For rendering the texture to the screen
             this.texRenderer = new BasicRenderer('texture-renderer-vert',
                                                  'texture-renderer-frag');
 
-            this.orthoMatrices = new TransformationMatrices();
+            this.orthoProjection = new MatrixStack();
             mat4.ortho(0, this.options.width, this.options.height, 0, -1, 1,
-                       this.orthoMatrices.projection.matrix);
+                       this.orthoProjection.matrix);
+            this.texRenderer.setUniform('uProjectionMatrix',
+                                       this.orthoProjection.matrix);
+            
+            this.orthoModelview = new MatrixStack();
+            this.texRenderer.setUniform('uModelviewMatrix',
+                                       this.orthoModelview.matrix);
 
             this.textureMesh = new RectMesh(this.options.width,
                                             this.options.height,
@@ -38,9 +53,9 @@ window.addEvent("domready", function() {
 
         draw: function() {
             this.clear([1, 1, 1, 1]);
-            this.fbRenderer.render([this.triangle], this.matrices);
+            this.fbRenderer.render(this.triangle);
             this.fbRenderer.framebuffer.texture.begin();
-            this.texRenderer.render([this.textureMesh], this.orthoMatrices);
+            this.texRenderer.render(this.textureMesh);
             this.fbRenderer.framebuffer.texture.end();
         }
     });

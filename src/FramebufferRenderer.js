@@ -12,16 +12,12 @@ var FramebufferRenderer = new Class({
         this.framebuffer = new Framebuffer(width, height);
     },
 
-    renderMesh: function(mesh, matrices) {
-        matrices.modelview.pushMatrix();
-        mesh.transformation.apply(matrices.modelview.matrix);
-        this.shaderProgram.setUniform('uModelviewMatrix',
-                                      matrices.modelview.matrix);
-        matrices.modelview.popMatrix();
-
+    render: function(mesh) {
+        this.shaderProgram.use();
         mesh.associate(this.shaderProgram);
         this.framebuffer.begin();
         mesh.render();
         this.framebuffer.end();
     }
+
 });
