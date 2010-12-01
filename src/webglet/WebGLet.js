@@ -383,13 +383,8 @@ var BasicRenderer = new Class({
         this.shaderProgram.use();
     },
 
-    render: function(mesh, uniforms) {
+    render: function(mesh) {
         this.shaderProgram.use();
-        if (uniforms) {
-            Object.each(uniforms, function(value, uniformName) {
-                        this.shaderProgram.setUniform(uniformName, value); 
-            }, this);
-        }
         mesh.associate(this.shaderProgram);
         mesh.render();
     },
@@ -546,14 +541,18 @@ var Framebuffer = new Class({
         this.end();
     },
 
-    begin: function() {
-        this.pushViewport();
+    begin: function(needViewportPush) {
+        if (needViewportPush) {
+            this.pushViewport();
+        }
         gl.bindFramebuffer(gl.FRAMEBUFFER, this.framebuffer);
     },
 
     end: function() {
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-        this.popViewport();
+        if (this.storedViewport) {
+            this.popViewport();
+        }
     },
 
     attachTexture: function(texture) {
@@ -585,6 +584,7 @@ var Framebuffer = new Class({
     popViewport: function() {
         gl.viewport(this.storedViewport[0], this.storedViewport[1],
                     this.storedViewport[2], this.storedViewport[3]);
+        this.storedViewport = null;
     }
 });
 
@@ -602,11 +602,8 @@ var FramebufferRenderer = new Class({
         this.framebuffer = new Framebuffer(width, height);
     },
 
-    render: function(mesh, uniforms) {
+    render: function(mesh) {
         this.shaderProgram.use();
-        Object.each(uniforms, function(value, uniformName) {
-            this.shaderProgram.setUniform(uniformName, value);
-        }, this);
         mesh.associate(this.shaderProgram);
         this.framebuffer.begin();
         mesh.render();
@@ -677,7 +674,6 @@ var Mesh = new Class({
         if (texCoordUsage) {
             this.createBuffer("texCoord", numVertices, 2, texCoordUsage);
         }
-        this.transformation = new Transformation();
     },
 
     createBuffer: function(name, numVertices, stride, usage) {
