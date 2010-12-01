@@ -112,6 +112,7 @@ var ShaderProgram = new Class({
     },
 
     setUniform: function(name, value) {
+        this.use();
         this.uniforms[name].setValue(value);
     },
 
@@ -120,6 +121,7 @@ var ShaderProgram = new Class({
     },
 
     setAttribute: function(name, value) {
+        this.use();
         this.attributes[name].setValue(value);
     }
 });
