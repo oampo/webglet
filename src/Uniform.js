@@ -41,6 +41,9 @@ var Uniform = new Class({
     },
 
     setValue: function(value) {
+        if (typeOf(value) == 'number') {
+            value = [value];
+        }
         if (this.floatFunctions[this.type]) {
             this.setFloat(value);
         }
