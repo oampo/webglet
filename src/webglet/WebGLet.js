@@ -446,6 +446,7 @@ var Buffer = new Class({
  var Texture = new Class({
     initialize: function(width, height) {
         this.texture = gl.createTexture();
+        this.flipped = false;
         this.bind();
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
@@ -476,19 +477,35 @@ var Buffer = new Class({
         return (this.texture);
     },
 
-    load: function(filename) {
-        this.image = new Image();
-        this.image.src = filename;
-        this.image.addEvent('load', function() {
+    flipY: function() {
+        if (!this.flipped) {
             this.bind();
             gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE,
-                          this.image);
             this.end();
+            this.flipped = true;
+        }
+    },
+
+    loadFromFile: function(filename) {
+        var image = new Image();
+        image.src = filename;
+        image.addEvent('load', function() {
+            this.loadFromExisting(image);
         }.bind(this));
-        this.image.src = filename;
+    },
+
+    loadFromExisting: function(image) {
+        this.image = image;
+        this.flipY();
+        this.bind();
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE,
+                      this.image);
+        this.end();
     }
 });
+
+// Alias for backwards compatibility
+Texture.prototype['load'] = Texture.prototype['loadFromFile'];
 
 /**
  * @depends App.js
