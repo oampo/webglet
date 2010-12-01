@@ -21,7 +21,6 @@ var Mesh = new Class({
         if (texCoordUsage) {
             this.createBuffer("texCoord", numVertices, 2, texCoordUsage);
         }
-        this.transformation = new Transformation();
     },
 
     createBuffer: function(name, numVertices, stride, usage) {

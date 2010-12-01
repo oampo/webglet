@@ -383,26 +383,20 @@ var BasicRenderer = new Class({
         this.shaderProgram.use();
     },
 
-    render: function(meshes, matrices) {
+    render: function(mesh, uniforms) {
         this.shaderProgram.use();
-        this.shaderProgram.setUniform('uProjectionMatrix',
-                                      matrices.projection.matrix);
-        for (var i = 0; i < meshes.length; i++) {
-            // Render
-            this.renderMesh(meshes[i], matrices);
+        if (uniforms) {
+            Object.each(uniforms, function(value, uniformName) {
+                        this.shaderProgram.setUniform(uniformName, value); 
+            }, this);
         }
-    },
-
-    renderMesh: function(mesh, matrices) {
-        matrices.modelview.pushMatrix();
-        mesh.transformation.apply(matrices.modelview.matrix);
-        this.shaderProgram.setUniform('uModelviewMatrix',
-                                      matrices.modelview.matrix);
-        matrices.modelview.popMatrix();
-
         mesh.associate(this.shaderProgram);
         mesh.render();
-    }
+    },
+
+    setUniform: function(name, value) {
+        this.shaderProgram.setUniform(name, value);
+    }   
 });
 
 /**
@@ -608,18 +602,17 @@ var FramebufferRenderer = new Class({
         this.framebuffer = new Framebuffer(width, height);
     },
 
-    renderMesh: function(mesh, matrices) {
-        matrices.modelview.pushMatrix();
-        mesh.transformation.apply(matrices.modelview.matrix);
-        this.shaderProgram.setUniform('uModelviewMatrix',
-                                      matrices.modelview.matrix);
-        matrices.modelview.popMatrix();
-
+    render: function(mesh, uniforms) {
+        this.shaderProgram.use();
+        Object.each(uniforms, function(value, uniformName) {
+            this.shaderProgram.setUniform(uniformName, value);
+        }, this);
         mesh.associate(this.shaderProgram);
         this.framebuffer.begin();
         mesh.render();
         this.framebuffer.end();
     }
+
 });
 
 var MatrixStack = new Class({
@@ -739,14 +732,4 @@ var RectMesh = new Class({
     }
 });
 
-
-/**
- * @depends MatrixStack.js
- */
-var TransformationMatrices = new Class({
-    initialize: function() {
-        this.projection = new MatrixStack();
-        this.modelview = new MatrixStack();
-    }
-});
 
