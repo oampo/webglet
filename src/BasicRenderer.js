@@ -13,6 +13,8 @@ var BasicRenderer = new Class({
 
     render: function(meshes, matrices) {
         this.shaderProgram.use();
+        this.shaderProgram.setUniform('uProjectionMatrix',
+                                      matrices.projection.matrix);
         for (var i = 0; i < meshes.length; i++) {
             // Render
             this.renderMesh(meshes[i], matrices);
@@ -22,8 +24,6 @@ var BasicRenderer = new Class({
     renderMesh: function(mesh, matrices) {
         matrices.modelview.pushMatrix();
         mesh.transformation.apply(matrices.modelview.matrix);
-        this.shaderProgram.setUniform('uProjectionMatrix',
-                                      matrices.projection.matrix);
         this.shaderProgram.setUniform('uModelviewMatrix',
                                       matrices.modelview.matrix);
         matrices.modelview.popMatrix();

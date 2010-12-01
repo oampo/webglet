@@ -15,8 +15,6 @@ var FramebufferRenderer = new Class({
     renderMesh: function(mesh, matrices) {
         matrices.modelview.pushMatrix();
         mesh.transformation.apply(matrices.modelview.matrix);
-        this.shaderProgram.setUniform('uProjectionMatrix',
-                                      matrices.projection.matrix);
         this.shaderProgram.setUniform('uModelviewMatrix',
                                       matrices.modelview.matrix);
         matrices.modelview.popMatrix();
