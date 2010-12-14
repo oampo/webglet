@@ -541,9 +541,9 @@ var Framebuffer = new Class({
         this.end();
     },
 
-    begin: function(needViewportPush) {
-        if (needViewportPush) {
-            this.pushViewport();
+    begin: function(storedViewport) {
+        if (storedViewport) {
+            this.pushViewport(storedViewport);
         }
         gl.bindFramebuffer(gl.FRAMEBUFFER, this.framebuffer);
     },
@@ -573,11 +573,8 @@ var Framebuffer = new Class({
         this.end();
     },
 
-    pushViewport: function() {
-        this.storedViewport = gl.getParameter(gl.VIEWPORT);
-        if (!this.storedViewport) {
-            this.storedViewport = gl.getParameter(gl.VIEWPORT_RECT);
-        }
+    pushViewport: function(storedViewport) {
+        this.storedViewport = storedViewport;
         gl.viewport(0, 0, this.width, this.height);
     },
 
@@ -602,10 +599,10 @@ var FramebufferRenderer = new Class({
         this.framebuffer = new Framebuffer(width, height);
     },
 
-    render: function(mesh, needViewportPush) {
+    render: function(mesh, storedViewport) {
         this.shaderProgram.use();
         mesh.associate(this.shaderProgram);
-        this.framebuffer.begin(needViewportPush);
+        this.framebuffer.begin(storedViewport);
         mesh.render();
         this.framebuffer.end();
     }

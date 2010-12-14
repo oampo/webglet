@@ -12,10 +12,10 @@ var FramebufferRenderer = new Class({
         this.framebuffer = new Framebuffer(width, height);
     },
 
-    render: function(mesh, needViewportPush) {
+    render: function(mesh, storedViewport) {
         this.shaderProgram.use();
         mesh.associate(this.shaderProgram);
-        this.framebuffer.begin(needViewportPush);
+        this.framebuffer.begin(storedViewport);
         mesh.render();
         this.framebuffer.end();
     }
