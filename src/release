@@ -25,6 +25,7 @@ cp -r glmatrix releases/$RELEASE_NAME
 cp -r firebugx releases/$RELEASE_NAME
 cp -r mixins releases/$RELEASE_NAME
 cp -r webgl-debug releases/$RELEASE_NAME
+cp -r images releases/$RELEASE_NAME
 
 # Copy license
 cp LICENSE releases/$RELEASE_NAME
