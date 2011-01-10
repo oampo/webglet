@@ -35,17 +35,23 @@ var App = new Class({
         }
         else {
             var alertDiv = new Element('div', {'class': 'webglet-alert'});
-            alertDiv.set('html', '<strong>WebGL not enabled</strong><br/>For instructions on how to get a WebGL enabled browser <a href="http://www.khronos.org/webgl/wiki/Getting_a_WebGL_Implementation">click here</a>');
+            var alertString = '<strong>WebGL not enabled</strong><br/>For ' +
+                'instructions on how to get a WebGL enabled browser <a ' +
+                'href="http://www.khronos.org/webgl/wiki/' +
+                'Getting_a_WebGL_Implementation">click here</a>';
+            alertDiv.set('html', alertString);
             alertDiv.inject(this.element);
             var scripts = $$('script');
-            for (var i=0; i<scripts.length; i++) {
+            for (var i = 0; i < scripts.length; i++) {
                 var src = scripts[i].getProperty('src');
                 if (src) {
                     src = src.trim();
                     var index = src.search('WebGLet.js$|WebGLet.min.js$');
                     if (index != -1) {
                         src = src.slice(0, index) + 'images/error.png';
-                        var image = new Element('img', {'src': src, style: 'float: left'});
+                        var image = new Element('img',
+                                                {'src': src,
+                                                 'style': 'float: left'});
                         image.inject(alertDiv, 'top');
                     }
                 }

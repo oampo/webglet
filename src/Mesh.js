@@ -11,15 +11,15 @@ var Mesh = new Class({
         this.drawMode = drawMode;
         this.buffers = {};
 
-        this.createBuffer("vertex", numVertices, 3, vertexUsage);
+        this.createBuffer('vertex', numVertices, 3, vertexUsage);
         if (colorUsage) {
-            this.createBuffer("color", numVertices, 4, colorUsage);
+            this.createBuffer('color', numVertices, 4, colorUsage);
         }
         if (normalUsage) {
-            this.createBuffer("normal", numVertices, 3, normalUsage);
+            this.createBuffer('normal', numVertices, 3, normalUsage);
         }
         if (texCoordUsage) {
-            this.createBuffer("texCoord", numVertices, 2, texCoordUsage);
+            this.createBuffer('texCoord', numVertices, 2, texCoordUsage);
         }
     },
 
@@ -27,8 +27,8 @@ var Mesh = new Class({
         this.buffers[name] = new Buffer(numVertices, stride, usage);
         // Also store the buffer in this, for ease of access and backwards
         // compatibility
-        this[name + 'Buffer'] = this.buffers[name]
-    },  
+        this[name + 'Buffer'] = this.buffers[name];
+    },
 
     associate: function(shaderProgram) {
         Object.each(this.buffers, function(buffer, bufferName) {
@@ -36,7 +36,8 @@ var Mesh = new Class({
             var attributeName = 'a' + bufferName.capitalize();
             var attribute = shaderProgram.getAttribute(attributeName);
             if (!attribute) {
-                console.error('Could not associate ' + attributeName + ' attribute');
+                console.error('Could not associate ' + attributeName +
+                              ' attribute');
             }
             buffer.associate(attribute);
         }, this);

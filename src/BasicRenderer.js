@@ -19,5 +19,5 @@ var BasicRenderer = new Class({
 
     setUniform: function(name, value) {
         this.shaderProgram.setUniform(name, value);
-    }   
+    }
 });

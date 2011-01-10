@@ -12,9 +12,9 @@ var RectMesh = new Class({
                                                vertexUsage, colorUsage,
                                                normalUsage, texCoordUsage]);
 
-        this.vertexBuffer.setValues([0,     0,      0,
-                                     0,     height, 0,
-                                     width, 0,      0,
+        this.vertexBuffer.setValues([0, 0, 0,
+                                     0, height, 0,
+                                     width, 0, 0,
                                      width, height, 0]);
         if (texCoordUsage) {
             this.texCoordBuffer.setValues([0, 1,
