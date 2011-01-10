@@ -8,7 +8,7 @@ var AudioOutput = new Class({
         this.overflow = null;
         this.writePosition = 0;
 
-        if (typeof this.output.mozSetup === 'function' ) {
+        if (typeof this.output.mozSetup === 'function') {
             this.output.mozSetup(this.numChannels, this.sampleRate);
             this.audioEnabled = true;
         }
@@ -40,7 +40,8 @@ var AudioOutput = new Class({
 
         // Check if we need add some data to the audio output.
         var outputPosition = this.output.mozCurrentSampleOffset();
-        var samplesNeeded = outputPosition + this.bufferSize - this.writePosition;
+        var samplesNeeded = outputPosition + this.bufferSize -
+                            this.writePosition;
         if (samplesNeeded > 0) {
             // Request some sound data from the callback function.
             var buffer = this.audioRequested(Math.floor(samplesNeeded));

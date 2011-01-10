@@ -1,11 +1,11 @@
 var MouseEvents = new Class({
     initMouseEvents: function() {
-        this.canvas.addEvent("click", this.preMouseClicked.bind(this));
-        this.canvas.addEvent("mousedown", this.preMousePressed.bind(this));
-        this.canvas.addEvent("mouseup", this.preMouseReleased.bind(this));
-        this.canvas.addEvent("mousemove", this.preMouseMoved.bind(this)); 
+        this.canvas.addEvent('click', this.preMouseClicked.bind(this));
+        this.canvas.addEvent('mousedown', this.preMousePressed.bind(this));
+        this.canvas.addEvent('mouseup', this.preMouseReleased.bind(this));
+        this.canvas.addEvent('mousemove', this.preMouseMoved.bind(this));
     },
-   
+
     preMouseClicked: function(event) {
         var position = this.canvas.getPosition();
         this.mouseClicked(event.page.x - position.x,

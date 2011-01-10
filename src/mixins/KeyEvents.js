@@ -1,7 +1,7 @@
 var KeyEvents = new Class({
     initKeyEvents: function() {
-        document.addEvent("keydown", this.preKeyPressed.bind(this));
-        document.addEvent("keyup", this.preKeyReleased.bind(this));
+        document.addEvent('keydown', this.preKeyPressed.bind(this));
+        document.addEvent('keyup', this.preKeyReleased.bind(this));
     },
 
     preKeyPressed: function(event) {
@@ -16,5 +16,5 @@ var KeyEvents = new Class({
     },
 
     keyReleased: function(key) {
-    }   
+    }
 });
