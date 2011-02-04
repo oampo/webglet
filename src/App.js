@@ -69,18 +69,20 @@ var App = new Class({
                      Int32Array, Uint32Array, Float32Array, Float64Array];
         var original, shim;
         for (var i = 0; i < types.length; ++i) {
-            if (types[i].prototype.slice === undefined) {
-                original = "subset";
-                shim = "slice";
+            if (types[i]) {
+                if (types[i].prototype.slice === undefined) {
+                    original = "subset";
+                    shim = "slice";
+                }
+                else if (types[i].prototype.subset === undefined) {
+                    original = "slice";
+                    shim = "subset";
+                }
+                Object.defineProperty(types[i].prototype, shim, {
+                    value: types[i].prototype[original],
+                    enumerable: false
+                });
             }
-            else if (types[i].prototype.subset === undefined) {
-                original = "slice";
-                shim = "subset";
-            }
-            Object.defineProperty(types[i].prototype, shim, {
-                value: types[i].prototype[original],
-                enumerable: false
-            });
         }
     },
 

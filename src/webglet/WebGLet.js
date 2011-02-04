@@ -12,6 +12,7 @@ var App = new Class({
     initialize: function(element, options) {
         this.setOptions(options);
         this.element = element;
+        this.typedArraySubsetShim();
         this.createCanvas();
         this.frameCount = 0;
     },
@@ -35,20 +36,52 @@ var App = new Class({
         }
         else {
             var alertDiv = new Element('div', {'class': 'webglet-alert'});
-            alertDiv.set('html', '<strong>WebGL not enabled</strong><br/>For instructions on how to get a WebGL enabled browser <a href="http://www.khronos.org/webgl/wiki/Getting_a_WebGL_Implementation">click here</a>');
+            var alertString = '<strong>WebGL not enabled</strong><br/>For ' +
+                'instructions on how to get a WebGL enabled browser <a ' +
+                'href="http://www.khronos.org/webgl/wiki/' +
+                'Getting_a_WebGL_Implementation">click here</a>';
+            alertDiv.set('html', alertString);
             alertDiv.inject(this.element);
             var scripts = $$('script');
-            for (var i=0; i<scripts.length; i++) {
+            for (var i = 0; i < scripts.length; i++) {
                 var src = scripts[i].getProperty('src');
                 if (src) {
                     src = src.trim();
                     var index = src.search('WebGLet.js$|WebGLet.min.js$');
                     if (index != -1) {
                         src = src.slice(0, index) + 'images/error.png';
-                        var image = new Element('img', {'src': src, style: 'float: left'});
+                        var image = new Element('img',
+                                                {'src': src,
+                                                 'style': 'float: left'});
                         image.inject(alertDiv, 'top');
                     }
                 }
+            }
+        }
+    },
+
+
+    typedArraySubsetShim: function() {
+        // Forward/backward compatibility shim for change from slice -> subset
+        var Int8Array, Uint8Array, Int16Array, Uint16Array;
+        var Int32Array, Uint32Array, Float32Array, Float64Array;
+        var types = [Int8Array, Uint8Array, Int16Array, Uint16Array,
+                     Int32Array, Uint32Array, Float32Array, Float64Array];
+        var original, shim;
+        for (var i = 0; i < types.length; ++i) {
+            if (types[i]) {
+                if (types[i].prototype.slice === undefined) {
+                    original = "subset";
+                    shim = "slice";
+                }
+                else if (types[i].prototype.subset === undefined) {
+                    original = "slice";
+                    shim = "subset";
+                }
+                Object.defineProperty(types[i].prototype, shim, {
+                    value: types[i].prototype[original],
+                    enumerable: false
+                });
             }
         }
     },
@@ -62,7 +95,12 @@ var App = new Class({
     },
 
     run: function() {
-        this.preDraw.periodical(1000 / this.options.frameRate, this);
+        this.timer = this.preDraw.periodical(1000 / this.options.frameRate,
+                                             this);
+    },
+
+    stop: function() {
+        clearInterval(this.timer);
     },
 
     clear: function(color) {
@@ -404,7 +442,7 @@ var BasicRenderer = new Class({
 
     setUniform: function(name, value) {
         this.shaderProgram.setUniform(name, value);
-    }   
+    }
 });
 
 /**
@@ -425,8 +463,14 @@ var Buffer = new Class({
         this.array = new Float32Array(numItems * itemSize);
     },
 
+    getBuffer: function() {
+        return(this.buffer);
+    },
+
     setValues: function(values) {
-        this.array.set(values);
+        if (values) {
+            this.array.set(values);
+        }
         this.bind();
         gl.bufferSubData(gl.ARRAY_BUFFER, 0, this.array);
     },
@@ -674,15 +718,15 @@ var Mesh = new Class({
         this.drawMode = drawMode;
         this.buffers = {};
 
-        this.createBuffer("vertex", numVertices, 3, vertexUsage);
+        this.createBuffer('vertex', numVertices, 3, vertexUsage);
         if (colorUsage) {
-            this.createBuffer("color", numVertices, 4, colorUsage);
+            this.createBuffer('color', numVertices, 4, colorUsage);
         }
         if (normalUsage) {
-            this.createBuffer("normal", numVertices, 3, normalUsage);
+            this.createBuffer('normal', numVertices, 3, normalUsage);
         }
         if (texCoordUsage) {
-            this.createBuffer("texCoord", numVertices, 2, texCoordUsage);
+            this.createBuffer('texCoord', numVertices, 2, texCoordUsage);
         }
     },
 
@@ -690,8 +734,8 @@ var Mesh = new Class({
         this.buffers[name] = new Buffer(numVertices, stride, usage);
         // Also store the buffer in this, for ease of access and backwards
         // compatibility
-        this[name + 'Buffer'] = this.buffers[name]
-    },  
+        this[name + 'Buffer'] = this.buffers[name];
+    },
 
     associate: function(shaderProgram) {
         Object.each(this.buffers, function(buffer, bufferName) {
@@ -699,7 +743,8 @@ var Mesh = new Class({
             var attributeName = 'a' + bufferName.capitalize();
             var attribute = shaderProgram.getAttribute(attributeName);
             if (!attribute) {
-                console.error('Could not associate ' + attributeName + ' attribute');
+                console.error('Could not associate ' + attributeName +
+                              ' attribute');
             }
             buffer.associate(attribute);
         }, this);
@@ -725,9 +770,9 @@ var RectMesh = new Class({
                                                vertexUsage, colorUsage,
                                                normalUsage, texCoordUsage]);
 
-        this.vertexBuffer.setValues([0,     0,      0,
-                                     0,     height, 0,
-                                     width, 0,      0,
+        this.vertexBuffer.setValues([0, 0, 0,
+                                     0, height, 0,
+                                     width, 0, 0,
                                      width, height, 0]);
         if (texCoordUsage) {
             this.texCoordBuffer.setValues([0, 1,
