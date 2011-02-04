@@ -32,7 +32,7 @@ var AudioOutput = new Class({
             if (numSamplesWritten < this.overflow.length) {
                 // Not all the data was written, saving the tail for writing
                 // the next time fillBuffer is called
-                this.overflow = this.overflow.subset(numSamplesWritten);
+                this.overflow = this.overflow.subarray(numSamplesWritten);
                 return;
             }
             tail = null;
@@ -50,7 +50,7 @@ var AudioOutput = new Class({
             numSamplesWritten = this.output.mozWriteAudio(buffer);
             if (numSamplesWritten < buffer.length) {
                 // Not all the data was written, saving the tail.
-                this.overflow = buffer.subset(numSamplesWritten);
+                this.overflow = buffer.subarray(numSamplesWritten);
             }
             this.writePosition += numSamplesWritten;
         }

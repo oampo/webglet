@@ -62,7 +62,7 @@ var App = new Class({
 
 
     typedArraySubsetShim: function() {
-        // Forward/backward compatibility shim for change from slice -> subset
+        // Forward/backward compatibility shim for change from slice -> subarray
         var Int8Array, Uint8Array, Int16Array, Uint16Array;
         var Int32Array, Uint32Array, Float32Array, Float64Array;
         var types = [Int8Array, Uint8Array, Int16Array, Uint16Array,
@@ -71,12 +71,12 @@ var App = new Class({
         for (var i = 0; i < types.length; ++i) {
             if (types[i]) {
                 if (types[i].prototype.slice === undefined) {
-                    original = "subset";
+                    original = "subarray";
                     shim = "slice";
                 }
-                else if (types[i].prototype.subset === undefined) {
+                else if (types[i].prototype.subarray === undefined) {
                     original = "slice";
-                    shim = "subset";
+                    shim = "subarray";
                 }
                 Object.defineProperty(types[i].prototype, shim, {
                     value: types[i].prototype[original],
