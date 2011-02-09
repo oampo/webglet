@@ -1,5 +1,29 @@
 var gl;
 
+// Shim for subarray/slice
+var Int8Array, Uint8Array, Int16Array, Uint16Array;
+var Int32Array, Uint32Array, Float32Array, Float64Array;
+var types = [Int8Array, Uint8Array, Int16Array, Uint16Array,
+             Int32Array, Uint32Array, Float32Array, Float64Array];
+var original, shim;
+for (var i = 0; i < types.length; ++i) {
+    if (types[i]) {
+        if (types[i].prototype.slice === undefined) {
+            original = "subarray";
+            shim = "slice";
+        }
+        else if (types[i].prototype.subarray === undefined) {
+            original = "slice";
+            shim = "subarray";
+        }
+        Object.defineProperty(types[i].prototype, shim, {
+            value: types[i].prototype[original],
+            enumerable: false
+        });
+    }
+}
+
+
 var App = new Class({
     Implements: Options,
     options: {
@@ -12,7 +36,6 @@ var App = new Class({
     initialize: function(element, options) {
         this.setOptions(options);
         this.element = element;
-        this.typedArraySubsetShim();
         this.createCanvas();
         this.frameCount = 0;
     },
@@ -56,32 +79,6 @@ var App = new Class({
                         image.inject(alertDiv, 'top');
                     }
                 }
-            }
-        }
-    },
-
-
-    typedArraySubsetShim: function() {
-        // Forward/backward compatibility shim for change from slice -> subarray
-        var Int8Array, Uint8Array, Int16Array, Uint16Array;
-        var Int32Array, Uint32Array, Float32Array, Float64Array;
-        var types = [Int8Array, Uint8Array, Int16Array, Uint16Array,
-                     Int32Array, Uint32Array, Float32Array, Float64Array];
-        var original, shim;
-        for (var i = 0; i < types.length; ++i) {
-            if (types[i]) {
-                if (types[i].prototype.slice === undefined) {
-                    original = "subarray";
-                    shim = "slice";
-                }
-                else if (types[i].prototype.subarray === undefined) {
-                    original = "slice";
-                    shim = "subarray";
-                }
-                Object.defineProperty(types[i].prototype, shim, {
-                    value: types[i].prototype[original],
-                    enumerable: false
-                });
             }
         }
     },
