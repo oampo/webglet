@@ -4,20 +4,18 @@
  * @depends Framebuffer.js
  */
 
-var FramebufferRenderer = new Class({
-    Extends: BasicRenderer,
-    initialize: function(width, height, vertexShader, fragmentShader) {
-        BasicRenderer.prototype.initialize.apply(this, [vertexShader,
-                                                        fragmentShader]);
-        this.framebuffer = new Framebuffer(width, height);
-    },
+var FramebufferRenderer = function(width, height,
+                                   vertexShader, fragmentShader) {
+    BasicRenderer.call(this, vertexShader, fragmentShader);
+    this.framebuffer = new Framebuffer(width, height);
+};
+extend(FramebufferRenderer, BasicRenderer);
 
-    render: function(mesh, storedViewport) {
-        this.shaderProgram.use();
-        mesh.associate(this.shaderProgram);
-        this.framebuffer.begin(storedViewport);
-        mesh.render();
-        this.framebuffer.end();
-    }
+FramebufferRenderer.prototype.render = function(mesh, storedViewport) {
+    this.shaderProgram.use();
+    mesh.associate(this.shaderProgram);
+    this.framebuffer.begin(storedViewport);
+    mesh.render();
+    this.framebuffer.end();
+};
 
-});

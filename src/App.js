@@ -24,85 +24,84 @@ for (var i = 0; i < types.length; ++i) {
 }
 
 
-var App = new Class({
-    Implements: Options,
-    options: {
+var App = function(element, options) {
+    this.options = {
         name: 'webglet-app',
         width: 800,
         height: 600,
         frameRate: 60
-    },
+    };
+    for (var option in options) {
+        this.options[option] = options[option];
+    }
+    this.element = element;
+    this.createCanvas();
+    this.frameCount = 0;
+};
 
-    initialize: function(element, options) {
-        this.setOptions(options);
-        this.element = element;
-        this.createCanvas();
-        this.frameCount = 0;
-    },
+App.prototype.createCanvas = function() {
+    this.canvas = document.createElement("canvas");
+    this.canvas.width = this.options.width;
+    this.canvas.height = this.options.height;
+    this.canvas.id = this.options.name;
+    try {
+        gl = this.canvas.getContext('experimental-webgl');
+        if (this.options.debug) {
+            gl = WebGLDebugUtils.makeDebugContext(gl);
+        }
+        gl.viewport(0, 0, this.options.width, this.options.height);
+    }
+    catch (error) {
+    }
 
-    createCanvas: function() {
-        this.canvas = new Element('canvas', {'id': this.options.name,
-                                             'width': this.options.width,
-                                             'height': this.options.height});
-        try {
-            gl = this.canvas.getContext('experimental-webgl');
-            if (this.options.debug) {
-                gl = WebGLDebugUtils.makeDebugContext(gl);
-            }
-            gl.viewport(0, 0, this.options.width, this.options.height);
-        }
-        catch (error) {
-        }
-
-        if (gl) {
-            this.canvas.inject(this.element);
-        }
-        else {
-            var alertDiv = new Element('div', {'class': 'webglet-alert'});
-            var alertString = '<strong>WebGL not enabled</strong><br/>For ' +
-                'instructions on how to get a WebGL enabled browser <a ' +
-                'href="http://www.khronos.org/webgl/wiki/' +
-                'Getting_a_WebGL_Implementation">click here</a>';
-            alertDiv.set('html', alertString);
-            alertDiv.inject(this.element);
-            var scripts = $$('script');
-            for (var i = 0; i < scripts.length; i++) {
-                var src = scripts[i].getProperty('src');
-                if (src) {
-                    src = src.trim();
-                    var index = src.search('WebGLet.js$|WebGLet.min.js$');
-                    if (index != -1) {
-                        src = src.slice(0, index) + 'images/error.png';
-                        var image = new Element('img',
-                                                {'src': src,
-                                                 'style': 'float: left'});
-                        image.inject(alertDiv, 'top');
-                    }
+    if (gl) {
+        this.element.appendChild(this.canvas);
+    }
+    else {
+        var alertDiv = document.createElement('div');
+        var alertString = '<strong>WebGL not enabled</strong><br/>For ' +
+            'instructions on how to get a WebGL enabled browser <a ' +
+            'href="http://www.khronos.org/webgl/wiki/' +
+            'Getting_a_WebGL_Implementation">click here</a>';
+        alertDiv.innerHTML = alertString;
+        this.element.appendChild(alertDiv);
+        var scripts = document.getElementsByTagName('script');
+        for (var i = 0; i < scripts.length; i++) {
+            var src = scripts[i].src;
+            if (src) {
+                src = src.trim();
+                var index = src.search('WebGLet.js$|WebGLet.min.js$');
+                if (index != -1) {
+                    src = src.slice(0, index) + 'images/error.png';
+                    var image = document.createElement('img');
+                    image.src = src;
+                    img.style = 'float: left';
+                    alertDiv.insertBefore(img, alertDiv.firstChild);
                 }
             }
         }
-    },
-
-    preDraw: function() {
-        this.frameCount += 1;
-        this.draw();
-    },
-
-    draw: function() {
-    },
-
-    run: function() {
-        this.timer = this.preDraw.periodical(1000 / this.options.frameRate,
-                                             this);
-    },
-
-    stop: function() {
-        clearInterval(this.timer);
-    },
-
-    clear: function(color) {
-        gl.clearColor(color[0], color[1], color[2], color[3]);
-        gl.clear(gl.COLOR_BUFFER_BIT);
     }
-});
+};
+
+App.prototype.preDraw = function() {
+    this.frameCount += 1;
+    this.draw();
+};
+
+App.prototype.draw = function() {
+};
+
+App.prototype.run = function() {
+    this.timer = setInterval(this.preDraw.bind(this),
+                             1000 / this.options.frameRate);
+};
+
+App.prototype.stop = function() {
+    clearInterval(this.timer);
+};
+
+App.prototype.clear = function(color) {
+    gl.clearColor(color[0], color[1], color[2], color[3]);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+};
 
