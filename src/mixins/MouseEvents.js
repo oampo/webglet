@@ -1,44 +1,44 @@
-var MouseEvents = new Class({
-    initMouseEvents: function() {
-        this.canvas.addEvent('click', this.preMouseClicked.bind(this));
-        this.canvas.addEvent('mousedown', this.preMousePressed.bind(this));
-        this.canvas.addEvent('mouseup', this.preMouseReleased.bind(this));
-        this.canvas.addEvent('mousemove', this.preMouseMoved.bind(this));
-    },
+var MouseEvents = {};
 
-    preMouseClicked: function(event) {
-        var position = this.canvas.getPosition();
-        this.mouseClicked(event.page.x - position.x,
-                          event.page.y - position.y);
-    },
+MouseEvents.initMouseEvents = function() {
+    this.canvas.onclick = this.preMouseClicked.bind(this);
+    this.canvas.onmousedown = this.preMousePressed.bind(this);
+    this.canvas.onmouseup = this.preMouseReleased.bind(this);
+    this.canvas.onmousemove = this.preMouseMoved.bind(this);
+};
 
-    mouseClicked: function(mouseX, mouseY) {
-    },
+MouseEvents.preMouseClicked = function(event) {
+    var position = this.getCanvasPosition();
+    this.mouseClicked(event.pageX - position[0],
+                      event.pageY - position[1]);
+};
 
-    preMousePressed: function(event) {
-        var position = this.canvas.getPosition();
-        this.mousePressed(event.page.x - position.x,
-                          event.page.y - position.y);
-    },
+MouseEvents.mouseClicked = function(mouseX, mouseY) {
+};
 
-    mousePressed: function(mouseX, mouseY) {
-    },
+MouseEvents.preMousePressed = function(event) {
+    var position = this.getCanvasPosition();
+    this.mousePressed(event.pageX - position[0],
+                      event.pageY - position[1]);
+};
 
-    preMouseReleased: function(event) {
-        var position = this.canvas.getPosition();
-        this.mouseReleased(event.page.x - position.x,
-                           event.page.y - position.y);
-    },
+MouseEvents.mousePressed = function(mouseX, mouseY) {
+};
 
-    mouseReleased: function(mouseX, mouseY) {
-    },
+MouseEvents.preMouseReleased = function(event) {
+    var position = this.getCanvasPosition();
+    this.mouseReleased(event.pageX - position[0],
+                       event.pageY - position[1]);
+};
 
-    preMouseMoved: function(event) {
-        var position = this.canvas.getPosition();
-        this.mouseMoved(event.page.x - position.x,
-                        event.page.y - position.y);
-    },
+MouseEvents.mouseReleased = function(mouseX, mouseY) {
+};
 
-    mouseMoved: function(mouseX, mouseY) {
-    }
-});
+MouseEvents.preMouseMoved = function(event) {
+    var position = this.getCanvasPosition();
+    this.mouseMoved(event.pageX - position[0],
+                    event.pageY - position[1]);
+};
+
+MouseEvents.mouseMoved = function(mouseX, mouseY) {
+};

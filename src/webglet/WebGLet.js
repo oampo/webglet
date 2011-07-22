@@ -105,6 +105,17 @@ App.prototype.clear = function(color) {
     gl.clear(gl.COLOR_BUFFER_BIT);
 };
 
+App.prototype.getCanvasPosition = function() {
+    var left = 0;
+    var top = 0;
+    var object = this.canvas;
+    do {
+        left += object.offsetLeft;
+        top += object.offsetTop;
+    } while (object = object.offsetParent);
+    return [left, top];
+};
+
 
 /**
  * @depends App.js
@@ -656,6 +667,19 @@ FramebufferRenderer.prototype.render = function(mesh, storedViewport) {
     this.framebuffer.end();
 };
 
+
+/*
+ * A method for mixing in functions to a class.
+ * Taken from http://michaux.ca/articles/transitioning-from-java-classes-to-javascript-prototypes
+ *
+ * @param {Object} subclass The class to mix into.
+ * @param {Object} superclass The class containing the functions to mix in.
+ */
+function implement(subclass, superclass) {
+    for (var fn in superclass) {
+        subclass.prototype[fn] = superclass[fn];
+    }
+}
 
 var MatrixStack = function() {
     this.stack = [];

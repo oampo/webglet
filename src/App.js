@@ -105,3 +105,14 @@ App.prototype.clear = function(color) {
     gl.clear(gl.COLOR_BUFFER_BIT);
 };
 
+App.prototype.getCanvasPosition = function() {
+    var left = 0;
+    var top = 0;
+    var object = this.canvas;
+    do {
+        left += object.offsetLeft;
+        top += object.offsetTop;
+    } while (object = object.offsetParent);
+    return [left, top];
+};
+
