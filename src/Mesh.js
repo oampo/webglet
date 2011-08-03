@@ -44,7 +44,10 @@ Mesh.prototype.associate = function(shaderProgram) {
     }
 };
 
-Mesh.prototype.render = function() {
-    gl.drawArrays(this.drawMode, 0, this.numVertices);
+Mesh.prototype.render = function(offset, numberOfVertices) {
+    if (numberOfVertices == null) {
+        numberOfVertices = this.numVertices;
+    }
+    gl.drawArrays(this.drawMode, offset || 0, numberOfVertices);
 };
 
