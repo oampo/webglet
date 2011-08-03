@@ -23,13 +23,26 @@ for (var i = 0; i < types.length; ++i) {
     }
 }
 
+// Shim for requestAnimationFrame
+window.requestAnimationFrame = (function(){
+    return window.requestAnimationFrame       || 
+           window.webkitRequestAnimationFrame || 
+           window.mozRequestAnimationFrame    || 
+           window.oRequestAnimationFrame      || 
+           window.msRequestAnimationFrame     || 
+           function(/* function */ callback, /* DOMElement */ element){
+               window.setTimeout(callback, 1000 / 60);
+           };
+})();
+
 
 var App = function(element, options) {
     this.options = {
         name: 'webglet-app',
         width: 800,
         height: 600,
-        frameRate: 60
+        frameRate: 60,
+        antialias: true
     };
     for (var option in options) {
         this.options[option] = options[option];
@@ -37,6 +50,7 @@ var App = function(element, options) {
     this.element = element;
     this.createCanvas();
     this.frameCount = 0;
+    this.running = false;
 };
 
 App.prototype.createCanvas = function() {
@@ -45,7 +59,9 @@ App.prototype.createCanvas = function() {
     this.canvas.height = this.options.height;
     this.canvas.id = this.options.name;
     try {
-        gl = this.canvas.getContext('experimental-webgl');
+        gl = this.canvas.getContext('experimental-webgl', {
+                                        antialias: this.options.antialias
+                                    });
         if (this.options.debug) {
             gl = WebGLDebugUtils.makeDebugContext(gl);
         }
@@ -61,8 +77,7 @@ App.prototype.createCanvas = function() {
         var alertDiv = document.createElement('div');
         var alertString = '<strong>WebGL not enabled</strong><br/>For ' +
             'instructions on how to get a WebGL enabled browser <a ' +
-            'href="http://www.khronos.org/webgl/wiki/' +
-            'Getting_a_WebGL_Implementation">click here</a>';
+            'href="http://get.webgl.org">click here</a>';
         alertDiv.innerHTML = alertString;
         this.element.appendChild(alertDiv);
         var scripts = document.getElementsByTagName('script');
@@ -86,18 +101,21 @@ App.prototype.createCanvas = function() {
 App.prototype.preDraw = function() {
     this.frameCount += 1;
     this.draw();
+    if (this.running) {
+        requestAnimationFrame(this.preDraw.bind(this), this.canvas);
+    }
 };
 
 App.prototype.draw = function() {
 };
 
 App.prototype.run = function() {
-    this.timer = setInterval(this.preDraw.bind(this),
-                             1000 / this.options.frameRate);
+    this.running = true;
+    requestAnimationFrame(this.preDraw.bind(this), this.canvas);
 };
 
 App.prototype.stop = function() {
-    clearInterval(this.timer);
+    this.running = false;
 };
 
 App.prototype.clear = function(color) {
@@ -430,10 +448,10 @@ var BasicRenderer = function(vertexShader, fragmentShader) {
     this.shaderProgram.use();
 };
 
-BasicRenderer.prototype.render = function(mesh) {
+BasicRenderer.prototype.render = function(mesh, offset, numberOfVertices) {
     this.shaderProgram.use();
     mesh.associate(this.shaderProgram);
-    mesh.render();
+    mesh.render(offset, numberOfVertices);
 };
 
 BasicRenderer.prototype.setUniform = function(name, value) {
@@ -659,11 +677,12 @@ var FramebufferRenderer = function(width, height,
 };
 extend(FramebufferRenderer, BasicRenderer);
 
-FramebufferRenderer.prototype.render = function(mesh, storedViewport) {
+FramebufferRenderer.prototype.render = function(mesh, offset, numberOfVertices,
+                                                storedViewport) {
     this.shaderProgram.use();
     mesh.associate(this.shaderProgram);
     this.framebuffer.begin(storedViewport);
-    mesh.render();
+    mesh.render(offset, numberOfVertices);
     this.framebuffer.end();
 };
 
@@ -762,8 +781,11 @@ Mesh.prototype.associate = function(shaderProgram) {
     }
 };
 
-Mesh.prototype.render = function() {
-    gl.drawArrays(this.drawMode, 0, this.numVertices);
+Mesh.prototype.render = function(offset, numberOfVertices) {
+    if (numberOfVertices == null) {
+        numberOfVertices = this.numVertices;
+    }
+    gl.drawArrays(this.drawMode, offset || 0, numberOfVertices);
 };
 
 
