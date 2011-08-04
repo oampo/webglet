@@ -88,8 +88,8 @@ App.prototype.createCanvas = function() {
                 var index = src.search('WebGLet.js$|WebGLet.min.js$');
                 if (index != -1) {
                     src = src.slice(0, index) + 'images/error.png';
-                    var image = document.createElement('img');
-                    image.src = src;
+                    var img = document.createElement('img');
+                    img.src = src;
                     img.style = 'float: left';
                     alertDiv.insertBefore(img, alertDiv.firstChild);
                 }
