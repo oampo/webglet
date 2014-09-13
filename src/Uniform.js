@@ -1,7 +1,3 @@
-/**
- * @depends App.js
- */
-
 var Uniform = function(uniformInfo, program) {
     this.size = uniformInfo.size;
     this.type = uniformInfo.type;

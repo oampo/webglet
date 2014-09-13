@@ -1,9 +1,3 @@
-/**
- * @depends App.js
- * @depends Buffer.js
- * @depends Transformation.js
- */
-
 var Mesh = function(numVertices, drawMode, vertexUsage, colorUsage,
                     normalUsage, texCoordUsage) {
     this.numVertices = numVertices;

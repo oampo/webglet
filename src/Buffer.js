@@ -1,7 +1,3 @@
-/**
- * @depends App.js
- */
-
 var Buffer = function(numItems, itemSize, usage) {
     this.numVertices = numItems;
     this.itemSize = itemSize;

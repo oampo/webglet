@@ -1,10 +1,3 @@
-/**
- * @depends App.js
- * @depends Shader.js
- * @depends Attribute.js
- * @depends Uniform.js
- */
-
 var ShaderProgram = function() {
     this.program = null;
     this.shaders = {};

@@ -13,7 +13,7 @@ MouseEvents.preMouseClicked = function(event) {
                       event.pageY - position[1]);
 };
 
-MouseEvents.mouseClicked = function(mouseX, mouseY) {
+MouseEvents.mouseClicked = function() {
 };
 
 MouseEvents.preMousePressed = function(event) {
@@ -22,7 +22,7 @@ MouseEvents.preMousePressed = function(event) {
                       event.pageY - position[1]);
 };
 
-MouseEvents.mousePressed = function(mouseX, mouseY) {
+MouseEvents.mousePressed = function() {
 };
 
 MouseEvents.preMouseReleased = function(event) {
@@ -31,7 +31,7 @@ MouseEvents.preMouseReleased = function(event) {
                        event.pageY - position[1]);
 };
 
-MouseEvents.mouseReleased = function(mouseX, mouseY) {
+MouseEvents.mouseReleased = function() {
 };
 
 MouseEvents.preMouseMoved = function(event) {
@@ -40,5 +40,5 @@ MouseEvents.preMouseMoved = function(event) {
                     event.pageY - position[1]);
 };
 
-MouseEvents.mouseMoved = function(mouseX, mouseY) {
+MouseEvents.mouseMoved = function() {
 };

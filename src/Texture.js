@@ -1,7 +1,3 @@
-/**
- * @depends App.js
- */
-
 var Texture = function(width, height) {
     this.texture = gl.createTexture();
     this.flipped = false;

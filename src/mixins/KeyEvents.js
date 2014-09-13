@@ -18,7 +18,7 @@ KeyEvents.preKeyPressed = function(event) {
     this.keyPressed(key);
 };
 
-KeyEvents.keyPressed = function(key) {
+KeyEvents.keyPressed = function() {
 };
 
 KeyEvents.preKeyReleased = function(event) {
@@ -30,7 +30,7 @@ KeyEvents.preKeyReleased = function(event) {
     this.keyReleased(key);
 };
 
-KeyEvents.keyReleased = function(key) {
+KeyEvents.keyReleased = function() {
 };
 
 KeyEvents.KEYS = {

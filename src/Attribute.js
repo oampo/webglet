@@ -1,7 +1,3 @@
-/**
- * @depends App.js
- */
-
 var Attribute = function(attribInfo, program) {
     this.size = attribInfo.size;
     this.type = attribInfo.type;

@@ -1,8 +1,3 @@
-/**
- * @depends App.js
- * @depends ShaderProgram.js
- */
-
 var BasicRenderer = function(vertexShader, fragmentShader) {
     this.shaderProgram = new ShaderProgram();
     this.shaderProgram.addShader(vertexShader);

@@ -1,5 +1,3 @@
-
-
 var Shader = function(shaderId) {
     this.name = shaderId;
     var sourceElement = document.getElementById(this.name);

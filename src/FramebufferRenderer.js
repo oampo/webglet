@@ -1,9 +1,3 @@
-/**
- * @depends App.js
- * @depends BasicRenderer.js
- * @depends Framebuffer.js
- */
-
 var FramebufferRenderer = function(width, height,
                                    vertexShader, fragmentShader) {
     BasicRenderer.call(this, vertexShader, fragmentShader);

@@ -1,6 +1,0 @@
-#! /bin/bash
-gjslint --custom_jsdoc_tags=depends *.js > tmp
-juicer verify *.js >> tmp
-vim tmp
-rm tmp
-

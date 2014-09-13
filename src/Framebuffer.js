@@ -1,8 +1,3 @@
-/**
- * @depends App.js
- * @depends Texture.js
- */
-
 var Framebuffer = function(width, height) {
     this.width = width;
     this.height = height;

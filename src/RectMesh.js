@@ -1,9 +1,3 @@
-/**
- * @depends App.js
- * @depends Buffer.js
- * @depends Mesh.js
- */
-
 var RectMesh = function(width, height, vertexUsage, colorUsage, normalUsage,
                         texCoordUsage) {
     Mesh.call(this, 4, gl.TRIANGLE_STRIP, vertexUsage, colorUsage,
