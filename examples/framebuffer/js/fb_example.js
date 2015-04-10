@@ -10,15 +10,16 @@ window.onload = function() {
                                                   'basic-renderer-frag');
 
         this.projection = new webglet.MatrixStack();
-        mat4.perspective(45, this.canvas.width/this.canvas.height,
-                         0.1, 100, this.projection.matrix);
+        mat4.perspective(this.projection.matrix,
+                         45, this.canvas.width/this.canvas.height,
+                         0.1, 100);
         this.fbRenderer.setUniform('uProjectionMatrix',
                                    this.projection.matrix);
 
         this.modelview = new webglet.MatrixStack();
-        mat4.lookAt([0, 0, 5],
-                    [0, 0, 0],
-                    [0, 1, 0], this.modelview.matrix);
+        mat4.lookAt(this.modelview.matrix, [0, 0, 5],
+                                           [0, 0, 0],
+                                           [0, 1, 0]);
         this.fbRenderer.setUniform('uModelviewMatrix',
                                    this.modelview.matrix);
 
@@ -36,8 +37,8 @@ window.onload = function() {
                                              'texture-renderer-frag');
 
         this.orthoProjection = new webglet.MatrixStack();
-        mat4.ortho(0, this.canvas.width, this.canvas.height, 0, -1, 1,
-                   this.orthoProjection.matrix);
+        mat4.ortho(this.orthoProjection.matrix,
+                   0, this.canvas.width, this.canvas.height, 0, -1, 1);
         this.texRenderer.setUniform('uProjectionMatrix',
                                    this.orthoProjection.matrix);
 

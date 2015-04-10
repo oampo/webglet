@@ -7,15 +7,16 @@ window.onload = function() {
                                                   'basic-renderer-frag');
 
         this.projection = new webglet.MatrixStack();
-        mat4.perspective(45, this.canvas.offsetWidth/this.canvas.offsetHeight,
-                         0.1, 100, this.projection.matrix);
+        mat4.perspective(this.projection.matrix, 45,
+                         this.canvas.offsetWidth/this.canvas.offsetHeight,
+                         0.1, 100);
         this.renderer.setUniform('uProjectionMatrix',
                                  this.projection.matrix);
 
         this.modelview = new webglet.MatrixStack();
-        mat4.lookAt([0, 0, 5],
-                    [0, 0, 0],
-                    [0, 1, 0], this.modelview.matrix);
+        mat4.lookAt(this.modelview.matrix, [0, 0, 5],
+                                           [0, 0, 0],
+                                           [0, 1, 0]);
         this.renderer.setUniform('uModelviewMatrix',
                                  this.modelview.matrix);
 

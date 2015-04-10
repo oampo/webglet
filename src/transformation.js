@@ -7,7 +7,7 @@ var Transformation = function() {
     this.position = vec3.create();
     this.rotation = quat4.create();
     this.scale = vec3.create();
-    vec3.set([1, 1, 1], this.scale);
+    vec3.set(this.scale, 1, 1, 1);
 
     // Cache matrix
     this.rotationMatrix = mat4.create();

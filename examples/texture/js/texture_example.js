@@ -12,8 +12,8 @@ window.onload = function() {
                                                      'texture-frag');
 
         this.orthoProjection = new webglet.MatrixStack();
-        mat4.ortho(0, this.canvas.width, this.canvas.height, 0, -1, 1,
-                   this.orthoProjection.matrix);
+        mat4.ortho(this.orthoProjection.matrix, 0, this.canvas.width,
+                   this.canvas.height, 0, -1, 1);
         this.texRenderer.setUniform('uProjectionMatrix',
                                     this.orthoProjection.matrix);
 
