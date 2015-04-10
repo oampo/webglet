@@ -1,3 +1,7 @@
+var Shader = require('./shader').Shader;
+var Attribute = require('./attribute').Attribute;
+var Uniform = require('./uniform').Uniform;
+
 var ShaderProgram = function() {
     this.program = null;
     this.shaders = {};
@@ -116,3 +120,5 @@ ShaderProgram.prototype.setAttribute = function(name, value) {
 };
 
 ShaderProgram.activeProgram = null;
+
+exports.ShaderProgram = ShaderProgram;

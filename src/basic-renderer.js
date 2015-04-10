@@ -1,3 +1,5 @@
+var ShaderProgram = require('./shader-program').ShaderProgram;
+
 var BasicRenderer = function(vertexShader, fragmentShader) {
     this.shaderProgram = new ShaderProgram();
     this.shaderProgram.addShader(vertexShader);
@@ -14,3 +16,5 @@ BasicRenderer.prototype.render = function(mesh, offset, numberOfVertices) {
 BasicRenderer.prototype.setUniform = function(name, value) {
     this.shaderProgram.setUniform(name, value);
 };
+
+exports.BasicRenderer = BasicRenderer;

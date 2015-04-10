@@ -1,16 +1,18 @@
 window.onload = function() {
-    var BasicApp = function(element, options) {
-        App.call(this, element, options);
-        this.renderer = new BasicRenderer('basic-renderer-vert',
-                                          'basic-renderer-frag');
+    var mat4 = webglet.glMatrix.mat4;
 
-        this.projection = new MatrixStack();
-        mat4.perspective(45, this.options.width/this.options.height,
+    var BasicApp = function(canvas) {
+        webglet.App.call(this, canvas);
+        this.renderer = new webglet.BasicRenderer('basic-renderer-vert',
+                                                  'basic-renderer-frag');
+
+        this.projection = new webglet.MatrixStack();
+        mat4.perspective(45, this.canvas.offsetWidth/this.canvas.offsetHeight,
                          0.1, 100, this.projection.matrix);
         this.renderer.setUniform('uProjectionMatrix',
                                  this.projection.matrix);
-        
-        this.modelview = new MatrixStack();
+
+        this.modelview = new webglet.MatrixStack();
         mat4.lookAt([0, 0, 5],
                     [0, 0, 0],
                     [0, 1, 0], this.modelview.matrix);
@@ -18,8 +20,8 @@ window.onload = function() {
                                  this.modelview.matrix);
 
 
-        this.triangle = new Mesh(3, gl.TRIANGLES, gl.STATIC_DRAW,
-                                 gl.STATIC_DRAW);
+        this.triangle = new webglet.Mesh(3, gl.TRIANGLES, gl.STATIC_DRAW,
+                                         gl.STATIC_DRAW);
         this.triangle.vertexBuffer.setValues([ 0.0,  1.0, 0.0,
                                               -1.0, -1.0, 0.0,
                                                1.0, -1.0, 0.0]);
@@ -27,13 +29,16 @@ window.onload = function() {
                                              1.0, 0.0, 0.0, 1.0,
                                              1.0, 0.0, 0.0, 1.0]);
     };
-    extend(BasicApp, App);
+    BasicApp.prototype = Object.create(webglet.App.prototype);
+    BasicApp.prototype.constructor = BasicApp;
 
     BasicApp.prototype.draw = function() {
-        this.clear([1, 1, 1, 1]);
+        gl.clear(gl.COLOR_BUFFER_BIT);
         this.renderer.render(this.triangle);
     };
 
-    var app = new BasicApp(document.body);
+    var app = new BasicApp({
+        canvas: document.getElementById('main-canvas')
+    });
     app.run();
 };

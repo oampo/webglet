@@ -24,3 +24,5 @@ var Shader = function(shaderId) {
 Shader.prototype.getShader = function() {
     return (this.shader);
 };
+
+exports.Shader = Shader;

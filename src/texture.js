@@ -57,5 +57,5 @@ Texture.prototype.loadFromExisting = function(image) {
     this.end();
 };
 
-// Alias for backwards compatibility
-Texture.prototype['load'] = Texture.prototype['loadFromFile'];
+exports.Texture = Texture;
+

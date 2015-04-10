@@ -76,3 +76,5 @@ Uniform.prototype.setMatrix = function(value) {
 Uniform.prototype.setSampler = function(value) {
     this.samplerFunctions[this.type].apply(gl, [this.location, value]);
 };
+
+exports.Uniform = Uniform;

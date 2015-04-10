@@ -5,13 +5,11 @@
         <title>WebGLet Texture Example</title>
         <!-- Production -->
         <!--
-        <script src="../../src/glmatrix/glMatrix-0.9.4.min.js"></script>
-        <script src="../../src/webglet/WebGLet.min.js"></script>
+        <script src="../../build/webglet.0.3.0-pre.min.js"></script>
         -->
 
         <!-- Development -->
-        <script src="../../src/glmatrix/glMatrix-0.9.4.js"></script>
-        <script src="../../src/webglet/WebGLet.js"></script>
+        <script src="../../build/webglet.0.3.0-pre.js"></script>
 
         <!-- Common -->
         <script src="js/texture_example.js"></script>
@@ -25,7 +23,7 @@
 
             uniform mat4 uModelviewMatrix;
             uniform mat4 uProjectionMatrix;
-            
+
             varying vec2 vTexCoord;
 
             void main(void) {
@@ -38,7 +36,7 @@
             #ifdef GL_ES
             precision highp float;
             #endif
-            
+
             uniform sampler2D uSampler;
 
             varying vec2 vTexCoord;
@@ -49,6 +47,7 @@
         </script>
     </head>
     <body>
+        <canvas id="main-canvas"></canvas>
     </body>
 </html>
 

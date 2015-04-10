@@ -1,3 +1,5 @@
+var Texture = require('./texture').Texture;
+
 var Framebuffer = function(width, height) {
     this.width = width;
     this.height = height;
@@ -73,3 +75,5 @@ Framebuffer.prototype.popViewport = function() {
                 this.storedViewport[2], this.storedViewport[3]);
     this.storedViewport = null;
 };
+
+exports.Framebuffer = Framebuffer;

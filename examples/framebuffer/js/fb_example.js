@@ -1,26 +1,28 @@
 window.onload = function() {
-    var FramebufferExample = function(element, options) {
-        App.call(this, element, options);
+    var mat4 = webglet.glMatrix.mat4;
+
+    var FramebufferExample = function(canvas) {
+        webglet.App.call(this, canvas);
         // For rendering to the framebuffer
-        this.fbRenderer = new FramebufferRenderer(this.options.width,
-                                                  this.options.height,
+        this.fbRenderer = new webglet.FramebufferRenderer(this.canvas.width,
+                                                  this.canvas.height,
                                                   'basic-renderer-vert',
                                                   'basic-renderer-frag');
 
-        this.projection = new MatrixStack();
-        mat4.perspective(45, this.options.width/this.options.height,
+        this.projection = new webglet.MatrixStack();
+        mat4.perspective(45, this.canvas.width/this.canvas.height,
                          0.1, 100, this.projection.matrix);
         this.fbRenderer.setUniform('uProjectionMatrix',
                                    this.projection.matrix);
 
-        this.modelview = new MatrixStack();
+        this.modelview = new webglet.MatrixStack();
         mat4.lookAt([0, 0, 5],
                     [0, 0, 0],
                     [0, 1, 0], this.modelview.matrix);
         this.fbRenderer.setUniform('uModelviewMatrix',
                                    this.modelview.matrix);
 
-        this.triangle = new Mesh(3, gl.TRIANGLES, gl.STATIC_DRAW,
+        this.triangle = new webglet.Mesh(3, gl.TRIANGLES, gl.STATIC_DRAW,
                                  gl.STATIC_DRAW);
         this.triangle.vertexBuffer.setValues([ 0.0,  1.0, 0.0,
                                               -1.0, -1.0, 0.0,
@@ -30,34 +32,37 @@ window.onload = function() {
                                              1.0, 0.0, 0.0, 1.0]);
 
         // For rendering the texture to the screen
-        this.texRenderer = new BasicRenderer('texture-renderer-vert',
+        this.texRenderer = new webglet.BasicRenderer('texture-renderer-vert',
                                              'texture-renderer-frag');
 
-        this.orthoProjection = new MatrixStack();
-        mat4.ortho(0, this.options.width, this.options.height, 0, -1, 1,
+        this.orthoProjection = new webglet.MatrixStack();
+        mat4.ortho(0, this.canvas.width, this.canvas.height, 0, -1, 1,
                    this.orthoProjection.matrix);
         this.texRenderer.setUniform('uProjectionMatrix',
                                    this.orthoProjection.matrix);
-        
-        this.orthoModelview = new MatrixStack();
+
+        this.orthoModelview = new webglet.MatrixStack();
         this.texRenderer.setUniform('uModelviewMatrix',
                                    this.orthoModelview.matrix);
 
-        this.textureMesh = new RectMesh(this.options.width,
-                                        this.options.height,
+        this.textureMesh = new webglet.RectMesh(this.canvas.width,
+                                        this.canvas.height,
                                         gl.STATIC_DRAW, null,
                                         null, gl.STATIC_DRAW);
     };
-    extend(FramebufferExample, App);
+    FramebufferExample.prototype = Object.create(webglet.App.prototype);
+    FramebufferExample.prototype.constructor = FramebufferExample;
 
     FramebufferExample.prototype.draw = function() {
-        this.clear([1, 1, 1, 1]);
+        gl.clear(gl.COLOR_BUFFER_BIT);
         this.fbRenderer.render(this.triangle);
         this.fbRenderer.framebuffer.texture.begin();
         this.texRenderer.render(this.textureMesh);
         this.fbRenderer.framebuffer.texture.end();
     };
 
-    var app = new FramebufferExample(document.body);
+    var app = new FramebufferExample({
+        canvas: document.getElementById('main-canvas')
+    });
     app.run();
 };

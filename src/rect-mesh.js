@@ -1,3 +1,5 @@
+var Mesh = require('./mesh').Mesh;
+
 var RectMesh = function(width, height, vertexUsage, colorUsage, normalUsage,
                         texCoordUsage) {
     Mesh.call(this, 4, gl.TRIANGLE_STRIP, vertexUsage, colorUsage,
@@ -14,5 +16,7 @@ var RectMesh = function(width, height, vertexUsage, colorUsage, normalUsage,
                                        1, 0]);
     }
 };
-extend(RectMesh, Mesh);
+RectMesh.prototype = Object.create(Mesh.prototype);
+RectMesh.prototype.constructor = RectMesh;
 
+exports.RectMesh = RectMesh;

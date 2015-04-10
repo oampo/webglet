@@ -1,3 +1,8 @@
+var glMatrix = require('gl-matrix');
+var vec3 = glMatrix.vec3;
+var quat4 = glMatrix.quat4;
+var mat4 = glMatrix.mat4;
+
 var Transformation = function() {
     this.position = vec3.create();
     this.rotation = quat4.create();
@@ -14,3 +19,5 @@ Transformation.prototype.apply = function(matrix) {
     mat4.multiply(matrix, this.rotationMatrix);
     mat4.scale(matrix, this.scale);
 };
+
+exports.Transformation = Transformation;

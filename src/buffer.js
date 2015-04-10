@@ -37,3 +37,4 @@ Buffer.prototype.associate = function(attribute) {
     this.unbind();
 };
 
+exports.Buffer = Buffer;

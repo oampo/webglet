@@ -1,13 +1,16 @@
-var gl;
+var WebGLDebugUtils = require('../lib/webgl-debug/webgl-debug').WebGLDebugUtils;
 
-var App = function(canvas) {
-    this.canvas = canvas;
-    this.createCanvas();
+var App = function(options) {
+    this.canvas = options.canvas;
     try {
         gl = (this.canvas.getContext("webgl") ||
-              this.canvas.getContext('experimental-webgl'));
+                   this.canvas.getContext('experimental-webgl'));
+        if (options.debug) {
+            gl = WebGLDebugUtils.makeDebugContext(gl);
+        }
     }
     catch (error) {
+        gl = null;
     }
 
     this.frameCount = 0;
@@ -34,11 +37,14 @@ App.prototype.preDraw = function() {
 App.prototype.draw = function() {
 };
 
+App.prototype.update = function() {
+};
+
 App.prototype.run = function() {
     // Run the update loop
-    this.interval = window.setInterval(this.update.bind(this), 1000 /60);
+    this.interval = setInterval(this.update.bind(this), 1000 /60);
     // Run the render loop
-    window.requestAnimationFrame(this.preDraw.bind(this));
+    requestAnimationFrame(this.preDraw.bind(this));
 
     this.paused = false;
 };
@@ -46,7 +52,7 @@ App.prototype.run = function() {
 App.prototype.pause = function() {
     // Stop the update loop and set the paused flag
     if (this.interval != null) {
-        window.clearInterval(this.interval);
+        clearInterval(this.interval);
         this.interval = null;
     }
     this.paused = true;
@@ -62,3 +68,4 @@ App.prototype.getCanvasPosition = function() {
     return position;
 };
 
+exports.App = App;

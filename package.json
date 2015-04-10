@@ -1,0 +1,35 @@
+{
+  "name": "webglet",
+  "version": "0.3.0-pre",
+  "description": "Making the boring bits of WebGL easy to work with",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oampo/WebGLet.git"
+  },
+  "author": "Joe Turner",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oampo/WebGLet/issues"
+  },
+  "homepage": "https://github.com/oampo/WebGLet",
+  "devDependencies": {
+    "browserify": "^9.0.8",
+    "del": "^1.1.1",
+    "gulp": "^3.8.11",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.1.0",
+    "gulp-util": "^3.0.4",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "gl-matrix": "^2.1.0"
+  }
+}

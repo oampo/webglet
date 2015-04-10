@@ -1,3 +1,5 @@
+var mat4 = require('gl-matrix').mat4;
+
 var MatrixStack = function() {
     this.stack = [];
     this.matrix = mat4.create();
@@ -15,3 +17,5 @@ MatrixStack.prototype.popMatrix = function() {
         this.matrix = this.stack.pop();
     }
 };
+
+exports.MatrixStack = MatrixStack;

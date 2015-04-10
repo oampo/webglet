@@ -1,9 +1,13 @@
+var Framebuffer = require('./framebuffer').Framebuffer;
+var BasicRenderer = require('./basic-renderer').BasicRenderer;
+
 var FramebufferRenderer = function(width, height,
                                    vertexShader, fragmentShader) {
     BasicRenderer.call(this, vertexShader, fragmentShader);
     this.framebuffer = new Framebuffer(width, height);
 };
-extend(FramebufferRenderer, BasicRenderer);
+FramebufferRenderer.prototype = Object.create(BasicRenderer.prototype);
+FramebufferRenderer.prototype.constructor = FramebufferRenderer;
 
 FramebufferRenderer.prototype.render = function(mesh, offset, numberOfVertices,
                                                 storedViewport) {
@@ -14,3 +18,4 @@ FramebufferRenderer.prototype.render = function(mesh, offset, numberOfVertices,
     this.framebuffer.end();
 };
 
+exports.FramebufferRenderer = FramebufferRenderer;

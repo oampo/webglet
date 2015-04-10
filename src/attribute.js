@@ -56,3 +56,5 @@ Attribute.prototype.setPointer = function() {
     gl.vertexAttribPointer(this.location, this.sizes[this.type],
                            gl.FLOAT, false, 0, 0);
 };
+
+exports.Attribute = Attribute;

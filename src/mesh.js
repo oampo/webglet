@@ -1,3 +1,5 @@
+var Buffer = require('./buffer').Buffer;
+
 var Mesh = function(numVertices, drawMode, vertexUsage, colorUsage,
                     normalUsage, texCoordUsage) {
     this.numVertices = numVertices;
@@ -45,3 +47,4 @@ Mesh.prototype.render = function(offset, numberOfVertices) {
     gl.drawArrays(this.drawMode, offset || 0, numberOfVertices);
 };
 
+exports.Mesh = Mesh;
