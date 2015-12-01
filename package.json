@@ -1,6 +1,6 @@
 {
   "name": "webglet",
-  "version": "0.3.0-pre",
+  "version": "0.3.0",
   "description": "Making the boring bits of WebGL easy to work with",
   "main": "src/index.js",
   "directories": {
