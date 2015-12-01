@@ -1,13 +1,17 @@
 window.onload = function() {
     var mat4 = webglet.glMatrix.mat4;
 
-    var FramebufferExample = function(canvas) {
-        webglet.App.call(this, canvas);
+    var FramebufferExample = function(options) {
+        webglet.App.call(this, options);
         // For rendering to the framebuffer
+        var vertexShader = document.getElementById('basic-vert');
+        vertexShader = vertexShader.textContent;
+
+        var fragmentShader = document.getElementById('basic-frag');
+        fragmentShader = fragmentShader.textContent;
+
         this.fbRenderer = new webglet.FramebufferRenderer(this.canvas.width,
-                                                  this.canvas.height,
-                                                  'basic-renderer-vert',
-                                                  'basic-renderer-frag');
+                this.canvas.height, vertexShader, fragmentShader);
 
         this.projection = new webglet.MatrixStack();
         mat4.perspective(this.projection.matrix,
@@ -33,8 +37,14 @@ window.onload = function() {
                                              1.0, 0.0, 0.0, 1.0]);
 
         // For rendering the texture to the screen
-        this.texRenderer = new webglet.BasicRenderer('texture-renderer-vert',
-                                             'texture-renderer-frag');
+        var vertexShader = document.getElementById('texture-vert');
+        vertexShader = vertexShader.textContent;
+
+        var fragmentShader = document.getElementById('texture-frag');
+        fragmentShader = fragmentShader.textContent;
+
+        this.texRenderer = new webglet.BasicRenderer(vertexShader,
+                                                     fragmentShader);
 
         this.orthoProjection = new webglet.MatrixStack();
         mat4.ortho(this.orthoProjection.matrix,
@@ -55,12 +65,18 @@ window.onload = function() {
     FramebufferExample.prototype.constructor = FramebufferExample;
 
     FramebufferExample.prototype.draw = function() {
+        this.updateViewport();
+
         gl.clear(gl.COLOR_BUFFER_BIT);
         this.fbRenderer.render(this.triangle);
         this.fbRenderer.framebuffer.texture.begin();
         this.texRenderer.render(this.textureMesh);
         this.fbRenderer.framebuffer.texture.end();
     };
+
+    FramebufferExample.prototype.run = function() {
+        window.requestAnimationFrame(this.draw.bind(this));
+    }
 
     var app = new FramebufferExample({
         canvas: document.getElementById('main-canvas')

@@ -1,10 +1,17 @@
 window.onload = function() {
     var mat4 = webglet.glMatrix.mat4;
 
-    var BasicApp = function(canvas) {
-        webglet.App.call(this, canvas);
-        this.renderer = new webglet.BasicRenderer('basic-renderer-vert',
-                                                  'basic-renderer-frag');
+    var BasicApp = function(options) {
+        webglet.App.call(this, options);
+
+        var vertexShader = document.getElementById('basic-vert');
+        vertexShader = vertexShader.textContent;
+
+        var fragmentShader = document.getElementById('basic-frag');
+        fragmentShader = fragmentShader.textContent;
+
+        this.renderer = new webglet.BasicRenderer(vertexShader,
+                                                  fragmentShader);
 
         this.projection = new webglet.MatrixStack();
         mat4.perspective(this.projection.matrix, 45,
@@ -34,9 +41,14 @@ window.onload = function() {
     BasicApp.prototype.constructor = BasicApp;
 
     BasicApp.prototype.draw = function() {
+        this.updateViewport();
         gl.clear(gl.COLOR_BUFFER_BIT);
         this.renderer.render(this.triangle);
     };
+
+    BasicApp.prototype.run = function() {
+        window.requestAnimationFrame(this.draw.bind(this));
+    }
 
     var app = new BasicApp({
         canvas: document.getElementById('main-canvas')

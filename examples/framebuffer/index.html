@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>WebGLet Framebuffer Example</title>
+
+<script src="../../build/webglet.0.3.0-pre.js"></script>
+<script src="index.js"></script>
+
+
+<!-- Shaders -->
+<!-- Render to the framebuffer -->
+<script id="basic-vert" type="x-shader/x-vertex">
+    attribute vec3 aVertex;
+    attribute vec4 aColor;
+
+    uniform mat4 uModelviewMatrix;
+    uniform mat4 uProjectionMatrix;
+
+    varying vec4 vColor;
+
+    void main(void) {
+        gl_Position = uProjectionMatrix * uModelviewMatrix * vec4(aVertex, 1.0);
+        vColor = aColor;
+    }
+</script>
+
+<script id="basic-frag" type="x-shader/x-fragment">
+    #ifdef GL_ES
+    precision highp float;
+    #endif
+
+    varying vec4 vColor;
+
+    void main(void) {
+        gl_FragColor = vColor;
+    }
+</script>
+
+<!-- Render the framebuffer to the screen -->
+<script id="texture-vert" type="x-shader/x-vertex">
+    attribute vec3 aVertex;
+    attribute vec2 aTexCoord;
+
+    uniform mat4 uModelviewMatrix;
+    uniform mat4 uProjectionMatrix;
+
+    varying vec2 vTexCoord;
+
+    void main(void) {
+        gl_Position = uProjectionMatrix * uModelviewMatrix * vec4(aVertex, 1.0);
+        vTexCoord = aTexCoord;
+    }
+</script>
+
+<script id="texture-frag" type="x-shader/x-fragment">
+    #ifdef GL_ES
+    precision highp float;
+    #endif
+
+    uniform sampler2D uSampler;
+
+    varying vec2 vTexCoord;
+
+    void main(void) {
+        gl_FragColor = texture2D(uSampler, vTexCoord);
+    }
+</script>
+
+<canvas id="main-canvas"></canvas>
+
+
