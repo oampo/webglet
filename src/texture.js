@@ -28,7 +28,7 @@ Texture.prototype.end = function() {
 };
 
 Texture.prototype.getTexture = function() {
-    return (this.texture);
+    return this.texture;
 };
 
 Texture.prototype.flipY = function() {
@@ -43,9 +43,7 @@ Texture.prototype.flipY = function() {
 Texture.prototype.loadFromFile = function(filename) {
     var image = new Image();
     image.src = filename;
-    image.onload = function() {
-        this.loadFromExisting(image);
-    }.bind(this);
+    image.onload = this.loadFromExisting.bind(this, image);
 };
 
 Texture.prototype.loadFromExisting = function(image) {

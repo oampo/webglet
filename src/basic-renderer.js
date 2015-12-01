@@ -2,8 +2,8 @@ var ShaderProgram = require('./shader-program').ShaderProgram;
 
 var BasicRenderer = function(vertexShader, fragmentShader) {
     this.shaderProgram = new ShaderProgram();
-    this.shaderProgram.addShader(vertexShader);
-    this.shaderProgram.addShader(fragmentShader);
+    this.shaderProgram.addShader(vertexShader, gl.VERTEX_SHADER);
+    this.shaderProgram.addShader(fragmentShader, gl.FRAGMENT_SHADER);
     this.shaderProgram.use();
 };
 

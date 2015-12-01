@@ -1,10 +1,13 @@
 var WebGLDebugUtils = require('../lib/webgl-debug/webgl-debug').WebGLDebugUtils;
 
 var App = function(options) {
+    options = options || {};
     this.canvas = options.canvas;
+    var contextAttributes = options.contextAttributes || {};
     try {
-        gl = (this.canvas.getContext("webgl") ||
-                   this.canvas.getContext('experimental-webgl'));
+        global.gl = (this.canvas.getContext("webgl", contextAttributes) ||
+                     this.canvas.getContext('experimental-webgl',
+                                            options.contextAttributes));
         if (options.debug) {
             gl = WebGLDebugUtils.makeDebugContext(gl);
         }
@@ -12,50 +15,16 @@ var App = function(options) {
     catch (error) {
         gl = null;
     }
-
-    this.frameCount = 0;
-    this.paused = true;
 };
 
-App.prototype.preDraw = function() {
-    this.frameCount += 1;
-
-    if (this.canvas.width != this.canvas.offsetWidth ||
-        this.canvas.height != this.canvas.offsetHeight) {
-        this.canvas.width = this.canvas.offsetWidth;
-        this.canvas.height = this.canvas.offsetHeight;
+App.prototype.updateViewport = function() {
+    if (this.canvas.clientWidth && this.canvas.clientHeight &&
+        (this.canvas.width != this.canvas.clientWidth ||
+        this.canvas.height != this.canvas.clientHeight)) {
+        this.canvas.width = this.canvas.clientWidth;
+        this.canvas.height = this.canvas.clientHeight;
     }
-
     gl.viewport(0, 0, this.canvas.width, this.canvas.height);
-
-    this.draw();
-    if (!this.paused) {
-        requestAnimationFrame(this.preDraw.bind(this), this.canvas);
-    }
-};
-
-App.prototype.draw = function() {
-};
-
-App.prototype.update = function() {
-};
-
-App.prototype.run = function() {
-    // Run the update loop
-    this.interval = setInterval(this.update.bind(this), 1000 /60);
-    // Run the render loop
-    requestAnimationFrame(this.preDraw.bind(this));
-
-    this.paused = false;
-};
-
-App.prototype.pause = function() {
-    // Stop the update loop and set the paused flag
-    if (this.interval != null) {
-        clearInterval(this.interval);
-        this.interval = null;
-    }
-    this.paused = true;
 };
 
 App.prototype.getCanvasPosition = function() {

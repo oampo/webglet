@@ -7,8 +7,7 @@ var MatrixStack = function() {
 };
 
 MatrixStack.prototype.pushMatrix = function() {
-    var newMatrix = mat4.create();
-    mat4.set(this.matrix, newMatrix);
+    var newMatrix = mat4.clone(this.matrix);
     this.stack.push(newMatrix);
 };
 
