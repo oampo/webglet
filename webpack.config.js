@@ -1,7 +1,5 @@
 var path = require('path');
 
-var webpack = require('webpack');
-
 var packageData = require('./package.json');
 
 module.exports = {
