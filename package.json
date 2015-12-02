@@ -7,20 +7,20 @@
     "example": "examples"
   },
   "scripts": {
-    "build": "webpack && webpack --config webpack.config.min.js",
+    "build": "webpack && webpack --minify",
     "watch": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/oampo/WebGLet.git"
+    "url": "https://github.com/oampo/webglet.git"
   },
   "author": "Joe Turner",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/oampo/WebGLet/issues"
+    "url": "https://github.com/oampo/webglet/issues"
   },
-  "homepage": "https://github.com/oampo/WebGLet",
+  "homepage": "https://github.com/oampo/webglet",
   "devDependencies": {
     "babel-core": "^6.2.1",
     "babel-loader": "^6.2.0",
