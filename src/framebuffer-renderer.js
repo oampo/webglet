@@ -9,11 +9,11 @@ var FramebufferRenderer = function(width, height,
 FramebufferRenderer.prototype = Object.create(BasicRenderer.prototype);
 FramebufferRenderer.prototype.constructor = FramebufferRenderer;
 
-FramebufferRenderer.prototype.render = function(mesh, offset, numberOfVertices,
-                                                storedViewport) {
+FramebufferRenderer.prototype.render = function(mesh, offset,
+                                                numberOfVertices) {
     this.shaderProgram.use();
     mesh.associate(this.shaderProgram);
-    this.framebuffer.begin(storedViewport);
+    this.framebuffer.begin();
     mesh.render(offset, numberOfVertices);
     this.framebuffer.end();
 };

@@ -33,18 +33,14 @@ var Framebuffer = function(width, height) {
     this.end();
 };
 
-Framebuffer.prototype.begin = function(storedViewport) {
-    if (storedViewport) {
-        this.pushViewport(storedViewport);
-    }
+Framebuffer.prototype.begin = function() {
+    this.pushViewport();
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.framebuffer);
 };
 
 Framebuffer.prototype.end = function() {
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    if (this.storedViewport) {
-        this.popViewport();
-    }
+    this.popViewport();
 };
 
 Framebuffer.prototype.attachTexture = function(texture) {
@@ -65,8 +61,8 @@ Framebuffer.prototype.clear = function(color) {
     this.end();
 };
 
-Framebuffer.prototype.pushViewport = function(storedViewport) {
-    this.storedViewport = storedViewport;
+Framebuffer.prototype.pushViewport = function() {
+    this.storedViewport = gl.getParameter(gl.VIEWPORT);
     gl.viewport(0, 0, this.width, this.height);
 };
 
