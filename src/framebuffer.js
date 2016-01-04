@@ -5,6 +5,7 @@ var Framebuffer = function(width, height) {
     this.height = height;
 
     this.framebuffer = gl.createFramebuffer();
+    this.storedViewport = null;
 
     this.begin();
 
@@ -62,11 +63,18 @@ Framebuffer.prototype.clear = function(color) {
 };
 
 Framebuffer.prototype.pushViewport = function() {
-    this.storedViewport = gl.getParameter(gl.VIEWPORT);
+    // Non-standard gl property - see util.js for how this works
+    if (gl.currentViewport) {
+        this.storedViewport = gl.currentViewport;
+    }
     gl.viewport(0, 0, this.width, this.height);
 };
 
 Framebuffer.prototype.popViewport = function() {
+    if (!this.storedViewport) {
+        return;
+    }
+
     gl.viewport(this.storedViewport[0], this.storedViewport[1],
                 this.storedViewport[2], this.storedViewport[3]);
     this.storedViewport = null;

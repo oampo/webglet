@@ -1,5 +1,7 @@
 var WebGLDebugUtils = require('../lib/webgl-debug/webgl-debug').WebGLDebugUtils;
 
+var util = require('./util');
+
 var App = function(options) {
     options = options || {};
     this.canvas = options.canvas;
@@ -8,6 +10,7 @@ var App = function(options) {
         global.gl = (this.canvas.getContext("webgl", contextAttributes) ||
                      this.canvas.getContext('experimental-webgl',
                                             options.contextAttributes));
+        gl = util.monkeyPatchViewport(gl);
         if (options.debug) {
             gl = WebGLDebugUtils.makeDebugContext(gl);
         }
