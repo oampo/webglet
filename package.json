@@ -28,6 +28,7 @@
     "webpack": "^1.12.9"
   },
   "dependencies": {
-    "gl-matrix": "^2.1.0"
+    "gl-matrix": "^2.1.0",
+    "webgl-debug": "^2.0.1"
   }
 }

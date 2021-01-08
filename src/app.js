@@ -1,5 +1,5 @@
 var vec2 = require('gl-matrix').vec2;
-var WebGLDebugUtils = require('../lib/webgl-debug/webgl-debug').WebGLDebugUtils;
+var WebGLDebugUtils = require('webgl-debug/webgl-debug');
 
 var util = require('./util');
 
